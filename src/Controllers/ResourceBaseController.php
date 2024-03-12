@@ -4,11 +4,13 @@ namespace XtendPackages\RESTPresenter\Controllers;
 
 use Illuminate\Http\Request;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithModel;
+use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
 use XtendPackages\RESTPresenter\Concerns\WithResourceFiltering;
 
 abstract class ResourceBaseController
 {
+    use InteractsWithPresenter;
     use InteractsWithRequest;
     use InteractsWithModel;
     use WithResourceFiltering;
