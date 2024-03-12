@@ -38,7 +38,8 @@ trait InteractsWithPresenter
      */
     protected function getPresenterFromRequestHeader(): string
     {
-        $presenter = request()->headers->get('x-rest-presenter', 'Default');
+        $headerName = strtolower(config('rest-presenter.api.presenter_header', 'X-REST-PRESENTER'));
+        $presenter = request()->headers->get($headerName, 'Default');
 
         if ($presenter && !array_key_exists($presenter, $this->getPresenters())) {
             throw new PresenterNotFoundException($presenter);
