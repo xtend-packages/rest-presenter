@@ -4,6 +4,7 @@ namespace XtendPackages\RESTPresenter;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use XtendPackages\RESTPresenter\Commands\RESTPresenterSetupCommand;
 
 class RESTPresenterServiceProvider extends PackageServiceProvider
 {
@@ -12,6 +13,9 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
         $package
             ->name('rest-presenter')
             ->hasViews()
-            ->hasConfigFile();
+            ->hasConfigFile()
+            ->hasCommands([
+                RESTPresenterSetupCommand::class,
+            ]);
     }
 }
