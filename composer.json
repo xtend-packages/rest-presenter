@@ -19,6 +19,7 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^10|^11",
+        "laravel/sanctum": "^4.0",
         "spatie/laravel-data": "^4.3",
         "spatie/laravel-package-tools": "^1.16"
     },
@@ -28,8 +29,9 @@
         "laravel/pint": "^1.0",
         "livewire/livewire": "^3.4",
         "mockery/mockery": "^1.6",
-        "orchestra/testbench": "^9.0|^9.0",
+        "orchestra/testbench": "^8.0|^9.0",
         "pestphp/pest": "^v2.34.2",
+        "pestphp/pest-plugin-faker": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.3",
         "pestphp/pest-plugin-livewire": "^2.1",
         "phpstan/extension-installer": "^1.3",
@@ -45,7 +47,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "XtendPackages\\RESTPresenter\\Tests\\": "tests"
+            "XtendPackages\\RESTPresenter\\Tests\\": "tests",
+            "XtendPackages\\RESTPresenter\\Factories\\": "database/factories/"
         }
     },
     "scripts": {
