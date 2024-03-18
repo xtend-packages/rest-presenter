@@ -8,7 +8,6 @@ use Spatie\LaravelData\Attributes\Validation\Min;
 use Spatie\LaravelData\Attributes\WithCast;
 use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Data;
-use Spatie\LaravelData\Optional;
 
 class UserData extends Data
 {
@@ -19,11 +18,11 @@ class UserData extends Data
         #[Email(Email::RfcValidation)]
         public string $email,
         #[WithCast(DateTimeInterfaceCast::class)]
-        public Carbon | Optional $email_verified_at,
+        public ?Carbon $email_verified_at,
         #[WithCast(DateTimeInterfaceCast::class)]
-        public Carbon | Optional $created_at,
+        public Carbon $created_at,
         #[WithCast(DateTimeInterfaceCast::class)]
-        public Carbon | Optional $updated_at,
+        public Carbon $updated_at,
     ) {
     }
 }
