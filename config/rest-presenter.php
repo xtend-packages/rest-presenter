@@ -1,8 +1,9 @@
 <?php
 
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
-use XtendPackages\RESTPresenter\Data\Response\ModelData;
 use XtendPackages\RESTPresenter\Middleware\VerifyApiKey;
+use XtendPackages\RESTPresenter\Resources\Users\Filters;
+use XtendPackages\RESTPresenter\Resources\Users\Presenters;
 
 return [
     'generator' => [
@@ -40,12 +41,29 @@ return [
         'impersonate_password' => env('REST_PRESENTER_API_IMPERSONATE_PASSWORD', 'impersonate'),
     ],
     'data' => [
-        'model' => ModelData::class,
         'response' => DefaultResponse::class,
     ],
     'presenter' => [
         'default' => 'Default',
         'namespace' => 'Presenters',
         'path' => 'Presenters',
+    ],
+    'resources' => [
+        'auth' => [
+            // @todo: Add auth overrides here
+        ],
+        'user' => [
+            'model' => config('auth.providers.users.model'),
+            'actions' => [
+                // @todo: Add actions here
+            ],
+            'filters' => [
+                'email_verified_at' => Filters\UserEmailVerified::class,
+            ],
+            'presenters' => [
+                'profile' => Presenters\Profile::class,
+                'user' => Presenters\User::class,
+            ],
+        ],
     ],
 ];
