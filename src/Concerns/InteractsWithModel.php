@@ -7,9 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 trait InteractsWithModel
 {
-    protected static string $model;
+    protected static string $model = Model::class;
 
     protected static Builder $modelQuery;
+
+    protected function setModel(string $model): void
+    {
+        static::$model = $model;
+    }
 
     protected function getModel(): Model
     {

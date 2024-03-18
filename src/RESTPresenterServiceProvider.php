@@ -12,6 +12,7 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('rest-presenter')
+            ->hasRoute('api')
             ->hasViews()
             ->hasConfigFile()
             ->hasCommands([
