@@ -2,11 +2,12 @@
 
 namespace XtendPackages\RESTPresenter\Concerns;
 
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\Exceptions\PresenterNotFoundException;
 use XtendPackages\RESTPresenter\Support\ResourceDefaultPresenter;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
 trait InteractsWithPresenter
 {
@@ -18,7 +19,7 @@ trait InteractsWithPresenter
         ]);
     }
 
-    protected function present(Request $request, ?Model $model): array
+    protected function present(Request $request, ?Model $model): Data
     {
         return $this->makePresenter(
             request: $request,
@@ -29,7 +30,7 @@ trait InteractsWithPresenter
     protected function getPresenters(): array
     {
         return array_merge([
-            'Default' => ResourceDefaultPresenter::class
+            'default' => ResourceDefaultPresenter::class,
         ], method_exists($this, 'presenters') ? $this->presenters() : []);
     }
 
@@ -38,10 +39,10 @@ trait InteractsWithPresenter
      */
     protected function getPresenterFromRequestHeader(): string
     {
-        $headerName = strtolower(config('rest-presenter.api.presenter_header', 'X-REST-PRESENTER'));
-        $presenter = request()->headers->get($headerName, 'Default');
+        $headerName = strtolower(config('rest-presenter.api.presenter_header', 'x-rest-presenter'));
+        $presenter = strtolower(request()->headers->get($headerName, 'default'));
 
-        if ($presenter && !array_key_exists($presenter, $this->getPresenters())) {
+        if ($presenter && ! array_key_exists($presenter, $this->getPresenters())) {
             throw new PresenterNotFoundException($presenter);
         }
 

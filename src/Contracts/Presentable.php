@@ -2,7 +2,9 @@
 
 namespace XtendPackages\RESTPresenter\Contracts;
 
+use Spatie\LaravelData\Data;
+
 interface Presentable
 {
-    public function transform(): array;
+    public function transform(): Data;
 }

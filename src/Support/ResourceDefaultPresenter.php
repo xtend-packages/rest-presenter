@@ -2,6 +2,7 @@
 
 namespace XtendPackages\RESTPresenter\Support;
 
+use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +18,8 @@ class ResourceDefaultPresenter implements Presentable
         private readonly ?Model $model,
     ) {}
 
-    public function transform(): array
+    public function transform(): Data
     {
-        return DefaultResponse::from($this->model)->toArray();
+        return DefaultResponse::from($this->model);
     }
 }
