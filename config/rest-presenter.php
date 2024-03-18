@@ -1,7 +1,7 @@
 <?php
 
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
-use XtendPackages\RESTPresenter\Middleware\VerifyApiKey;
 use XtendPackages\RESTPresenter\Resources\Users\Filters;
 use XtendPackages\RESTPresenter\Resources\Users\Presenters;
 
@@ -31,9 +31,12 @@ return [
         'name' => env('REST_PRESENTER_API_NAME', 'API'),
         'debug' => env('REST_PRESENTER_API_DEBUG', true),
         'presenter_header' => env('REST_PRESENTER_API_PRESENTER_HEADER', 'X-REST-PRESENTER'),
+        'middleware' => [
+            // @todo implement middleware + test for VerifyApiKey::class,
+            SubstituteBindings::class,
+        ],
     ],
     'auth' => [
-        'middleware' => VerifyApiKey::class,
         'key' => env('REST_PRESENTER_AUTH_API_KEY', 'rest-presenter-secret-key'),
         'token_name' => env('REST_PRESENTER_API_TOKEN_NAME', 'rest-presenter-api-token'),
         'key_header' => env('REST_PRESENTER_API_KEY_HEADER', 'X-REST-PRESENTER-API-KEY'),

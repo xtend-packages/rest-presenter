@@ -1,15 +1,11 @@
 <?php
 
-use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use XtendPackages\RESTPresenter\Resources\Users\UserResourceController;
 
 Route::name('api.v1.')->prefix('api/v1')
-    ->middleware([
-        // \XtendPackages\RESTPresenter\Middleware\VerifyApiKey::class,
-        SubstituteBindings::class,
-    ])
+    ->middleware(config('rest-presenter.api.middleware'))
     ->group(function () {
         Route::get('resources', function () {
             return collect(Route::getRoutes())->map(fn (\Illuminate\Routing\Route $route) => [
