@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use XtendPackages\RESTPresenter\Resources\Users\UserResourceController;
 
-Route::name('api.v1.')->prefix('api.v1')
+Route::name('api.v1.')->prefix('api/v1')
     ->middleware([
         // \XtendPackages\RESTPresenter\Middleware\VerifyApiKey::class,
         SubstituteBindings::class,
