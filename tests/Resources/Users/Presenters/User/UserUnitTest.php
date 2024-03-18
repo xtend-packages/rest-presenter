@@ -41,9 +41,9 @@ describe('User Presenter', function () {
                 'id' => 1,
                 'name' => $this->mockUser->name,
                 'email' => $this->mockUser->email,
-                'email_verified_at' => $this->mockUser->email_verified_at->format('Y-m-d\TH:i:s.u\Z'),
-                'created_at' => $this->mockUser->created_at->format('Y-m-d\TH:i:s.u\Z'),
-                'updated_at' => $this->mockUser->updated_at->format('Y-m-d\TH:i:s.u\Z'),
+                'email_verified_at' => $this->mockUser->email_verified_at,
+                'created_at' => $this->mockUser->created_at,
+                'updated_at' => $this->mockUser->updated_at,
             ]);
 
     });

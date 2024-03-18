@@ -26,7 +26,7 @@ class TestCase extends Orchestra
             'prefix' => '',
         ]);
 
-        $app['config']->set('data.date_format', 'Y-m-d\TH:i:s.u\Z');
+        $app['config']->set('data.date_format', 'Y-m-d H:i:s');
         $app['config']->set('rest-presenter.resources.user.model', User::class);
     }
 
