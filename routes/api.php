@@ -22,4 +22,9 @@ Route::name('api.v1.')->prefix('api/v1')
         Route::middleware('auth:sanctum')->group(function () {
             Route::apiResource('users', UserResourceController::class);
         });
+
+        // @todo Auto register starter kit routes
+        Route::name('auth:')
+            ->prefix('auth')
+            ->group(__DIR__.'/../src/StarterKits/Auth/Breeze/Routes/auth.php');
     });
