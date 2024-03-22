@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Providers;
+
+use XtendPackages\RESTPresenter\Facades\RESTPresenter;
+use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\BreezeApiKitServiceProvider;
+
+class XtendRESTPresenterServiceProvider extends AppServiceProvider
+{
+    public function register(): void
+    {
+        RESTPresenter::register($this->app)
+            ->starterKits([
+                BreezeApiKitServiceProvider::class,
+            ]);
+    }
+}
