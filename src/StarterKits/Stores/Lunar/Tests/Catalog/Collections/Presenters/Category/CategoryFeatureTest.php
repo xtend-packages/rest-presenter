@@ -24,7 +24,6 @@ beforeEach(function () {
 
 describe('Category Presenter', function () {
     test('transforms collection using Category Presenter', function () {
-        $this->withoutExceptionHandling();
         $response = getJson(
             uri: route('api.v1.catalog:collections.show', ['collection' => 1]),
             headers: ['x-rest-presenter' => 'Category'],
