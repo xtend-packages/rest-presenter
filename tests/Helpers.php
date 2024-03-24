@@ -3,6 +3,7 @@
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\Sanctum;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use XtendPackages\RESTPresenter\Models\User;
 
 function authenticateApiUser(?User $user = null): User | HasApiTokens
@@ -62,4 +63,23 @@ function formatRule(string $rule): array
     $split = Str::of($rule)->explode(':');
 
     return $split->count() > 1 ? [$split[0] => $split[1]] : [$split[0] => true];
+}
+
+function fakeMediaItem(int $id): Media
+{
+    $media = Mockery::mock(Media::class)
+        ->makePartial()
+        ->forceFill([
+            'id' => $id,
+            'uuid' => Str::uuid(),
+            'name' => 'Name ' . $id,
+            'custom_properties' => ['custom' => 'properties'],
+            'order_column' => $id,
+        ]);
+
+    $media
+        ->shouldReceive('getUrl')
+        ->andReturn('http://example.com/' . $id);
+
+    return $media;
 }
