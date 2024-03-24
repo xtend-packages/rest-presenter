@@ -5,7 +5,8 @@ use Lunar\Models\CollectionGroup;
 use Lunar\Models\Language;
 use Lunar\Models\Product;
 use Lunar\Models\Url;
-use function Pest\Laravel\get;
+use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\DetailData;
+use function Pest\Laravel\getJson;
 
 beforeEach(function () {
     Language::factory()->create(['code' => 'en']);
@@ -29,17 +30,15 @@ beforeEach(function () {
 
 describe('Detail Presenter', function () {
     test('transforms collection using Detail Presenter', function () {
-        $response = get(
-            uri: route('api.v1.catalog:products.show', [
-                'product' => 1,
-            ]),
-            headers: [
-                'X-AWR-PRESENTER' => 'Detail',
-            ],
-        );
+        $response = getJson(
+            uri: route('api.v1.catalog:products.show', ['product' => 1]),
+            headers: ['x-rest-presenter' => 'Detail'],
+        )->assertOk()->json();
 
-        // @todo feature test [features, variants, colors, sizes, prices, images]
-
-        $response->assertOk();
+        expect($response)
+            ->toMatchArray(
+                array: DetailData::from($response)->toArray(),
+                message: 'Response data is in the expected format',
+            );
     });
 });

@@ -34,7 +34,6 @@ class Item implements Presentable
             'slug' => UrlData::from($this->getUrl()),
             'name' => $this->model->translateAttribute('name'),
             'availability' => $this->getAvailability(),
-            'stock' => $this->model->stock,
             'colors' => ColorData::collect($this->getColors()),
             'price' => PriceData::from($this->getPrice()),
             'image' => MediaData::from($this->model->getFirstMedia('images')),

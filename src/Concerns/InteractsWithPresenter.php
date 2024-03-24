@@ -4,6 +4,7 @@ namespace XtendPackages\RESTPresenter\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\Exceptions\PresenterNotFoundException;
@@ -40,7 +41,7 @@ trait InteractsWithPresenter
     protected function getPresenterFromRequestHeader(): string
     {
         $headerName = strtolower(config('rest-presenter.api.presenter_header', 'x-rest-presenter'));
-        $presenter = strtolower(request()->headers->get($headerName, 'default'));
+        $presenter = Str::snake(request()->headers->get($headerName, 'default'), '-');
 
         if ($presenter && ! array_key_exists($presenter, $this->getPresenters())) {
             throw new PresenterNotFoundException($presenter);

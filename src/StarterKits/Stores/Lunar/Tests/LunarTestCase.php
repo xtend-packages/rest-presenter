@@ -7,9 +7,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Kalnoy\Nestedset\NestedSetServiceProvider;
 use Lunar\Base\ModelManifest;
 use Lunar\Base\ModelManifestInterface;
-use Lunar\LunarServiceProvider;
 use Spatie\Activitylog\ActivitylogServiceProvider;
 use Spatie\LaravelBlink\BlinkServiceProvider;
+use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\LunarApiKitServiceProvider;
 use XtendPackages\RESTPresenter\Tests\TestCase;
 
@@ -44,6 +44,7 @@ class LunarTestCase extends TestCase
             ActivitylogServiceProvider::class,
             ConverterServiceProvider::class,
             NestedSetServiceProvider::class,
+            MediaLibraryServiceProvider::class,
         ]);
     }
 

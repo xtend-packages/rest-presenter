@@ -35,7 +35,7 @@ class CollectionResourceController extends ResourceController
     public function presenters(): array
     {
         return [
-            'Category' => Category::class,
+            'category' => Category::class,
         ];
     }
 }

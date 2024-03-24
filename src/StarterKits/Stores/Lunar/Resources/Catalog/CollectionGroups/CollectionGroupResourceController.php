@@ -27,7 +27,7 @@ class CollectionGroupResourceController extends ResourceController
     public function presenters(): array
     {
         return [
-            'CategoryTree' => CategoryTree::class,
+            'category-tree' => CategoryTree::class,
         ];
     }
 }

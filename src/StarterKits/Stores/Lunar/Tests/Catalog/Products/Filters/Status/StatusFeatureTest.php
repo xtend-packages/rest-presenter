@@ -1,7 +1,7 @@
 <?php
 
 use Lunar\Models\Product;
-use function Pest\Laravel\get;
+use function Pest\Laravel\getJson;
 
 beforeEach(function () {
     $this->publishedProducts = Product::factory()
@@ -20,7 +20,7 @@ describe('Status Filter', function () {
             'status' => 'published',
         ];
 
-        $response = get(
+        $response = getJson(
             uri: route('api.v1.catalog:products.index', ['filters' => $filters]),
         );
 
@@ -35,7 +35,7 @@ describe('Status Filter', function () {
             'status' => 'draft',
         ];
 
-        $response = get(
+        $response = getJson(
             uri: route('api.v1.catalog:products.index', ['filters' => $filters]),
         );
 

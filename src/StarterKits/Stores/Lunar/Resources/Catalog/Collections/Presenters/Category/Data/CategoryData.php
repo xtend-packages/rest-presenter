@@ -2,8 +2,8 @@
 
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Collections\Presenters\Category\Data;
 
-use App\Api\v1\Data\Response\MediaData;
 use Spatie\LaravelData\Data;
+use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\MediaData;
 
 class CategoryData extends Data
 {

@@ -36,8 +36,8 @@ class ProductResourceController extends ResourceController
     public function presenters(): array
     {
         return [
-            'Item' => Item::class,
-            'Detail' => Detail::class,
+            'item' => Item::class,
+            'detail' => Detail::class,
         ];
     }
 }

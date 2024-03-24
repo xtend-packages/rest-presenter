@@ -6,7 +6,8 @@ use Lunar\Models\Product;
 use Lunar\Models\ProductVariant;
 use Lunar\Models\Url;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use function Pest\Laravel\get;
+use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Item\Data\ItemData;
+use function Pest\Laravel\getJson;
 
 beforeEach(function () {
     Language::factory()->create(['code' => 'en']);
@@ -41,17 +42,15 @@ beforeEach(function () {
 
 describe('Item Presenter', function () {
     test('transforms collection using Item Presenter', function () {
-        $response = get(
-            uri: route('api.v1.catalog:products.show', [
-                'product' => 1,
-            ]),
-            headers: [
-                'X-AWR-PRESENTER' => 'Item',
-            ],
-        );
+        $response = getJson(
+            uri: route('api.v1.catalog:products.show', ['product' => 1]),
+            headers: ['x-rest-presenter' => 'Item'],
+        )->assertOk()->json();
 
-        // @todo feature test [colors]
-
-        $response->assertOk();
+        expect($response)
+            ->toMatchArray(
+                array: ItemData::from($response)->toArray(),
+                message: 'Response data is in the expected format',
+            );
     });
 });

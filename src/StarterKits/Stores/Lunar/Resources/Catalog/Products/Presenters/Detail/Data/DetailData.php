@@ -10,13 +10,11 @@ class DetailData extends Data
 {
     public function __construct(
         public int $id,
-        public string $sku,
         public UrlData $url,
         public StyleData $style,
         public string $name,
         public string $description,
         public ?string $availability,
-        public int $stock,
         /** @var Collection<int, VariantData> */
         public Collection $variants,
         /** @var Collection<int, \XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\Variant\ColorData> */

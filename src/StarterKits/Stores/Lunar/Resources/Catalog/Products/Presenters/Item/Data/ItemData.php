@@ -16,7 +16,6 @@ class ItemData extends Data
         public UrlData $slug,
         public string $name,
         public ?string $availability,
-        public int $stock,
         /** @var Collection<ColorData> */
         public Collection $colors,
         public PriceData $price,

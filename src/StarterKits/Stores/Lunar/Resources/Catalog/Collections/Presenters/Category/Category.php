@@ -2,12 +2,12 @@
 
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Collections\Presenters\Category;
 
-use App\Api\v1\Data\Response\MediaData;
 use Illuminate\Http\Request;
 use Lunar\Models\Collection;
 use Lunar\Models\Url;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
 use XtendPackages\RESTPresenter\Contracts\Presentable;
+use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\MediaData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Collections\Presenters\Category\Data\CategoryData;
 
 class Category implements Presentable

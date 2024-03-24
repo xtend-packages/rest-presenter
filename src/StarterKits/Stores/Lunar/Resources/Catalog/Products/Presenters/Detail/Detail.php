@@ -38,7 +38,6 @@ class Detail implements Presentable
     {
         return DetailData::from([
             'id' => $this->model->id,
-            'sku' => $this->model->sku,
             'url' => UrlData::from($this->getUrl()),
             'style' => StyleData::from(
                 style: $this->getStyle(),
@@ -47,7 +46,6 @@ class Detail implements Presentable
             'name' => $this->model->translateAttribute('name'),
             'description' => $this->model->translateAttribute('description'),
             'availability' => $this->getAvailability(),
-            'stock' => $this->model->stock,
             'variants' => VariantData::collect($this->model->variants),
             'colors' => ColorData::collect($this->getColors()),
             'sizes' => SizeData::collect($this->getSizes()),

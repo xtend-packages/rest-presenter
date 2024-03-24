@@ -4,7 +4,7 @@ use Lunar\Models\Collection;
 use Lunar\Models\CollectionGroup;
 use Lunar\Models\Product;
 
-use function Pest\Laravel\get;
+use function Pest\Laravel\getJson;
 
 beforeEach(function () {
 
@@ -51,7 +51,7 @@ dataset('collections', function () {
 
 describe('Products', function () {
     test('can get product by id', function (Product $product) {
-        $response = get(
+        $response = getJson(
             uri: route('api.v1.catalog:products.show', [
                 'product' => $product,
             ]),
@@ -63,7 +63,7 @@ describe('Products', function () {
     })->with('products');
 
     test('can list all products', function () {
-        $response = get(
+        $response = getJson(
             uri: route('api.v1.catalog:products.index'),
         );
 
@@ -74,7 +74,7 @@ describe('Products', function () {
     test('can list all products with published status', function () {
         $filters = ['status' => 'published'];
 
-        $response = get(
+        $response = getJson(
             uri: route('api.v1.catalog:products.index', ['filters' => $filters]),
         );
 
@@ -87,7 +87,7 @@ describe('Products', function () {
             'status' => 'draft',
         ];
 
-        $response = get(
+        $response = getJson(
             uri: route('api.v1.catalog:products.index', ['filters' => $filters]),
         );
 
