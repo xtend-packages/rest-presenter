@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Brands\BrandResourceController;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\CollectionGroupResourceController;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Collections\CollectionResourceController;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\ProductResourceController;
@@ -18,4 +19,9 @@ Route::prefix('collections')->group(function () {
 Route::prefix('collection-groups')->group(function () {
     Route::get('/', [CollectionGroupResourceController::class, 'index'])->name('collection-groups.index');
     Route::get('/{collectionGroup:handle}', [CollectionGroupResourceController::class, 'show'])->name('collection-groups.show');
+});
+
+Route::prefix('brands')->group(function () {
+    Route::get('/', [BrandResourceController::class, 'index'])->name('brands.index');
+    Route::get('/{brand}', [BrandResourceController::class, 'show'])->name('brands.show');
 });
