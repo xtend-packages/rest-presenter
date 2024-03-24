@@ -11,9 +11,8 @@ class DetailData extends Data
     public function __construct(
         public int $id,
         public UrlData $url,
-        public StyleData $style,
         public string $name,
-        public string $description,
+        public ?string $description,
         public ?string $availability,
         /** @var Collection<int, VariantData> */
         public Collection $variants,

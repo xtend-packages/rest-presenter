@@ -36,7 +36,7 @@ class Item implements Presentable
             'availability' => $this->getAvailability(),
             'colors' => ColorData::collect($this->getColors()),
             'price' => PriceData::from($this->getPrice()),
-            'image' => MediaData::from($this->model->getFirstMedia('images')),
+            'image' => $this->model->hasMedia('images') ? MediaData::from($this->model->getFirstMedia('images')) : null,
         ]);
     }
 }

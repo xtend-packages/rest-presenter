@@ -2,6 +2,7 @@
 
 use Lunar\Models\Collection;
 use Lunar\Models\CollectionGroup;
+use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {
@@ -25,11 +26,13 @@ describe('CollectionGroup Filter', function () {
 
         $response = getJson(
             uri: route('api.v1.catalog:collections.index', ['filters' => $filters]),
-        );
+        )->assertOk()->json();
 
-        $response
-            ->assertOk()
-            ->assertJsonCount($this->collections->count(), 'collections')
-            ->assertJsonStructure(['collections']);
+        expect($response)
+            ->toMatchArray(
+                array: DefaultResponse::collect($this->collections)->toArray(),
+                message: 'Response data is in the expected format',
+            )
+            ->toHaveCount($this->collections->count());
     });
 });

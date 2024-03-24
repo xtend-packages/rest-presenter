@@ -39,10 +39,6 @@ class Detail implements Presentable
         return DetailData::from([
             'id' => $this->model->id,
             'url' => UrlData::from($this->getUrl()),
-            'style' => StyleData::from(
-                style: $this->getStyle(),
-                url: UrlData::from($this->getUrl($this->getStyle())),
-            ),
             'name' => $this->model->translateAttribute('name'),
             'description' => $this->model->translateAttribute('description'),
             'availability' => $this->getAvailability(),

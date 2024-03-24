@@ -10,8 +10,6 @@ class VariantData extends Data
 {
     public function __construct(
         public int $id,
-        public bool $base,
-        public bool $primary,
         public Collection | array | null $attributeData,
         public string $sku,
         public float $weightValue,
@@ -23,8 +21,6 @@ class VariantData extends Data
     {
         return new self(
             id: $variant->id,
-            base: $variant->base,
-            primary: $variant->primary,
             attributeData: $variant->attribute_data,
             sku: $variant->sku,
             weightValue: $variant->weight_value,

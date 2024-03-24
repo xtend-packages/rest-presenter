@@ -33,13 +33,13 @@ describe('CollectionGroups', function () {
     test('can list all collectionGroups', function () {
         $response = getJson(
             uri: route('api.v1.catalog:collection-groups.index'),
-        );
+        )->assertOk()->json();
 
-        expect($response->json('collectionGroups'))
-            ->toHaveCount($this->collectionGroups->count());
-
-        $response
-            ->assertOk()
-            ->assertJsonStructure(['collectionGroups']);
+        expect($response)
+            ->toMatchArray(
+                array: DefaultResponse::collect($this->collectionGroups)->toArray(),
+                message: 'Response data is in the expected format',
+            )
+            ->toHaveCount(CollectionGroup::count());
     });
 });

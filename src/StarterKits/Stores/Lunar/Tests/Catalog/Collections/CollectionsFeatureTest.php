@@ -2,8 +2,8 @@
 
 use Lunar\Models\Collection;
 use Lunar\Models\CollectionGroup;
-
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
+
 use function Pest\Laravel\getJson;
 
 $collectionsNb = 10;
@@ -27,11 +27,9 @@ dataset('collections', function () use ($collectionsNb) {
 });
 
 describe('Collections', function () {
-    test('can get collection by id', function (Collection $collection) {
+    test('can show a collection', function (Collection $collection) {
         $response = getJson(
-            uri: route('api.v1.catalog:collections.show', [
-                'collection' => $collection->id,
-            ]),
+            uri: route('api.v1.catalog:collections.show', $collection),
         )->assertOk()->json();
 
         expect($response)
@@ -45,28 +43,29 @@ describe('Collections', function () {
         $filters = [
             'collection_group_id' => $this->collectionGroup->id,
         ];
+
         $response = getJson(
             uri: route('api.v1.catalog:collections.index', ['filters' => $filters]),
-        );
+        )->assertOk()->json();
 
-        expect($response->json('collections'))
+        expect($response)
+            ->toMatchArray(
+                array: DefaultResponse::collect($this->collections)->toArray(),
+                message: 'Response data is in the expected format',
+            )
             ->toHaveCount($this->collections->count());
-
-        $response
-            ->assertOk()
-            ->assertJsonStructure(['collections']);
     });
 
     test('can list all collections', function () {
         $response = getJson(
             uri: route('api.v1.catalog:collections.index'),
-        );
+        )->assertOk()->json();
 
-        expect($response->json('collections'))
+        expect($response)
+            ->toMatchArray(
+                array: DefaultResponse::collect($this->collections)->toArray(),
+                message: 'Response data is in the expected format',
+            )
             ->toHaveCount(Collection::count());
-
-        $response
-            ->assertOk()
-            ->assertJsonStructure(['collections']);
     });
 });

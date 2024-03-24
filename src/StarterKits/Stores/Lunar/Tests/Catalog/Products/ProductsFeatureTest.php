@@ -4,10 +4,10 @@ use Lunar\Models\Collection;
 use Lunar\Models\CollectionGroup;
 use Lunar\Models\Product;
 
+use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {
-
     $this->collectionGroup = CollectionGroup::factory()
         ->state([
             'name' => 'Styles',
@@ -50,36 +50,52 @@ dataset('collections', function () {
 });
 
 describe('Products', function () {
-    test('can get product by id', function (Product $product) {
+    test('can show a product', function (Product $product) {
         $response = getJson(
-            uri: route('api.v1.catalog:products.show', [
-                'product' => $product,
-            ]),
-        );
+            uri: route('api.v1.catalog:products.show', $product),
+        )->assertOk()->json();
 
-        $response->assertOk();
-        // @todo DTO response data for collection is in the expected format
-
+        expect($response)
+            ->toMatchArray(
+                array: DefaultResponse::from($product)->toArray(),
+                message: 'Response data is in the expected format',
+            );
     })->with('products');
 
     test('can list all products', function () {
         $response = getJson(
             uri: route('api.v1.catalog:products.index'),
-        );
+        )->assertOk()->json();
 
-        expect($response->json('products'))
+        expect($response)
+            ->toMatchArray(
+                array: DefaultResponse::collect($this->products)->toArray(),
+                message: 'Response data is in the expected format',
+            )
             ->toHaveCount($this->products->count());
     });
 
     test('can list all products with published status', function () {
-        $filters = ['status' => 'published'];
+        $filters = [
+            'status' => 'published',
+        ];
 
         $response = getJson(
             uri: route('api.v1.catalog:products.index', ['filters' => $filters]),
-        );
+        )->assertOk()->json();
 
-        expect($response->json('products'))
-            ->toHaveCount($this->products->where('status', 'published')->count());
+        expect($response)
+            ->toMatchArray(
+                array: DefaultResponse::collect(
+                    Product::where('status', $filters['status'])->get(),
+                )->toArray(),
+                message: 'Response data is in the expected format',
+            )
+            ->toHaveCount(
+                $this->products
+                    ->where('status', $filters['status'])
+                    ->count(),
+            );
     });
 
     test('can list all products with draft status', function () {
@@ -89,9 +105,15 @@ describe('Products', function () {
 
         $response = getJson(
             uri: route('api.v1.catalog:products.index', ['filters' => $filters]),
-        );
+        )->assertOk()->json();
 
-        expect($response->json('products'))
+        expect($response)
+            ->toMatchArray(
+                array: DefaultResponse::collect(
+                    Product::where('status', $filters['status'])->get(),
+                )->toArray(),
+                message: 'Response data is in the expected format',
+            )
             ->toHaveCount(
                 $this->products
                     ->where('status', $filters['status'])

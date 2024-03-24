@@ -1,6 +1,7 @@
 <?php
 
 use Lunar\Models\Product;
+use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {
@@ -22,12 +23,18 @@ describe('Status Filter', function () {
 
         $response = getJson(
             uri: route('api.v1.catalog:products.index', ['filters' => $filters]),
-        );
+        )->assertOk()->json();
 
-        $response
-            ->assertOk()
-            ->assertJsonCount($this->publishedProducts->count(), 'products')
-            ->assertJsonStructure(['products']);
+        expect($response)
+            ->toMatchArray(
+                array: DefaultResponse::collect(
+                    Product::where('status', $filters['status'])->get(),
+                )->toArray(),
+                message: 'Response data is in the expected format',
+            )
+            ->toHaveCount(
+                $this->publishedProducts->count(),
+            );
     });
 
     test('can list all products with draft status', function () {
@@ -37,11 +44,17 @@ describe('Status Filter', function () {
 
         $response = getJson(
             uri: route('api.v1.catalog:products.index', ['filters' => $filters]),
-        );
+        )->assertOk()->json();
 
-        $response
-            ->assertOk()
-            ->assertJsonCount($this->draftProducts->count(), 'products')
-            ->assertJsonStructure(['products']);
+        expect($response)
+            ->toMatchArray(
+                array: DefaultResponse::collect(
+                    Product::where('status', $filters['status'])->get(),
+                )->toArray(),
+                message: 'Response data is in the expected format',
+            )
+            ->toHaveCount(
+                $this->draftProducts->count(),
+            );
     });
 });

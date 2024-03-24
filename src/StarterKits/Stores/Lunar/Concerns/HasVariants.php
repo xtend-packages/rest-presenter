@@ -39,7 +39,6 @@ trait HasVariants
         if ($this->variants === null) {
             $this->variants = $this->model
                 ->variants()
-                ->where('base', false)
                 ->get();
         }
 

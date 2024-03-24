@@ -67,11 +67,6 @@ beforeEach(function () {
         ->andReturn(DetailData::from([
             'id' => 1,
             'url' => UrlData::from($this->url),
-            'style' => StyleData::from([
-                'id' => 1,
-                'name' => 'Test Name',
-                'url' => UrlData::from($this->url),
-            ]),
             'name' => 'Test Name',
             'description' => 'Test Description',
             'availability' => 'available',
@@ -99,8 +94,6 @@ describe('Detail Presenter', function () {
             ->and($result->colors)->toBeInstanceOf(\Illuminate\Support\Collection::class)
             ->and($result->sizes)->toBeInstanceOf(\Illuminate\Support\Collection::class)
             ->and($result->prices)->toBeInstanceOf(\Illuminate\Support\Collection::class)
-            ->and($result->images)->toBeInstanceOf(\Illuminate\Support\Collection::class)
-            ->and($result->style)->toBeInstanceOf(StyleData::class)
-            ->and($result->style->url)->toBeInstanceOf(UrlData::class);
+            ->and($result->images)->toBeInstanceOf(\Illuminate\Support\Collection::class);
     });
 });
