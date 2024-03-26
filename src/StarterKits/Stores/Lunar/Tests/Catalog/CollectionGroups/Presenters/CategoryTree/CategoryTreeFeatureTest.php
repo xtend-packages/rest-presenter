@@ -24,7 +24,7 @@ beforeEach(function () {
 describe('CategoryTree Presenter', function () {
     test('transforms collection using CategoryTree Presenter', function () {
         $response = getJson(
-            uri: route('api.v1.catalog:collection-groups.show', ['collectionGroup' => 'categories']),
+            uri: route('api.v1.catalog:collection-groups.show', $this->collectionGroup),
             headers: ['x-rest-presenter' => 'CategoryTree'],
         )->assertOk()->json();
 
