@@ -5,7 +5,9 @@ namespace XtendPackages\RESTPresenter;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use XtendPackages\RESTPresenter\Base\RESTPresenter;
+use XtendPackages\RESTPresenter\Commands\Generator\MakeResource;
 use XtendPackages\RESTPresenter\Commands\RESTPresenterSetupCommand;
+use XtendPackages\RESTPresenter\Commands\XtendStarterKit;
 
 class RESTPresenterServiceProvider extends PackageServiceProvider
 {
@@ -19,6 +21,8 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
             ->publishesServiceProvider('RESTPresenterServiceProvider')
             ->hasCommands([
                 RESTPresenterSetupCommand::class,
+                XtendStarterKit::class,
+                MakeResource::class,
             ]);
     }
 

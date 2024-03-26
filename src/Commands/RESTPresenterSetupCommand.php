@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\multiselect;
 
 #[AsCommand(name: 'rest-presenter:setup')]
 class RESTPresenterSetupCommand extends Command
@@ -41,13 +42,13 @@ class RESTPresenterSetupCommand extends Command
         if (! $this->firstTimeSetup()) {
             $this->components->info('REST Presenter has already been setup. Now checking for updates...');
             $this->checkForUpdates();
-
             return;
         }
 
         $this->publishingConfig();
         $this->publishingServiceProvider();
         $this->publishingDefaultResources();
+        $this->publishStarterKits();
     }
 
     protected function starGitHubRepo(): void
@@ -105,6 +106,40 @@ class RESTPresenterSetupCommand extends Command
         collect($this->filesystem->directories(__DIR__ . '/../Resources'))
             ->map(fn ($resource) => Str::singular(basename($resource)))
             ->each(fn ($resource) => $this->call('rest-presenter:make-resource', ['name' => $resource]));
+    }
+
+    protected function publishStarterKits(): void
+    {
+        $starterKitsDirectory = __DIR__ . '/../StarterKits';
+        $generatedKitsDirectory = config('rest-presenter.generator.path') . '/StarterKits';
+        $this->filesystem->ensureDirectoryExists($generatedKitsDirectory);
+
+        $unpublishedStarterKits = collect($this->filesystem->allFiles($starterKitsDirectory))
+            ->map(fn ($file) => $file->getRelativePathname())
+            ->filter(fn ($file) => ! $this->filesystem->exists($generatedKitsDirectory . '/' . $file))
+            ->filter(fn ($file) => str_ends_with($file, 'ApiKitServiceProvider.php'))
+            ->map(fn ($file) => str_replace('ApiKitServiceProvider.php', '', basename($file)))
+            ->map(fn ($kit) => $kit)
+            ->values();
+
+        if ($unpublishedStarterKits->isEmpty()) {
+            $this->components->info('All starter kits have already been installed');
+            return;
+        }
+
+        $starterKits = multiselect(
+            label: 'Would you like to install any of these starter kits?',
+            options: $unpublishedStarterKits,
+            hint: 'You can re-run this command to install more starter kits later',
+        );
+
+        if (! $starterKits) {
+            return;
+        }
+
+        foreach ($starterKits as $starterKit) {
+            $this->call('rest-presenter:xtend-starter-kit', ['name' => $starterKit]);
+        }
     }
 
     protected function firstTimeSetup(): bool
