@@ -7,7 +7,6 @@ use Spatie\LaravelData\LaravelDataServiceProvider;
 use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\RESTPresenterServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\BreezeApiKitServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -31,12 +30,11 @@ class TestCase extends Orchestra
         $app['config']->set('rest-presenter.resources.user.model', User::class);
     }
 
-    protected function getPackageProviders($app): array
+    protected function getPackageProviders($app)
     {
         return [
             SanctumServiceProvider::class,
             RESTPresenterServiceProvider::class,
-            BreezeApiKitServiceProvider::class,
             LaravelDataServiceProvider::class,
         ];
     }

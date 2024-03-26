@@ -45,5 +45,15 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
                 ? Route::apiResource($name, $xtendController)
                 : Route::apiResource($name, $controller);
         });
+
+        Route::macro('xtendAuthResource', function (string $httpVerb, string $uri, string $controller, string $name, ?array $middleware = null) {
+            $namespace = config('rest-presenter.generator.namespace');
+            $xtendController = Str::of($controller)->replace('XtendPackages\RESTPresenter', $namespace)->value();
+            $controller = class_exists($xtendController) ? $xtendController : $controller;
+
+            Route::match([$httpVerb], $uri, [$controller, 'store'])
+                ->middleware($middleware)
+                ->name($name);
+        });
     }
 }
