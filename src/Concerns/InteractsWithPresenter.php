@@ -28,8 +28,12 @@ trait InteractsWithPresenter
     {
         $namespace = config('rest-presenter.generator.namespace');
         $xtendPresenter = Str::of($fromRequest)->replace('XtendPackages\RESTPresenter', $namespace)->value();
+        $extendPresenterFile = Str::of($fromRequest)->replace('XtendPackages\RESTPresenter', '')
+            ->replace('\\', '/')
+            ->prepend(app()->path('Api'))
+            ->append('.php');
 
-        return class_exists($xtendPresenter) ? $xtendPresenter : $fromRequest;
+        return file_exists($extendPresenterFile) ? $xtendPresenter : $fromRequest;
     }
 
     protected function present(Request $request, ?Model $model): Data
