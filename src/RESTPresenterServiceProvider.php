@@ -2,6 +2,8 @@
 
 namespace XtendPackages\RESTPresenter;
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use XtendPackages\RESTPresenter\Base\RESTPresenter;
@@ -30,6 +32,14 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
     {
         $this->app->singleton('rest-presenter', function () {
             return new RESTPresenter();
+        });
+
+        Route::macro('xtendResource', function ($name, $controller) {
+            $namespace = config('rest-presenter.generator.namespace');
+            $xtendController = Str::of($controller)->replace('XtendPackages\RESTPresenter', $namespace)->value();
+            class_exists($xtendController)
+                ? Route::apiResource($name, $xtendController)
+                : Route::apiResource($name, $controller);
         });
     }
 }
