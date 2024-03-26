@@ -8,30 +8,58 @@ use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\Passwor
 use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\RegisteredUserController;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\VerifyEmailController;
 
-Route::post('/register', [RegisteredUserController::class, 'store'])
-    ->middleware('guest')
-    ->name('register');
+Route::xtendAuthResource(
+    httpVerb: 'post',
+    uri: '/register',
+    controller: RegisteredUserController::class,
+    name: 'register',
+    middleware: ['guest'],
+);
 
-Route::post('/login', [AuthenticatedSessionController::class, 'store'])
-    ->middleware('guest')
-    ->name('login');
+Route::xtendAuthResource(
+    httpVerb: 'post',
+    uri: '/login',
+    controller: AuthenticatedSessionController::class,
+    name: 'login',
+    middleware: ['guest'],
+);
 
-Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
-    ->middleware('guest')
-    ->name('password.email');
+Route::xtendAuthResource(
+    httpVerb: 'post',
+    uri: '/forgot-password',
+    controller: PasswordResetLinkController::class,
+    name: 'password.email',
+    middleware: ['guest'],
+);
 
-Route::post('/reset-password', [NewPasswordController::class, 'store'])
-    ->middleware('guest')
-    ->name('password.store');
+Route::xtendAuthResource(
+    httpVerb: 'post',
+    uri: '/reset-password',
+    controller: NewPasswordController::class,
+    name: 'password.store',
+    middleware: ['guest'],
+);
 
-Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
-    ->middleware(['auth', 'signed', 'throttle:6,1'])
-    ->name('verification.verify');
+Route::xtendAuthResource(
+    httpVerb: 'get',
+    uri: '/verify-email/{id}/{hash}',
+    controller: VerifyEmailController::class,
+    name: 'verification.verify',
+    middleware: ['auth', 'signed', 'throttle:6,1'],
+);
 
-Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-    ->middleware(['auth', 'throttle:6,1'])
-    ->name('verification.send');
+Route::xtendAuthResource(
+    httpVerb: 'post',
+    uri: '/email/verification-notification',
+    controller: EmailVerificationNotificationController::class,
+    name: 'verification.send',
+    middleware: ['auth', 'throttle:6,1'],
+);
 
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->middleware('auth')
-    ->name('logout');
+Route::xtendAuthResource(
+    httpVerb: 'post',
+    uri: '/logout',
+    controller: AuthenticatedSessionController::class,
+    name: 'logout',
+    middleware: ['auth'],
+);

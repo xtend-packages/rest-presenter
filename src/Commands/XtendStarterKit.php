@@ -42,7 +42,29 @@ class XtendStarterKit extends Command
 
     protected function generateStarterKit(string $starterKitsDirectory, string $generatedKitsDirectory, string $kitPath): void
     {
+        $this->extendControllers($starterKitsDirectory, $kitPath);
         $this->extendResources($starterKitsDirectory, $kitPath);
+    }
+
+    protected function extendControllers(string $starterKitsDirectory, string $kitPath): void
+    {
+        if ($this->kitHasControllers($starterKitsDirectory, $kitPath)) {
+            collect($this->filesystem->allFiles($starterKitsDirectory . '/' . $kitPath . '/Http/Controllers'))
+                ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getFilename(), 'Controller.php'))
+                ->map(fn (SplFileInfo $file) => $file->getRelativePathName())
+                ->each(function ($path) use ($kitPath) {
+                    $kitNamespace = Str::of($kitPath)
+                        ->replace('/', '\\')->prepend('StarterKits\\')
+                        ->append('\\Http\\Controllers')
+                        ->value();
+
+                    $controller = basename($path);
+                    $this->call('rest-presenter:make-controller', [
+                        'kit_namespace' => $kitNamespace,
+                        'name' => Str::beforeLast($controller, '.php'),
+                    ]);
+                });
+        }
     }
 
     protected function extendResources(string $starterKitsDirectory, string $kitPath): void
@@ -85,6 +107,11 @@ class XtendStarterKit extends Command
                     'name' => $presenter,
                 ]);
             });
+    }
+
+    protected function kitHasControllers(string $starterKitsDirectory, string $kitPath): bool
+    {
+        return $this->filesystem->exists($starterKitsDirectory . '/' . $kitPath . '/Http/Controllers');
     }
 
     protected function kitHasResources(string $starterKitsDirectory, string $kitPath): bool
