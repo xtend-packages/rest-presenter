@@ -5,6 +5,7 @@ namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog
 use Illuminate\Http\Request;
 use Lunar\Models\Collection;
 use Lunar\Models\Url;
+use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
 use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\MediaData;
@@ -15,11 +16,11 @@ class Category implements Presentable
     use InteractsWithPresenter;
 
     public function __construct(
-        private Request $request,
-        private ?Collection $model,
+        protected Request $request,
+        protected ?Collection $model,
     ) {}
 
-    public function transform(): CategoryData
+    public function transform(): CategoryData | Data
     {
         return CategoryData::from([
             'id' => $this->model->id,

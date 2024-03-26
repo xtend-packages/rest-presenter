@@ -14,10 +14,22 @@ trait InteractsWithPresenter
 {
     protected function makePresenter(Request $request, ?Model $model): Presentable
     {
-        return app($this->getPresenterFromRequestHeader(), [
+        $presenter = $this->getPresenterNamespace(
+            fromRequest: $this->getPresenterFromRequestHeader(),
+        );
+
+        return app($presenter, [
             'request' => $request,
             'model' => $model,
         ]);
+    }
+
+    protected function getPresenterNamespace(string $fromRequest): string
+    {
+        $namespace = config('rest-presenter.generator.namespace');
+        $xtendPresenter = Str::of($fromRequest)->replace('XtendPackages\RESTPresenter', $namespace)->value();
+
+        return class_exists($xtendPresenter) ? $xtendPresenter : $fromRequest;
     }
 
     protected function present(Request $request, ?Model $model): Data

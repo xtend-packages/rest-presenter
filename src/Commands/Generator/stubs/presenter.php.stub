@@ -1,0 +1,14 @@
+<?php
+
+namespace {{ namespace }};
+
+use Spatie\LaravelData\Data;
+use {{ presenterNamespace }} as {{ aliasPresenter }};
+
+class {{ class }} extends {{ aliasPresenter }}
+{
+    public function transform(): Data
+    {
+        return parent::transform();
+    }
+}

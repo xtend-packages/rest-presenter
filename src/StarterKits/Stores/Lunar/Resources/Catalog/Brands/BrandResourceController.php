@@ -8,6 +8,7 @@ use Lunar\Models\Brand;
 use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Resources\ResourceController;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Brands\Presenters\Brand\Brand as BrandPresenter;
+use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Filters\Status;
 
 class BrandResourceController extends ResourceController
 {
@@ -25,6 +26,13 @@ class BrandResourceController extends ResourceController
     public function show(Request $request, Brand $brand): Data
     {
         return $this->present($request, $brand);
+    }
+
+    public function filters(): array
+    {
+        return [
+
+        ];
     }
 
     public function presenters(): array

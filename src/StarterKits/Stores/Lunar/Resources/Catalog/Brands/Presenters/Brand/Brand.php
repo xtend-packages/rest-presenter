@@ -5,6 +5,7 @@ namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog
 use Illuminate\Http\Request;
 use Lunar\Models\Url;
 use Lunar\Models\Brand as BrandModel;
+use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
 use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\MediaData;
@@ -15,11 +16,11 @@ class Brand implements Presentable
     use InteractsWithPresenter;
 
     public function __construct(
-        private Request $request,
-        private ?BrandModel $model,
+        protected Request $request,
+        protected ?BrandModel $model,
     ) {}
 
-    public function transform(): BrandData
+    public function transform(): BrandData | Data
     {
         return BrandData::from([
             'id' => $this->model->id,
