@@ -1,5 +1,15 @@
 # Changelog for REST Presenter
 
+## 0.2.0 (26-03-2024)
+
+Alpha release:
+
+### Features
+
+* Lunar API Starter Kit
+* RESTPresenter Setup Command 
+* Extend API Kits
+
 ## 0.1.0 (22-03-2024)
 
 Initial pre-alpha release:
