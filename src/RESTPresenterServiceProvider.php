@@ -6,7 +6,6 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use XtendPackages\RESTPresenter\Base\RESTPresenter;
 use XtendPackages\RESTPresenter\Commands\RESTPresenterSetupCommand;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\BreezeApiServiceProvider;
 
 class RESTPresenterServiceProvider extends PackageServiceProvider
 {
@@ -17,7 +16,7 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
             ->hasRoute('api')
             ->hasViews()
             ->hasConfigFile()
-            ->publishesServiceProvider('XtendRESTPresenterServiceProvider')
+            ->publishesServiceProvider('RESTPresenterServiceProvider')
             ->hasCommands([
                 RESTPresenterSetupCommand::class,
             ]);
