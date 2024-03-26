@@ -27,6 +27,13 @@ class CollectionGroupResourceController extends ResourceController
         return $this->present($request, $collectionGroup);
     }
 
+    public function filters(): array
+    {
+        return [
+
+        ];
+    }
+
     public function presenters(): array
     {
         return [
