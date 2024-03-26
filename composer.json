@@ -19,7 +19,9 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^10|^11",
-        "laravel/sanctum": "^4.0",
+        "laravel/prompts": "^0.1.16",
+        "laravel/sanctum": "^3.0|^4.0",
+        "lunarphp/core": "1.*",
         "spatie/laravel-data": "^4.3",
         "spatie/laravel-package-tools": "^1.16"
     },
@@ -48,14 +50,16 @@
     "autoload-dev": {
         "psr-4": {
             "XtendPackages\\RESTPresenter\\Tests\\": "tests",
-            "XtendPackages\\RESTPresenter\\Factories\\": "database/factories/"
+            "XtendPackages\\RESTPresenter\\Factories\\": "database/factories/",
+            "XtendPackages\\RESTPresenter\\StarterKits\\Stores\\Lunar\\Tests\\": "src/StarterKits/Stores/Lunar/tests"
         }
     },
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
         "analyse": "vendor/bin/phpstan analyse",
-        "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage",
+        "test": "vendor/bin/pest --testsuite=RESTPresenter",
+        "test-coverage": "vendor/bin/pest --testsuite=RESTPresenter --coverage",
+        "test-starter-kit:lunar": "vendor/bin/pest --testsuite=starter-kit:lunar",
         "format": "vendor/bin/pint"
     },
     "config": {

@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\ServiceProvider;
 use XtendPackages\RESTPresenter\Facades\RESTPresenter;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\BreezeApiKitServiceProvider;
 
-class XtendRESTPresenterServiceProvider extends AppServiceProvider
+class RESTPresenterServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
