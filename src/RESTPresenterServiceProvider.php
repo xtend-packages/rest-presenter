@@ -41,15 +41,23 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
         Route::macro('xtendResource', function ($name, $controller) {
             $namespace = config('rest-presenter.generator.namespace');
             $xtendController = Str::of($controller)->replace('XtendPackages\RESTPresenter', $namespace)->value();
-            class_exists($xtendController)
-                ? Route::apiResource($name, $xtendController)
-                : Route::apiResource($name, $controller);
+            $extendControllerFile = Str::of($controller)->replace('XtendPackages\RESTPresenter', '')
+                ->replace('\\', '/')
+                ->prepend(app()->path('Api'))
+                ->append('.php');
+
+            $controller = file_exists($extendControllerFile) ? $xtendController : $controller;
+            Route::apiResource($name, $controller);
         });
 
         Route::macro('xtendAuthResource', function (string $httpVerb, string $uri, string $controller, string $name, ?array $middleware = null) {
             $namespace = config('rest-presenter.generator.namespace');
             $xtendController = Str::of($controller)->replace('XtendPackages\RESTPresenter', $namespace)->value();
-            $controller = class_exists($xtendController) ? $xtendController : $controller;
+            $extendControllerFile = Str::of($controller)->replace('XtendPackages\RESTPresenter', '')
+                ->replace('\\', '/')
+                ->prepend(app()->path('Api'))
+                ->append('.php');
+            $controller = file_exists($extendControllerFile) ? $xtendController : $controller;
 
             Route::match([$httpVerb], $uri, [$controller, 'store'])
                 ->middleware($middleware)
