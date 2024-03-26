@@ -1,5 +1,14 @@
 # Changelog for REST Presenter
 
+## 0.2.1 (26-03-2024)
+
+Alpha release:
+
+### Fixes
+
+* Move Lunar to suggest dependency
+* file_exist instead of class_exist to prevent errors
+
 ## 0.2.0 (26-03-2024)
 
 Alpha release:
