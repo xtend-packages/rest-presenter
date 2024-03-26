@@ -4,6 +4,7 @@ namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog
 
 use Illuminate\Http\Request;
 use Lunar\Models\CollectionGroup;
+use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
 use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\Presenters\CategoryTree\Concerns\WithGenerateCollectionsTree;
@@ -15,11 +16,11 @@ class CategoryTree implements Presentable
     use WithGenerateCollectionsTree;
 
     public function __construct(
-        private Request $request,
-        private ?CollectionGroup $model,
+        protected Request $request,
+        protected ?CollectionGroup $model,
     ) {}
 
-    public function transform(): TreeData
+    public function transform(): TreeData | Data
     {
         $collections = $this->getCollections();
 

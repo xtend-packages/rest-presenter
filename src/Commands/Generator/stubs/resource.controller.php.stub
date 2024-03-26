@@ -1,0 +1,28 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ resourceNamespace }} as {{ aliasResource }};
+
+class {{ class }} extends {{ aliasResource }}
+{
+    public function filters(): array
+    {
+        return array_merge(
+            parent::filters(),
+            [
+                // @todo Add your custom filters here
+            ],
+        );
+    }
+
+    public function presenters(): array
+    {
+        return array_merge(
+            parent::presenters(),
+            [
+                // @todo Add your custom presenters here
+            ],
+        );
+    }
+}

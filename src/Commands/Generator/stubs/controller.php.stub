@@ -1,0 +1,10 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ controllerNamespace }} as {{ aliasController }};
+
+class {{ class }} extends {{ aliasController }}
+{
+
+}

@@ -16,11 +16,9 @@ dataset('collectionGroups', function () {
 });
 
 describe('CollectionGroups', function () {
-    test('can get collection by its handle', function (CollectionGroup $collectionGroup) {
+    test('can show a collection', function (CollectionGroup $collectionGroup) {
         $response = getJson(
-            uri: route('api.v1.catalog:collection-groups.show', [
-                'collectionGroup' => $collectionGroup->handle,
-            ]),
+            uri: route('api.v1.catalog:collection-groups.show', $collectionGroup),
         )->assertOk()->json();
 
         expect($response)
