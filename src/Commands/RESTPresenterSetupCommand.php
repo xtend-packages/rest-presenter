@@ -42,7 +42,6 @@ class RESTPresenterSetupCommand extends Command
         if (! $this->firstTimeSetup()) {
             $this->components->info('REST Presenter has already been setup. Now checking for updates...');
             $this->checkForUpdates();
-            return;
         }
 
         $this->publishingConfig();

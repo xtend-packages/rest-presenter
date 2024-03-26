@@ -4,6 +4,7 @@ namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog
 
 use Illuminate\Http\Request;
 use Lunar\Models\Product;
+use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Concerns\HasAvailability;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Concerns\HasPrices;
@@ -23,11 +24,11 @@ class Item implements Presentable
     use HasPrices;
 
     public function __construct(
-        private Request $request,
-        private ?Product $model,
+        protected Request $request,
+        protected ?Product $model,
     ) {}
 
-    public function transform(): ItemData
+    public function transform(): ItemData | Data
     {
         return ItemData::from([
             'id' => $this->model->id,

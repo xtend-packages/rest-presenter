@@ -4,6 +4,7 @@ namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog
 
 use Illuminate\Http\Request;
 use Lunar\Models\Product;
+use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
 use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Concerns\HasAvailability;
@@ -30,11 +31,11 @@ class Detail implements Presentable
     use InteractsWithPresenter;
 
     public function __construct(
-        private Request $request,
-        private ?Product $model,
+        protected Request $request,
+        protected ?Product $model,
     ) {}
 
-    public function transform(): DetailData
+    public function transform(): DetailData | Data
     {
         return DetailData::from([
             'id' => $this->model->id,

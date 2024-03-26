@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use XtendPackages\RESTPresenter\Base\RESTPresenter;
+use XtendPackages\RESTPresenter\Commands\Generator\MakePresenter;
 use XtendPackages\RESTPresenter\Commands\Generator\MakeResource;
 use XtendPackages\RESTPresenter\Commands\RESTPresenterSetupCommand;
 use XtendPackages\RESTPresenter\Commands\XtendStarterKit;
@@ -25,6 +26,7 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
                 RESTPresenterSetupCommand::class,
                 XtendStarterKit::class,
                 MakeResource::class,
+                MakePresenter::class,
             ]);
     }
 

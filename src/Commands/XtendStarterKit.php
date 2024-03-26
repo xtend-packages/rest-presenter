@@ -48,23 +48,43 @@ class XtendStarterKit extends Command
     protected function extendResources(string $starterKitsDirectory, string $kitPath): void
     {
         if ($this->kitHasResources($starterKitsDirectory, $kitPath)) {
-            $resources = collect($this->filesystem->allFiles($starterKitsDirectory . '/' . $kitPath . '/Resources'))
+            collect($this->filesystem->allFiles($starterKitsDirectory . '/' . $kitPath . '/Resources'))
                 ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getFilename(), 'ResourceController.php'))
                 ->map(fn (SplFileInfo $file) => $file->getRelativePath())
-                ->each(function ($path) use ($kitPath) {
+                ->each(function ($path) use ($starterKitsDirectory, $kitPath) {
                     $kitNamespace = Str::of($kitPath)
                         ->replace('/', '\\')->prepend('StarterKits\\')
                         ->append('\\Resources\\' . Str::of($path)->replace('/', '\\')->beforeLast('\\'))
                         ->value();
 
                     $resource = basename($path);
+                    $resourcePath = $kitPath . '/Resources/' . $path;
+                    $kitNamespace = $kitNamespace . '\\' . $resource;
+                    $this->extendPresenters($starterKitsDirectory, $resourcePath, $kitNamespace);
 
                     return $this->call('rest-presenter:make-resource', [
-                        'kit_namespace' => $kitNamespace . '\\' . $resource,
+                        'kit_namespace' => $kitNamespace,
                         'name' => Str::singular(basename($path)),
                     ]);
                 });
         }
+    }
+
+    protected function extendPresenters(string $starterKitsDirectory, string $resourcePath, string $kitNamespace): void
+    {
+        if (! $this->filesystem->exists($starterKitsDirectory . '/' . $resourcePath . '/Presenters')) {
+            return;
+        }
+
+        collect($this->filesystem->directories($starterKitsDirectory . '/' . $resourcePath . '/Presenters'))
+            ->each(function ($path) use ($kitNamespace) {
+                $presenter = basename($path);
+
+                $this->call('rest-presenter:make-presenter', [
+                    'kit_namespace' => $kitNamespace,
+                    'name' => $presenter,
+                ]);
+            });
     }
 
     protected function kitHasResources(string $starterKitsDirectory, string $kitPath): bool
