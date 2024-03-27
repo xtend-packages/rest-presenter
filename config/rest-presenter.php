@@ -26,8 +26,8 @@ return [
         ],
     ],
     'api' => [
-        'version' => env('REST_PRESENTER_API_VERSION', 'v1'),
         'prefix' => env('REST_PRESENTER_API_PREFIX', 'api'),
+        'version' => env('REST_PRESENTER_API_VERSION', 'v1'),
         'name' => env('REST_PRESENTER_API_NAME', 'API'),
         'debug' => env('REST_PRESENTER_API_DEBUG', true),
         'presenter_header' => env('REST_PRESENTER_API_PRESENTER_HEADER', 'X-REST-PRESENTER'),

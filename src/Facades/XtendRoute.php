@@ -5,6 +5,9 @@ namespace XtendPackages\RESTPresenter\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
+ * @see XtendRouter::register
+ * @method static void register()
+ *
  * @see XtendRouter::resources
  * @method static resources(array $resources, array $options = [])
  *

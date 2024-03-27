@@ -10,6 +10,7 @@ use XtendPackages\RESTPresenter\Commands\Generator\MakePresenter;
 use XtendPackages\RESTPresenter\Commands\Generator\MakeResource;
 use XtendPackages\RESTPresenter\Commands\RESTPresenterSetupCommand;
 use XtendPackages\RESTPresenter\Commands\XtendStarterKit;
+use XtendPackages\RESTPresenter\Facades\XtendRoute;
 
 class RESTPresenterServiceProvider extends PackageServiceProvider
 {
@@ -17,7 +18,6 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('rest-presenter')
-            ->hasRoute('api')
             ->hasViews()
             ->hasConfigFile()
             ->publishesServiceProvider('RESTPresenterServiceProvider')
@@ -39,5 +39,7 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
         $this->app->singleton('xtend-router', function () {
             return new Support\XtendRouter($this->app['events'], $this->app);
         });
+
+        XtendRoute::register();
     }
 }
