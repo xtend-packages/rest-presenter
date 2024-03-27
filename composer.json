@@ -30,6 +30,7 @@
         "larastan/larastan": "^v2.9",
         "laravel/pint": "^1.0",
         "livewire/livewire": "^3.4",
+        "lunarphp/core": "1.*",
         "mockery/mockery": "^1.6",
         "orchestra/testbench": "^8.0|^9.0",
         "pestphp/pest": "^v2.34.2",
@@ -41,9 +42,6 @@
         "spatie/invade": "^1.1",
         "spatie/laravel-typescript-transformer": "^2.4",
         "spatie/pest-plugin-snapshots": "^2.1"
-    },
-    "suggest": {
-        "lunarphp/core": "1.*"
     },
     "autoload": {
         "psr-4": {
