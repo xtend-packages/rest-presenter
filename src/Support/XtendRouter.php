@@ -37,9 +37,9 @@ class XtendRouter extends Router
             )->values();
         })->name('resources');
 
-        $this->resources([
-            'users' => UserResourceController::class,
-        ]);
+        Route::middleware('auth:sanctum')->group(function () {
+            $this->resource('users', UserResourceController::class);
+        });
 
         $this->autoDiscoverResources();
     }
