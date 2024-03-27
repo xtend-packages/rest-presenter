@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use XtendPackages\RESTPresenter\Facades\XtendRoute;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\AuthenticatedSessionController;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\EmailVerificationNotificationController;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\NewPasswordController;
@@ -8,7 +8,7 @@ use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\Passwor
 use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\RegisteredUserController;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\VerifyEmailController;
 
-Route::xtendAuthResource(
+XtendRoute::auth(
     httpVerb: 'post',
     uri: '/register',
     controller: RegisteredUserController::class,
@@ -16,7 +16,7 @@ Route::xtendAuthResource(
     middleware: ['guest'],
 );
 
-Route::xtendAuthResource(
+XtendRoute::auth(
     httpVerb: 'post',
     uri: '/login',
     controller: AuthenticatedSessionController::class,
@@ -24,7 +24,7 @@ Route::xtendAuthResource(
     middleware: ['guest'],
 );
 
-Route::xtendAuthResource(
+XtendRoute::auth(
     httpVerb: 'post',
     uri: '/forgot-password',
     controller: PasswordResetLinkController::class,
@@ -32,7 +32,7 @@ Route::xtendAuthResource(
     middleware: ['guest'],
 );
 
-Route::xtendAuthResource(
+XtendRoute::auth(
     httpVerb: 'post',
     uri: '/reset-password',
     controller: NewPasswordController::class,
@@ -40,7 +40,7 @@ Route::xtendAuthResource(
     middleware: ['guest'],
 );
 
-Route::xtendAuthResource(
+XtendRoute::auth(
     httpVerb: 'get',
     uri: '/verify-email/{id}/{hash}',
     controller: VerifyEmailController::class,
@@ -48,7 +48,7 @@ Route::xtendAuthResource(
     middleware: ['auth', 'signed', 'throttle:6,1'],
 );
 
-Route::xtendAuthResource(
+XtendRoute::auth(
     httpVerb: 'post',
     uri: '/email/verification-notification',
     controller: EmailVerificationNotificationController::class,
@@ -56,7 +56,7 @@ Route::xtendAuthResource(
     middleware: ['auth', 'throttle:6,1'],
 );
 
-Route::xtendAuthResource(
+XtendRoute::auth(
     httpVerb: 'post',
     uri: '/logout',
     controller: AuthenticatedSessionController::class,
