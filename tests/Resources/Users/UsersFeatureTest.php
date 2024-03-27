@@ -2,6 +2,7 @@
 
 use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\Resources\Users\Data\Response\UserData;
+
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {

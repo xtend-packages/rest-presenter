@@ -3,6 +3,7 @@
 use Lunar\Models\Collection;
 use Lunar\Models\CollectionGroup;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\Presenters\CategoryTree\Data\TreeData;
+
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {

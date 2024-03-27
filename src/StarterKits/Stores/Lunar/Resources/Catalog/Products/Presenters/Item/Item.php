@@ -18,10 +18,10 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Produ
 
 class Item implements Presentable
 {
-    use HasUrls;
     use HasAvailability;
-    use HasVariants;
     use HasPrices;
+    use HasUrls;
+    use HasVariants;
 
     public function __construct(
         protected Request $request,

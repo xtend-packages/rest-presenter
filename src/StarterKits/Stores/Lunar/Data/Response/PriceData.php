@@ -2,9 +2,9 @@
 
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response;
 
+use Lunar\Base\Casts\Price as CastsPrice;
 use Lunar\Models\Price;
 use Spatie\LaravelData\Data;
-use Lunar\Base\Casts\Price as CastsPrice;
 
 class PriceData extends Data
 {
