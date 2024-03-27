@@ -1,3 +1,12 @@
+# Changelog for RESTPresenter
+
+## 0.2.2 (2024-03-27)
+
+
+### Code Refactoring
+
+* XtendRoute more control over routes with better IDE support ([f0843cc](https://github.com/xtend-packages/rest-presenter/commit/f0843cc837394f460405d91822834dd2e058a8fd))
+
 # Changelog for REST Presenter
 
 ## 0.2.1 (26-03-2024)
