@@ -2,8 +2,6 @@
 
 namespace XtendPackages\RESTPresenter;
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use XtendPackages\RESTPresenter\Base\RESTPresenter;
@@ -12,6 +10,7 @@ use XtendPackages\RESTPresenter\Commands\Generator\MakePresenter;
 use XtendPackages\RESTPresenter\Commands\Generator\MakeResource;
 use XtendPackages\RESTPresenter\Commands\RESTPresenterSetupCommand;
 use XtendPackages\RESTPresenter\Commands\XtendStarterKit;
+use XtendPackages\RESTPresenter\Facades\XtendRoute;
 
 class RESTPresenterServiceProvider extends PackageServiceProvider
 {
@@ -19,7 +18,6 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('rest-presenter')
-            ->hasRoute('api')
             ->hasViews()
             ->hasConfigFile()
             ->publishesServiceProvider('RESTPresenterServiceProvider')
@@ -32,36 +30,16 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
             ]);
     }
 
-    public function registeringPackage()
+    public function registeringPackage(): void
     {
         $this->app->singleton('rest-presenter', function () {
             return new RESTPresenter();
         });
 
-        Route::macro('xtendResource', function ($name, $controller) {
-            $namespace = config('rest-presenter.generator.namespace');
-            $xtendController = Str::of($controller)->replace('XtendPackages\RESTPresenter', $namespace)->value();
-            $extendControllerFile = Str::of($controller)->replace('XtendPackages\RESTPresenter', '')
-                ->replace('\\', '/')
-                ->prepend(app()->path('Api'))
-                ->append('.php');
-
-            $controller = file_exists($extendControllerFile) ? $xtendController : $controller;
-            Route::apiResource($name, $controller);
+        $this->app->singleton('xtend-router', function () {
+            return new Support\XtendRouter($this->app['events'], $this->app);
         });
 
-        Route::macro('xtendAuthResource', function (string $httpVerb, string $uri, string $controller, string $name, ?array $middleware = null) {
-            $namespace = config('rest-presenter.generator.namespace');
-            $xtendController = Str::of($controller)->replace('XtendPackages\RESTPresenter', $namespace)->value();
-            $extendControllerFile = Str::of($controller)->replace('XtendPackages\RESTPresenter', '')
-                ->replace('\\', '/')
-                ->prepend(app()->path('Api'))
-                ->append('.php');
-            $controller = file_exists($extendControllerFile) ? $xtendController : $controller;
-
-            Route::match([$httpVerb], $uri, [$controller, 'store'])
-                ->middleware($middleware)
-                ->name($name);
-        });
+        XtendRoute::register();
     }
 }

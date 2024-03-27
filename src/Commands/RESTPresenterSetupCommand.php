@@ -105,6 +105,8 @@ class RESTPresenterSetupCommand extends Command
         collect($this->filesystem->directories(__DIR__ . '/../Resources'))
             ->map(fn ($resource) => Str::singular(basename($resource)))
             ->each(fn ($resource) => $this->call('rest-presenter:make-resource', ['name' => $resource]));
+
+        $this->filesystem->ensureDirectoryExists(config('rest-presenter.generator.path') . '/Resources/Custom');
     }
 
     protected function publishStarterKits(): void
@@ -123,6 +125,7 @@ class RESTPresenterSetupCommand extends Command
 
         if ($unpublishedStarterKits->isEmpty()) {
             $this->components->info('All starter kits have already been installed');
+
             return;
         }
 
