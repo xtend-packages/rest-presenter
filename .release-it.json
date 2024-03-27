@@ -13,6 +13,10 @@
     }
   },
   "plugins": {
+    "@release-it/bumper": {
+      "in": "composer.json",
+      "out": "composer.json"
+    },
     "@release-it/conventional-changelog": {
       "infile": "CHANGELOG.md",
       "header": "# Changelog for RESTPresenter",
