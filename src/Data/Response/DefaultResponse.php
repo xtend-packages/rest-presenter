@@ -21,10 +21,10 @@ class DefaultResponse extends Data
     public static function fromModel(Model $model): self
     {
         return new self(
-            id: $model->getKey(),
-            name: $model->name ?? null,
-            createdAt: $model->created_at ?? null,
-            updatedAt: $model->updated_at ?? null,
+            id: $model->getAttribute('id'),
+            name: $model->getAttribute('name'),
+            createdAt: $model->getAttribute('created_at'),
+            updatedAt: $model->getAttribute('updated_at'),
             attributes: $model->getAttributes(),
         );
     }
