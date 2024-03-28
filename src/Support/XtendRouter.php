@@ -42,6 +42,10 @@ class XtendRouter extends Router
             $this->resource('users', UserResourceController::class);
         });
 
+        Route::name('auth:')
+            ->prefix('auth')
+            ->group(__DIR__ . '/../StarterKits/Auth/Breeze/Routes/auth.php');
+
         $this->autoDiscoverResources();
     }
 
