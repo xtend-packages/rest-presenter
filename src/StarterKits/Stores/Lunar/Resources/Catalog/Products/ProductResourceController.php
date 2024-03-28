@@ -21,7 +21,7 @@ class ProductResourceController extends ResourceController
         $products = $this->getModelQueryInstance()->get();
 
         return $products->map(
-            fn (Product $product) => $this->present($request, $product),
+            fn ($product) => $this->present($request, $product),
         );
     }
 

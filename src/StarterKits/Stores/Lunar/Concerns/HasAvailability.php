@@ -11,11 +11,13 @@ trait HasAvailability
 
     public function isAvailable(): bool
     {
-        return $this->model->stock > 0  && $this->model->stock < 9999;
+        $stock = $this->model->stock ?? 0;
+        return $stock > 0 && $stock < 9999;
     }
 
     public function isPreOrder(): bool
     {
-        return $this->model->stock >= 9999;
+        $stock = $this->model->stock ?? 0;
+        return $stock >= 9999;
     }
 }

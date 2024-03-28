@@ -11,12 +11,13 @@ trait HasUrls
     {
         $model ??= $this->model;
 
-        $defaultUrl = $model->defaultUrl;
+        $defaultUrl = $model->defaultUrl ?? null;
         if ($defaultUrl->language->code === app()->getLocale()) {
             return $defaultUrl;
         }
 
-        return $model->urls->first(
+        $urls = $model->urls ?? null;
+        return $urls?->first(
             fn (Url $url) => $url->language->code === app()->getLocale(),
         );
     }

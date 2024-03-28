@@ -11,3 +11,7 @@ parameters:
     checkOctaneCompatibility: true
     checkModelProperties: true
     checkMissingIterableValueType: false
+    scanFiles:
+      - tests/Helpers.php
+    ignoreErrors:
+        - '#Undefined variable: \$this#'

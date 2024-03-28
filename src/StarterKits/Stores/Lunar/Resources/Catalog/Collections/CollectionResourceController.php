@@ -18,7 +18,7 @@ class CollectionResourceController extends ResourceController
         $collections = $this->getModelQueryInstance()->get();
 
         return $collections->map(
-            fn (Collection $collection) => $this->present($request, $collection),
+            fn ($collection) => $this->present($request, $collection),
         );
     }
 

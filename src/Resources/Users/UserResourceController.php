@@ -15,7 +15,7 @@ class UserResourceController extends ResourceController
         $users = $this->getModelQueryInstance()->get();
 
         return $users->map(
-            fn (User $user) => $this->present($request, $user),
+            fn ($user) => $this->present($request, $user),
         );
     }
 

@@ -3,6 +3,7 @@
 namespace XtendPackages\RESTPresenter\Support;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Routing\Router;
 use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
@@ -75,7 +76,7 @@ class XtendRouter extends Router
         }
     }
 
-    public function resource($name, $controller, array $options = []): void
+    public function resource($name, $controller, array $options = []): PendingResourceRegistration
     {
         $namespace = config('rest-presenter.generator.namespace');
         $xtendController = Str::of($controller)->replace('XtendPackages\RESTPresenter', $namespace)->value();
@@ -85,7 +86,8 @@ class XtendRouter extends Router
             ->append('.php');
 
         $controller = file_exists($extendControllerFile) ? $xtendController : $controller;
-        Route::apiResource($name, $controller);
+
+        return Route::apiResource($name, $controller);
     }
 
     public function auth(string $httpVerb, string $uri, string $controller, string $name, ?array $middleware = null): void

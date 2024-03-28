@@ -23,10 +23,10 @@ class ColorData extends Data
         return new self(
             id: $value->id,
             name: $value->translate('name'),
-            color: $value->color,
-            primaryColor: $value->primary_color,
-            secondaryColor: $value->secondary_color,
-            tertiaryColor: $value->tertiary_color,
+            color: $value->color ?? '',
+            primaryColor: $value->primary_color ?? null,
+            secondaryColor: $value->secondary_color ?? null,
+            tertiaryColor: $value->tertiary_color ?? null,
             position: $value->position,
         );
     }

@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 
+use UnhandledMatchError;
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\multiselect;
 
@@ -59,6 +60,7 @@ class RESTPresenterSetupCommand extends Command
                 'Darwin' => exec("open {$repoUrl}"),
                 'Windows' => exec("start {$repoUrl}"),
                 'Linux' => exec("xdg-open {$repoUrl}"),
+                default => throw new UnhandledMatchError(PHP_OS_FAMILY),
             };
 
             $this->components->info('Thank you for your support!');
@@ -74,6 +76,7 @@ class RESTPresenterSetupCommand extends Command
                 'Darwin' => exec("open {$authorUrl}"),
                 'Windows' => exec("start {$authorUrl}"),
                 'Linux' => exec("xdg-open {$authorUrl}"),
+                default => throw new UnhandledMatchError(PHP_OS_FAMILY),
             };
 
             $this->components->info('Thank you so much for considering to sponsor this project 💙');
@@ -115,6 +118,7 @@ class RESTPresenterSetupCommand extends Command
         $generatedKitsDirectory = config('rest-presenter.generator.path') . '/StarterKits';
         $this->filesystem->ensureDirectoryExists($generatedKitsDirectory);
 
+        /** @var \Illuminate\Support\Collection $unpublishedStarterKits */
         $unpublishedStarterKits = collect($this->filesystem->allFiles($starterKitsDirectory))
             ->map(fn ($file) => $file->getRelativePathname())
             ->filter(fn ($file) => ! $this->filesystem->exists($generatedKitsDirectory . '/' . $file))
@@ -131,7 +135,7 @@ class RESTPresenterSetupCommand extends Command
 
         $starterKits = multiselect(
             label: 'Would you like to install any of these starter kits?',
-            options: $unpublishedStarterKits,
+            options: $unpublishedStarterKits->toArray(),
             hint: 'You can re-run this command to install more starter kits later',
         );
 

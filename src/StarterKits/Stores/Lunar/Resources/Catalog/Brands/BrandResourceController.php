@@ -8,7 +8,6 @@ use Lunar\Models\Brand;
 use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Resources\ResourceController;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Brands\Presenters\Brand\Brand as BrandPresenter;
-use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Filters\Status;
 
 class BrandResourceController extends ResourceController
 {
@@ -19,7 +18,7 @@ class BrandResourceController extends ResourceController
         $brands = $this->getModelQueryInstance()->get();
 
         return $brands->map(
-            fn (Brand $brand) => $this->present($request, $brand),
+            fn ($brand) => $this->present($request, $brand),
         );
     }
 
