@@ -44,7 +44,7 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
         XtendRoute::register();
     }
 
-    public function provides():array
+    public function provides(): array
     {
         return [
             'rest-presenter',

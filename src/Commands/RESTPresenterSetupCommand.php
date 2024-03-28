@@ -7,8 +7,8 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
-
 use UnhandledMatchError;
+
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\multiselect;
 
