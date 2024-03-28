@@ -8,9 +8,11 @@ use XtendPackages\RESTPresenter\Base\RESTPresenter as BaseRESTPresenter;
 
 /**
  * @see BaseRESTPresenter::register
+ *
  * @method static self register(Application $app)
  *
  * @see BaseRESTPresenter::starterKits
+ *
  * @method static self starterKits(array $starterKits)
  *
  * @see \XtendPackages\RESTPresenter\Base\RESTPresenter

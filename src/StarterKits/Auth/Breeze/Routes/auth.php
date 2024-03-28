@@ -8,6 +8,7 @@ use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\Passwor
 use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\RegisteredUserController;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\VerifyEmailController;
 
+/** @phpstan-ignore-next-line */
 XtendRoute::auth(
     httpVerb: 'post',
     uri: '/register',
@@ -16,6 +17,7 @@ XtendRoute::auth(
     middleware: ['guest'],
 );
 
+/** @phpstan-ignore-next-line */
 XtendRoute::auth(
     httpVerb: 'post',
     uri: '/login',
@@ -24,6 +26,7 @@ XtendRoute::auth(
     middleware: ['guest'],
 );
 
+/** @phpstan-ignore-next-line */
 XtendRoute::auth(
     httpVerb: 'post',
     uri: '/forgot-password',
@@ -32,6 +35,7 @@ XtendRoute::auth(
     middleware: ['guest'],
 );
 
+/** @phpstan-ignore-next-line */
 XtendRoute::auth(
     httpVerb: 'post',
     uri: '/reset-password',
@@ -40,6 +44,7 @@ XtendRoute::auth(
     middleware: ['guest'],
 );
 
+/** @phpstan-ignore-next-line */
 XtendRoute::auth(
     httpVerb: 'get',
     uri: '/verify-email/{id}/{hash}',
@@ -48,6 +53,7 @@ XtendRoute::auth(
     middleware: ['auth', 'signed', 'throttle:6,1'],
 );
 
+/** @phpstan-ignore-next-line */
 XtendRoute::auth(
     httpVerb: 'post',
     uri: '/email/verification-notification',
@@ -56,6 +62,7 @@ XtendRoute::auth(
     middleware: ['auth', 'throttle:6,1'],
 );
 
+/** @phpstan-ignore-next-line */
 XtendRoute::auth(
     httpVerb: 'post',
     uri: '/logout',

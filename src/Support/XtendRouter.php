@@ -3,7 +3,9 @@
 namespace XtendPackages\RESTPresenter\Support;
 
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Routing\Router;
+use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\SplFileInfo;
@@ -11,19 +13,15 @@ use XtendPackages\RESTPresenter\Resources\Users\UserResourceController;
 
 class XtendRouter extends Router
 {
-    public function register(): Router
+    public function register(): RouteRegistrar
     {
         $prefix = config('rest-presenter.api.prefix');
         $version = config('rest-presenter.api.version');
 
-        return Route::group(
-            [
-                'prefix' => $prefix . '/' . $version,
-                'name' => $prefix . '.' . $version . '.',
-                'middleware' => config('rest-presenter.api.middleware'),
-            ],
-            fn () => $this->routes(),
-        );
+        return Route::name($prefix . '.' . $version . '.')
+            ->prefix($prefix . '/' . $version)
+            ->middleware(config('rest-presenter.api.middleware'))
+            ->group(fn () => $this->routes());
     }
 
     public function routes(): void
@@ -40,9 +38,9 @@ class XtendRouter extends Router
             )->values();
         })->name('resources');
 
-        $this->resources([
-            'users' => UserResourceController::class,
-        ]);
+        Route::middleware('auth:sanctum')->group(function () {
+            $this->resource('users', UserResourceController::class);
+        });
 
         $this->autoDiscoverResources();
     }
@@ -78,7 +76,7 @@ class XtendRouter extends Router
         }
     }
 
-    public function resource($name, $controller, array $options = []): void
+    public function resource($name, $controller, array $options = []): PendingResourceRegistration
     {
         $namespace = config('rest-presenter.generator.namespace');
         $xtendController = Str::of($controller)->replace('XtendPackages\RESTPresenter', $namespace)->value();
@@ -88,7 +86,8 @@ class XtendRouter extends Router
             ->append('.php');
 
         $controller = file_exists($extendControllerFile) ? $xtendController : $controller;
-        Route::apiResource($name, $controller);
+
+        return Route::apiResource($name, $controller);
     }
 
     public function auth(string $httpVerb, string $uri, string $controller, string $name, ?array $middleware = null): void

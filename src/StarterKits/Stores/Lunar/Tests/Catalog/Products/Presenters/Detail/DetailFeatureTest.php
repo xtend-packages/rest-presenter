@@ -6,6 +6,7 @@ use Lunar\Models\Language;
 use Lunar\Models\Product;
 use Lunar\Models\Url;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\DetailData;
+
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {

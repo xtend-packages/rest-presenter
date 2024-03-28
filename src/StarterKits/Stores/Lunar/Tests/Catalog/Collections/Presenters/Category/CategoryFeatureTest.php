@@ -5,6 +5,7 @@ use Lunar\Models\CollectionGroup;
 use Lunar\Models\Language;
 use Lunar\Models\Url;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Collections\Presenters\Category\Data\CategoryData;
+
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {
