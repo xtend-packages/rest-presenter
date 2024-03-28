@@ -3,8 +3,8 @@
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Brands\Presenters\Brand;
 
 use Illuminate\Http\Request;
-use Lunar\Models\Url;
 use Lunar\Models\Brand as BrandModel;
+use Lunar\Models\Url;
 use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
 use XtendPackages\RESTPresenter\Contracts\Presentable;

@@ -3,8 +3,8 @@
 use Lunar\Models\Collection;
 use Lunar\Models\CollectionGroup;
 use Lunar\Models\Product;
-
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
+
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {

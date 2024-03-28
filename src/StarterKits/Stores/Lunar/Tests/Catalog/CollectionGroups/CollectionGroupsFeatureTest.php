@@ -1,8 +1,8 @@
 <?php
 
 use Lunar\Models\CollectionGroup;
-
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
+
 use function Pest\Laravel\getJson;
 
 beforeEach(function () {

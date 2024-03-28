@@ -19,12 +19,11 @@ class TreeData extends Data
     public static function fromModel(Model $model, array $categories): self
     {
         return new self(
-            id: $model->id,
-            name: $model->name,
+            id: $model->getKey(),
+            name: $model->name ?? '',
             categories: collect($categories)->map(
                 fn (array $category) => CategoryData::from($category)
             ),
         );
     }
-
 }

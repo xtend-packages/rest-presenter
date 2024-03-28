@@ -6,7 +6,7 @@ use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Attributes\Validation\Min;
 use Spatie\LaravelData\Data;
 
-class ProfileData extends Data
+final class ProfileData extends Data
 {
     public function __construct(
         public int $id,
@@ -20,8 +20,8 @@ class ProfileData extends Data
 
     public static function fromModel($model): static
     {
-        return new static(
-            id: $model->id,
+        return new ProfileData(
+            id: $model->getKey(),
             firstName: static::firstName($model->name),
             lastName: static::lastName($model->name),
             email: $model->email,

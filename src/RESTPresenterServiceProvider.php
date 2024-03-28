@@ -2,6 +2,7 @@
 
 namespace XtendPackages\RESTPresenter;
 
+use Illuminate\Foundation\Application;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use XtendPackages\RESTPresenter\Base\RESTPresenter;
@@ -36,10 +37,18 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
             return new RESTPresenter();
         });
 
-        $this->app->singleton('xtend-router', function () {
-            return new Support\XtendRouter($this->app['events'], $this->app);
+        $this->app->bind('xtend-router', function (Application $app) {
+            return new Support\XtendRouter($app['events'], $app);
         });
 
         XtendRoute::register();
+    }
+
+    public function provides(): array
+    {
+        return [
+            'rest-presenter',
+            'xtend-router',
+        ];
     }
 }
