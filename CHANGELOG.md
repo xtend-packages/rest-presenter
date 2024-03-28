@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.2.5](https://github.com/xtend-packages/rest-presenter/compare/0.2.4...0.2.5) (2024-03-28)
+
+
+### Bug Fixes
+
+* Load breeze routes directly from XtendRouter ([6d8b052](https://github.com/xtend-packages/rest-presenter/commit/6d8b052fe017d816860cbe4c338073c2a3a21c23))
+
 ## [0.2.4](https://github.com/xtend-packages/rest-presenter/compare/0.2.3...0.2.4) (2024-03-28)
 
 
