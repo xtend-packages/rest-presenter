@@ -1,0 +1,20 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Builder;
+use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
+
+class {{ class }}
+{
+    use InteractsWithRequest;
+
+    public function handle(Builder $query, callable $next): Builder
+    {
+        if ($this->hasFilter('{{ relationship }}_id') && $this->filterBy('{{ relationship }}_id')) {
+            $query->where('{{ relationship }}_id', $this->filterBy('{{ relationship }}_id'));
+        }
+
+        return $next($query);
+    }
+}

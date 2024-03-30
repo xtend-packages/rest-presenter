@@ -1,0 +1,22 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Builder;
+use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
+
+class {{ class }}
+{
+    use InteractsWithRequest;
+
+    public function handle(Builder $query, callable $next): Builder
+    {
+        if ($this->hasFilter('{{ relationship }}') && $this->filterBy('{{ relationship }}')) {
+            $query->whereHas('{{ relationship }}', function (Builder $query) {
+                $query->where('{{ column }}', $this->filterBy('{{ relationship }}'));
+            });
+        }
+
+        return $next($query);
+    }
+}

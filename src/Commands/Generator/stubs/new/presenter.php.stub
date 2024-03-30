@@ -1,0 +1,23 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Http\Request;
+use Spatie\LaravelData\Data;
+use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
+use XtendPackages\RESTPresenter\Contracts\Presentable;
+
+class {{ class }} implements Presentable
+{
+    use InteractsWithPresenter;
+
+    public function __construct(
+        protected Request $request,
+        protected ?{{ model }}Model $model,
+    ) {}}
+
+    public function transform(): {{ model }}Model | Data
+    {
+        return {{ model }}Model::from($this->model);
+    }
+}

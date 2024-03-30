@@ -1,0 +1,40 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ modelClassImport }};
+use Illuminate\Support\Collection;
+use Illuminate\Http\Request;
+use Spatie\LaravelData\Data;
+use XtendPackages\RESTPresenter\Resources\ResourceController;
+
+class {{ class }} extends ResourceController
+{
+    public function index(Request $request): Collection
+    {
+        ${{ $modelVarPlural }} = $this->getModelQueryInstance()->get();
+
+        return ${{ $modelVarPlural }}->map(
+            fn ({{ modelClassName }} ${{ $modelVarSingular }}) => $this->present($request, ${{ $modelVarSingular }}),
+        );
+    }
+
+    public function show(Request $request, {{ modelClassName }} ${{ $modelVarSingular }}): Data
+    {
+        return $this->present($request, ${{ $modelVarSingular }});
+    }
+
+    public function filters(): array
+    {
+        return [
+
+        ];
+    }
+
+    public function presenters(): array
+    {
+        return [
+
+        ];
+    }
+}

@@ -1,0 +1,20 @@
+<?php
+
+namespace {{ namespace }};
+
+use Carbon\Carbon;
+use Spatie\LaravelData\Attributes\WithCast;
+use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
+use Spatie\LaravelData\Data;
+
+class class extends Data
+{
+    public function __construct(
+        public int $id,
+        #[WithCast(DateTimeInterfaceCast::class)]
+        public Carbon $created_at,
+        #[WithCast(DateTimeInterfaceCast::class)]
+        public Carbon $updated_at,
+    ) {
+    }
+}
