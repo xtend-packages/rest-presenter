@@ -93,9 +93,8 @@ class MakeData extends GeneratorCommand
                 'json' => 'array',
                 default => 'string',
             };
-            $property = Str::of($field)->camel();
 
-            return "public {$propertyType} \${$property}";
+            return "public {$propertyType} \${$field}";
         })->implode(",\n\t\t");
     }
 
