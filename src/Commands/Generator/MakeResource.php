@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Lunar\Facades\DB;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionNamedType;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -226,10 +227,18 @@ class MakeResource extends GeneratorCommand
         $reflect = new ReflectionClass($this->model);
 
         return collect($reflect->getMethods(ReflectionMethod::IS_PUBLIC))
-            ->filter(fn (ReflectionMethod $method) => is_subclass_of($method->getReturnType()?->getName(), Relation::class))
-            ->mapWithKeys(fn (ReflectionMethod $method) => [
-                $method->getName() . '=>' . class_basename($method->getReturnType()?->getName()) => $method->getName(),
-            ]);
+            ->filter(function (ReflectionMethod $method) {
+                $returnNamedType = $method->getReturnType() instanceof ReflectionNamedType ? $method->getReturnType()->getName() : null;
+
+                return is_subclass_of($returnNamedType, Relation::class);
+            })
+            ->mapWithKeys(function (ReflectionMethod $method) {
+                $returnNamedType = $method->getReturnType() instanceof ReflectionNamedType ? $method->getReturnType()->getName() : null;
+
+                return [
+                    $method->getName() . '=>' . class_basename($returnNamedType) => $method->getName(),
+                ];
+            });
     }
 
     protected function scanModels(): array
