@@ -1,6 +1,6 @@
 {
     "name": "xtend-packages/rest-presenter",
-    "version": "0.2.3",
+    "version": "0.2.5",
     "description": "REST API Presenter & Generator for Laravel",
     "keywords": [
         "code-labx",

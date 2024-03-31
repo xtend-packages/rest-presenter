@@ -1,5 +1,21 @@
 # Changelog for RESTPresenter
 
+## [0.2.5](https://github.com/xtend-packages/rest-presenter/compare/0.2.4...0.2.5) (2024-03-28)
+
+
+### Bug Fixes
+
+* Load breeze routes directly from XtendRouter ([6d8b052](https://github.com/xtend-packages/rest-presenter/commit/6d8b052fe017d816860cbe4c338073c2a3a21c23))
+
+## [0.2.4](https://github.com/xtend-packages/rest-presenter/compare/0.2.3...0.2.4) (2024-03-28)
+
+
+### Bug Fixes
+
+* Route register with correct name and prefix ([18eb1ec](https://github.com/xtend-packages/rest-presenter/commit/18eb1ec248a65034b378d9cfbae75d0c0e22a3dc))
+* use getAttribute for the default model response ([47e1d3e](https://github.com/xtend-packages/rest-presenter/commit/47e1d3e2d3f6079287c3d614f4abb8a93a99b062))
+* Users grouped by Auth middleware & register XtendRouter for Tests ([06cfe19](https://github.com/xtend-packages/rest-presenter/commit/06cfe19de4735169c29928cf1abe534a7388e755))
+
 ## [0.2.3](https://github.com/xtend-packages/rest-presenter/compare/0.2.2...0.2.3) (2024-03-27)
 
 

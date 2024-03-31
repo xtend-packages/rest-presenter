@@ -2,8 +2,10 @@
 
 namespace XtendPackages\RESTPresenter\Commands\Generator;
 
+use Carbon\Carbon;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
+use Spatie\LaravelData\Optional;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -11,31 +13,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use function Laravel\Prompts\select;
 
-#[AsCommand(name: 'rest-presenter:make-presenter')]
-class MakePresenter extends GeneratorCommand
+#[AsCommand(name: 'rest-presenter:make-data')]
+class MakeData extends GeneratorCommand
 {
-    protected $name = 'rest-presenter:make-presenter';
+    protected $name = 'rest-presenter:make-data';
 
-    protected $description = 'Create a new presenter class';
+    protected $description = 'Create a new data class';
 
-    protected $type = 'Presenter';
-
-    public function handle()
-    {
-        if ($this->hasArgument('fields') && is_array($this->argument('fields'))) {
-            $this->call('rest-presenter:make-data', [
-                'type' => 'new',
-                'name' => $this->argument('name') . 'Data',
-                'resource' => $this->argument('resource'),
-                'fields' => $this->argument('fields'),
-                'model' => $this->argument('model'),
-                'presenter' => $this->argument('name'),
-                'kit_namespace' => $this->argument('kit_namespace'),
-            ]);
-        }
-
-        parent::handle();
-    }
+    protected $type = 'Data';
 
     protected function qualifyClass($name)
     {
@@ -55,7 +40,7 @@ class MakePresenter extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/' . $this->argument('type') . '/presenter.php.stub';
+        return __DIR__ . '/stubs/' . $this->argument('type') . '/data.php.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
@@ -63,10 +48,10 @@ class MakePresenter extends GeneratorCommand
         $resourceDirectory = Str::plural($this->argument('resource'));
 
         if ($this->argument('kit_namespace')) {
-            return config('rest-presenter.generator.namespace') . '\\' . $this->argument('kit_namespace') . '\\Presenters\\' . $this->argument('name');
+            return config('rest-presenter.generator.namespace') . '\\' . $this->argument('kit_namespace') . '\\Presenters\\' . $this->argument('presenter') . '\\Data';
         }
 
-        return config('rest-presenter.generator.namespace') . '\\Resources\\' . $resourceDirectory . '\\Presenters\\' . $this->argument('name');
+        return config('rest-presenter.generator.namespace') . '\\Resources\\' . $resourceDirectory . '\\Presenters\\' . $this->argument('presenter') . '\\Data';
     }
 
     protected function getNameInput(): string
@@ -94,7 +79,23 @@ class MakePresenter extends GeneratorCommand
             '{{ modelClassName }}' => class_basename($this->argument('model')),
             '{{ $modelVarSingular }}' => strtolower(class_basename($this->argument('model'))),
             '{{ $modelVarPlural }}' => strtolower(Str::plural(class_basename($this->argument('model')))),
+            '{{ properties }}' => $this->transformFieldProperties($this->argument('fields')),
         ];
+    }
+
+    protected function transformFieldProperties(array $fields): string
+    {
+        return collect($fields)->map(function (string $fieldType, string $field) {
+            $propertyType = match ($fieldType) {
+                'int', 'bigint' => 'int',
+                'tinyint' => 'bool',
+                'timestamp', 'datetime' => 'Carbon | Optional | null',
+                'json' => 'array',
+                default => 'string',
+            };
+
+            return "public {$propertyType} \${$field}";
+        })->implode(",\n\t\t");
     }
 
     protected function getArguments()
@@ -104,6 +105,7 @@ class MakePresenter extends GeneratorCommand
             ['resource', InputArgument::REQUIRED, 'The resource of the ' . strtolower($this->type)],
             ['type', InputArgument::OPTIONAL, 'The type of filter to create'],
             ['model', InputArgument::OPTIONAL, 'The model class to use'],
+            ['presenter', InputArgument::OPTIONAL, 'The presenter class to use'],
             ['fields', InputArgument::OPTIONAL, 'The fields to include in the presenter'],
             ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the ' . strtolower($this->type)],
         ];
@@ -113,8 +115,8 @@ class MakePresenter extends GeneratorCommand
     {
         return [
             'name' => [
-                'What should the presenter be named?',
-                'e.g. Profile',
+                'What should the data class be named?',
+                'e.g. ProfileData',
             ],
         ];
     }
@@ -125,9 +127,9 @@ class MakePresenter extends GeneratorCommand
             return;
         }
 
-        $type = select('Which type of presenter would you like to create?', [
-            'new' => 'New presenter',
-            'extend' => 'Extend existing presenter',
+        $type = select('Which type of data class would you like to create?', [
+            'new' => 'New data',
+            'extend' => 'Extend existing data',
         ]);
 
         if ($type !== 'new') {
