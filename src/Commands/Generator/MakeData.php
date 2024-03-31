@@ -94,6 +94,7 @@ class MakeData extends GeneratorCommand
                 default => 'string',
             };
             $property = Str::of($field)->camel();
+
             return "public {$propertyType} \${$property}";
         })->implode(",\n\t\t");
     }
