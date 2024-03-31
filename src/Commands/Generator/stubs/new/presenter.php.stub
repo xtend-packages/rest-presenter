@@ -2,6 +2,8 @@
 
 namespace {{ namespace }};
 
+use {{ namespace }}\Data\{{ class }}Data;
+use {{ modelClassImport }} as {{ modelClassName }}Model;
 use Illuminate\Http\Request;
 use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
@@ -13,11 +15,11 @@ class {{ class }} implements Presentable
 
     public function __construct(
         protected Request $request,
-        protected ?{{ model }}Model $model,
-    ) {}}
+        protected ?{{ modelClassName }}Model $model,
+    ) {}
 
-    public function transform(): {{ model }}Model | Data
+    public function transform(): {{ class }}Data | Data
     {
-        return {{ model }}Model::from($this->model);
+        return {{ class }}Data::from($this->model);
     }
 }

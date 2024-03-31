@@ -36,7 +36,7 @@ class {{ class }} extends ResourceController
     public function presenters(): array
     {
         return [
-
+            {{ presenters }},
         ];
     }
 }

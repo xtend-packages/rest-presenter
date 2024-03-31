@@ -7,6 +7,7 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use XtendPackages\RESTPresenter\Base\RESTPresenter;
 use XtendPackages\RESTPresenter\Commands\Generator\MakeController;
+use XtendPackages\RESTPresenter\Commands\Generator\MakeData;
 use XtendPackages\RESTPresenter\Commands\Generator\MakeFilter;
 use XtendPackages\RESTPresenter\Commands\Generator\MakePresenter;
 use XtendPackages\RESTPresenter\Commands\Generator\MakeResource;
@@ -30,6 +31,7 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
                 MakePresenter::class,
                 MakeController::class,
                 MakeFilter::class,
+                MakeData::class,
             ]);
     }
 
