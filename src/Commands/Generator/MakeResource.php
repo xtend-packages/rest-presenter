@@ -80,7 +80,7 @@ class MakeResource extends GeneratorCommand
         return $this->getTableColumnsForRelation(
             table: $relationTable,
             exclude: ['id', 'created_at', 'updated_at'],
-        )->keys()->first();
+        )->first();
     }
 
     protected function getStub(): string
@@ -127,10 +127,18 @@ class MakeResource extends GeneratorCommand
             '{{ filters }}' => $this->filters->map(
                 fn ($filter) => "'$filter' => Filters\\" . ucfirst($filter) . '::class',
             )->implode(",\n\t\t\t"),
-            '{{ presenters }}' => $this->presenters->keys()->map(
-                fn ($presenter) => 'Presenters\\' . ucfirst($presenter) . '\\' . ucfirst($presenter) . '::class',
-            )->implode(",\n\t\t\t"),
+            '{{ presenters }}' => $this->transformPresenters(),
         ];
+    }
+
+    protected function transformPresenters(): string
+    {
+        return $this->presenters->map(
+            function ($fields, $presenter) {
+                $presenterKey = strtolower($presenter);
+                return "'$presenterKey' => Presenters\\" . ucfirst($presenter) . '\\' . ucfirst($presenter) . '::class';
+            },
+        )->implode(",\n\t\t\t");
     }
 
     protected function getArguments()
