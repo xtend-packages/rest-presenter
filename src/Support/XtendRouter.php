@@ -52,11 +52,11 @@ class XtendRouter extends Router
     public function autoDiscoverResources(): void
     {
         $fileSystem = app(Filesystem::class);
-        if (! $fileSystem->isDirectory(app()->basePath(config('rest-presenter.generator.path') . '/Resources/Custom'))) {
+        if (! $fileSystem->isDirectory(app()->basePath(config('rest-presenter.generator.path') . '/Resources'))) {
             return;
         }
 
-        collect($fileSystem->allFiles(app()->basePath(config('rest-presenter.generator.path') . '/Resources/Custom')))
+        collect($fileSystem->allFiles(app()->basePath(config('rest-presenter.generator.path') . '/Resources')))
             ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getFilename(), 'ResourceController.php'))
             ->mapWithKeys(function (SplFileInfo $file) {
                 $name = Str::of($file->getRelativePath())->snake('-')->value();
