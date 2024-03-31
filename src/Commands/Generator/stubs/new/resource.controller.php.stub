@@ -2,8 +2,6 @@
 
 namespace {{ namespace }};
 
-use {{ namespace }}\Filters;
-use {{ namespace }}\Presenters;
 use {{ modelClassImport }};
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
