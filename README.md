@@ -72,6 +72,17 @@ Select the Starter Kits to use during setup to configure the package according t
 
 ## Usage
 
+### Generate Resources (Prompts)
+To generate a new resource, use the following command:
+
+```bash
+php artisan rest-presenter:make-resource
+```
+This command will guide you through creating a new resource. Prompts will allow you to automatically generate presenters, filters, data, and set up your resource ready to use. All model relationships and fields are automatically detected throughout the prompt process. Additionally, we provide a custom option for most prompts to generate without auto-detection.
+
+### Generate Resources (Blueprint)
+Coming soon, leveraging the outstanding capabilities of [Laravel Blueprint](https://blueprint.laravelshift.com/)
+
 ### Registering Kits
 
 To register a kit, add it to the starterKits array in the register method of the RESTPresenterServiceProvider. For example:
@@ -99,7 +110,7 @@ class RESTPresenterServiceProvider extends ServiceProvider
 
 Configure RESTPresenter in the `config/rest-presenter.php` file to customize the package according to your project requirements.
 
-### Testing
+## Testing
 
 RESTPresenter includes a comprehensive testing suite to ensure your API's reliability and stability. Test generators will soon be added to facilitate testing when creating new resources.
 
