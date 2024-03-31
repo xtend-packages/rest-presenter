@@ -136,6 +136,7 @@ class MakeResource extends GeneratorCommand
         return $this->presenters->map(
             function ($fields, $presenter) {
                 $presenterKey = strtolower($presenter);
+
                 return "'$presenterKey' => Presenters\\" . ucfirst($presenter) . '\\' . ucfirst($presenter) . '::class';
             },
         )->implode(",\n\t\t\t");
