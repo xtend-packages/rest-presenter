@@ -2,6 +2,8 @@
 
 namespace {{ namespace }};
 
+use {{ namespace }}\Filters;
+use {{ namespace }}\Presenters;
 use {{ modelClassImport }};
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
@@ -10,6 +12,8 @@ use XtendPackages\RESTPresenter\Resources\ResourceController;
 
 class {{ class }} extends ResourceController
 {
+    protected static string $model = {{ modelClassName }}::class;
+
     public function index(Request $request): Collection
     {
         ${{ $modelVarPlural }} = $this->getModelQueryInstance()->get();
@@ -27,7 +31,7 @@ class {{ class }} extends ResourceController
     public function filters(): array
     {
         return [
-
+            {{ filters }},
         ];
     }
 

@@ -25,6 +25,7 @@ class MakeFilter extends GeneratorCommand
         $rootNamespace = $this->rootNamespace();
 
         if (Str::startsWith($name, $rootNamespace)) {
+
             return $name;
         }
 
@@ -36,6 +37,7 @@ class MakeFilter extends GeneratorCommand
         $filterStub = match ($this->argument('relation')) {
             'BelongsTo' => 'relation-belongs-to',
             'HasMany' => 'relation-has-many',
+            'MorphToMany' => 'relation-morph-to-many',
             default => 'attribute',
         };
 
@@ -75,6 +77,7 @@ class MakeFilter extends GeneratorCommand
                 : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($this->argument('name')) . '\\Filters\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
             '{{ aliasFilter }}' => 'Xtend' . $this->getNameInput() . 'Filter',
             '{{ relationship }}' => strtolower($this->argument('name')),
+            '{{ relationship_search_key }}' => $this->argument('relation_search_key'),
         ];
     }
 
@@ -85,6 +88,7 @@ class MakeFilter extends GeneratorCommand
             ['resource', InputArgument::REQUIRED, 'The resource of the ' . strtolower($this->type)],
             ['type', InputArgument::OPTIONAL, 'The type of filter to create'],
             ['relation', InputArgument::OPTIONAL, 'The relation of the ' . strtolower($this->type)],
+            ['relation_search_key', InputArgument::OPTIONAL, 'The search key of the ' . strtolower($this->type)],
             ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the ' . strtolower($this->type)],
         ];
     }

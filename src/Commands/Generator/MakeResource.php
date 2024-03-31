@@ -6,7 +6,9 @@ use Illuminate\Console\GeneratorCommand;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use Lunar\Facades\DB;
 use ReflectionClass;
 use ReflectionMethod;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -41,13 +43,28 @@ class MakeResource extends GeneratorCommand
                 arguments: [
                     'name' => ucfirst($filter),
                     'resource' => Str::plural($this->argument('name')),
-                    'relation' => Str::of($relation)->after(':')->value(),
+                    'relation' => Str::of($relation)->after('=>')->value(),
+                    'relation_search_key' => $this->guessRelationSearchKey($filter),
                     'type' => 'new',
                 ],
             ),
         );
 
         parent::handle();
+    }
+
+    protected function guessRelationSearchKey(string $filter): ?string
+    {
+        $tablesInSchema = collect(DB::getSchemaBuilder()->getTables())->pluck('name');
+        $relationTable = $tablesInSchema->first(fn (string $tableName) => Str::endsWith($tableName, $filter));
+
+        if (! $relationTable) {
+            return null;
+        }
+
+        return collect(Schema::getColumnListing($relationTable))->filter(
+            fn (string $column) => ! in_array($column, ['id', 'created_at', 'updated_at']),
+        )->first();
     }
 
     protected function getStub(): string
@@ -91,6 +108,9 @@ class MakeResource extends GeneratorCommand
             '{{ modelClassName }}' => class_basename($this->argument('model')),
             '{{ $modelVarSingular }}' => strtolower(class_basename($this->argument('model'))),
             '{{ $modelVarPlural }}' => strtolower(Str::plural(class_basename($this->argument('model')))),
+            '{{ filters }}' => $this->filters->map(
+                fn ($filter) => "'$filter' => Filters\\" . ucfirst($filter) . '::class',
+            )->implode(",\n\t\t\t"),
         ];
     }
 
@@ -203,13 +223,12 @@ class MakeResource extends GeneratorCommand
 
     protected function generateFilterSuggestions(): Collection
     {
-        $modelName = class_basename($this->model);
         $reflect = new ReflectionClass($this->model);
 
         return collect($reflect->getMethods(ReflectionMethod::IS_PUBLIC))
             ->filter(fn (ReflectionMethod $method) => is_subclass_of($method->getReturnType()?->getName(), Relation::class))
             ->mapWithKeys(fn (ReflectionMethod $method) => [
-                $modelName . ':' . class_basename($method->getReturnType()?->getName()) => $method->getName(),
+                $method->getName() . '=>' . class_basename($method->getReturnType()?->getName()) => $method->getName(),
             ]);
     }
 

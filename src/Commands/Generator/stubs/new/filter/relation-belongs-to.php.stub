@@ -11,8 +11,11 @@ class {{ class }}
 
     public function handle(Builder $query, callable $next): Builder
     {
-        if ($this->hasFilter('{{ relationship }}_id') && $this->filterBy('{{ relationship }}_id')) {
-            $query->where('{{ relationship }}_id', $this->filterBy('{{ relationship }}_id'));
+        $filterBy = $this->filterBy('{{ relationship }}_id');
+        if ($this->hasFilter('{{ relationship }}_id') && $filterBy) {
+            is_array($filterBy)
+                ? $query->whereIn('{{ relationship }}_id', $filterBy)
+                : $query->where('{{ relationship }}_id', $filterBy);
         }
 
         return $next($query);
