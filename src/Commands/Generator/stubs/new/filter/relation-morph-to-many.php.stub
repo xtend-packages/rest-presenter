@@ -1,0 +1,23 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Builder;
+use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
+
+class {{ class }}
+{
+    use InteractsWithRequest;
+
+    public function handle(Builder $query, callable $next): Builder
+    {
+        $filterBy = $this->filterBy('{{ relationship }}');
+        if ($this->hasFilter('{{ relationship }}') && $filterBy) {
+            is_array($filterBy)
+                ? $query->whereHas('{{ relationship }}', fn ($query) => $query->whereIn('{{ relationship_search_key }}', $filterBy))
+                : $query->whereRelation('{{ relationship }}', '{{ relationship_search_key }}', $filterBy);
+        }
+
+        return $next($query);
+    }
+}

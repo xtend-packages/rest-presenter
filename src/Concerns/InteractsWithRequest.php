@@ -20,6 +20,14 @@ trait InteractsWithRequest
 
     protected function filtersFromRequest(): array
     {
-        return request()->collect()->get('filters', []);
+        $filters = request()->collect()->get('filters');
+        if (is_array($filters)) {
+            $filters = json_encode($filters);
+        }
+        if (json_decode($filters) !== null) {
+            $filters = json_decode($filters, true);
+        }
+
+        return $filters ?? [];
     }
 }

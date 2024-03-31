@@ -12,8 +12,8 @@ class DefaultResponse extends Data
     public function __construct(
         public int $id,
         public Optional | string | null $name,
-        public Carbon | Optional $createdAt,
-        public Carbon | Optional $updatedAt,
+        public Carbon | Optional | null $createdAt,
+        public Carbon | Optional | null $updatedAt,
         public ?array $attributes,
     ) {
     }
