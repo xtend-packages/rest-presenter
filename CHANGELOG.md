@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.3.1](https://github.com/xtend-packages/rest-presenter/compare/0.3.0...0.3.1) (2024-04-02)
+
+
+### Bug Fixes
+
+* Issues with installer after modifying types of stubs ([b66e3a7](https://github.com/xtend-packages/rest-presenter/commit/b66e3a7d6febc348f22f7da2cfe78a75035d37a2))
+
 ## [0.3.0](https://github.com/xtend-packages/rest-presenter/compare/0.2.5...0.3.0) (2024-03-31)
 
 
