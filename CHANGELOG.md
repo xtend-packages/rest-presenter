@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.3.2](https://github.com/xtend-packages/rest-presenter/compare/0.3.1...0.3.2) (2024-04-02)
+
+
+### Bug Fixes
+
+* Correct namespace for DB not Lunar 👀 ([c5857b1](https://github.com/xtend-packages/rest-presenter/commit/c5857b11c89905264c2f891d18a06d4d92f1ece0))
+
 ## [0.3.1](https://github.com/xtend-packages/rest-presenter/compare/0.3.0...0.3.1) (2024-04-02)
 
 
