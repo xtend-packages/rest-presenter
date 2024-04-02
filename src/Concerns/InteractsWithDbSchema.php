@@ -3,9 +3,9 @@
 namespace XtendPackages\RESTPresenter\Concerns;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
-use Lunar\Facades\DB;
 
 trait InteractsWithDbSchema
 {
