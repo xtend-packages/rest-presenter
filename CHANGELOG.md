@@ -1,5 +1,13 @@
 # Changelog for RESTPresenter
 
+## [0.3.3](https://github.com/xtend-packages/rest-presenter/compare/0.3.2...0.3.3) (2024-04-03)
+
+
+### Bug Fixes
+
+* Extending kits pass extend type to get correct stub ([60378e9](https://github.com/xtend-packages/rest-presenter/commit/60378e9df7058fe89ccf7d9d04d182eb29c9287a))
+* We should not prompt for resource when extending kits ([052a675](https://github.com/xtend-packages/rest-presenter/commit/052a675874d5b5d2f493944d35ab8e5338ed3073))
+
 ## [0.3.2](https://github.com/xtend-packages/rest-presenter/compare/0.3.1...0.3.2) (2024-04-02)
 
 
