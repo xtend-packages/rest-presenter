@@ -101,7 +101,7 @@ class MakePresenter extends GeneratorCommand
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
-            ['resource', InputArgument::REQUIRED, 'The resource of the ' . strtolower($this->type)],
+            ['resource', InputArgument::OPTIONAL, 'The resource of the ' . strtolower($this->type)],
             ['type', InputArgument::OPTIONAL, 'The type of filter to create'],
             ['model', InputArgument::OPTIONAL, 'The model class to use'],
             ['fields', InputArgument::OPTIONAL, 'The fields to include in the presenter'],
