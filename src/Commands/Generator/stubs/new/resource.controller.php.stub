@@ -29,14 +29,14 @@ class {{ class }} extends ResourceController
     public function filters(): array
     {
         return [
-            {{ filters }},
+            {{ filters }}
         ];
     }
 
     public function presenters(): array
     {
         return [
-            {{ presenters }},
+            {{ presenters }}
         ];
     }
 }

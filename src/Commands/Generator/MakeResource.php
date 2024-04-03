@@ -42,6 +42,9 @@ class MakeResource extends GeneratorCommand
 
     public function handle()
     {
+        $this->filters ??= collect();
+        $this->presenters ??= collect();
+
         $this->filters->each(
             fn (string $filter, string $relation) => $this->call(
                 command: 'rest-presenter:make-filter',
@@ -124,22 +127,35 @@ class MakeResource extends GeneratorCommand
             '{{ modelClassName }}' => class_basename($this->argument('model')),
             '{{ $modelVarSingular }}' => strtolower(class_basename($this->argument('model'))),
             '{{ $modelVarPlural }}' => strtolower(Str::plural(class_basename($this->argument('model')))),
-            '{{ filters }}' => $this->filters->map(
-                fn ($filter) => "'$filter' => Filters\\" . ucfirst($filter) . '::class',
-            )->implode(",\n\t\t\t"),
+            '{{ filters }}' => $this->transformFilters(),
             '{{ presenters }}' => $this->transformPresenters(),
         ];
     }
 
+    protected function transformFilters(): string
+    {
+        if ($this->filters->isEmpty()) {
+            return '';
+        }
+
+        return $this->filters->map(
+            fn ($filter) => "'$filter' => Filters\\" . ucfirst($filter) . '::class',
+        )->implode(",\n\t\t\t") . ',';
+    }
+
     protected function transformPresenters(): string
     {
+        if ($this->presenters->isEmpty()) {
+            return '';
+        }
+
         return $this->presenters->map(
             function ($fields, $presenter) {
                 $presenterKey = strtolower($presenter);
 
                 return "'$presenterKey' => Presenters\\" . ucfirst($presenter) . '\\' . ucfirst($presenter) . '::class';
             },
-        )->implode(",\n\t\t\t");
+        )->implode(",\n\t\t\t") . ',';
     }
 
     protected function getArguments()

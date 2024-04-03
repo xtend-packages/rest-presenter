@@ -62,6 +62,7 @@ class XtendStarterKit extends Command
                     $this->call('rest-presenter:make-controller', [
                         'kit_namespace' => $kitNamespace,
                         'name' => Str::beforeLast($controller, '.php'),
+                        'type' => 'extend',
                     ]);
                 });
         }
@@ -87,6 +88,7 @@ class XtendStarterKit extends Command
                     return $this->call('rest-presenter:make-resource', [
                         'kit_namespace' => $kitNamespace,
                         'name' => Str::singular(basename($path)),
+                        'type' => 'extend',
                     ]);
                 });
         }
@@ -105,6 +107,7 @@ class XtendStarterKit extends Command
                 $this->call('rest-presenter:make-presenter', [
                     'kit_namespace' => $kitNamespace,
                     'name' => $presenter,
+                    'type' => 'extend',
                 ]);
             });
     }

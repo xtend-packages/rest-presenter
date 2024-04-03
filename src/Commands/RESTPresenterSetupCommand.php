@@ -107,9 +107,11 @@ class RESTPresenterSetupCommand extends Command
     {
         collect($this->filesystem->directories(__DIR__ . '/../Resources'))
             ->map(fn ($resource) => Str::singular(basename($resource)))
-            ->each(fn ($resource) => $this->call('rest-presenter:make-resource', ['name' => $resource]));
-
-        $this->filesystem->ensureDirectoryExists(config('rest-presenter.generator.path') . '/Resources/Custom');
+            ->each(fn ($resource) => $this->call('rest-presenter:make-resource', [
+                'model' => 'App\\Models\\' . Str::singular($resource),
+                'name' => $resource,
+                'type' => 'new',
+            ]));
     }
 
     protected function publishStarterKits(): void

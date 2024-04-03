@@ -22,7 +22,7 @@ class MakeController extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/controller.php.stub';
+        return __DIR__ . '/stubs/' . $this->argument('type') . '/controller.php.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
@@ -64,6 +64,7 @@ class MakeController extends GeneratorCommand
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
+            ['type', InputArgument::OPTIONAL, 'The type of the ' . strtolower($this->type)],
             ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the ' . strtolower($this->type)],
         ];
     }
