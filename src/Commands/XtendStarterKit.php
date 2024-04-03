@@ -107,6 +107,7 @@ class XtendStarterKit extends Command
                 $this->call('rest-presenter:make-presenter', [
                     'kit_namespace' => $kitNamespace,
                     'name' => $presenter,
+                    'type' => 'extend',
                 ]);
             });
     }
