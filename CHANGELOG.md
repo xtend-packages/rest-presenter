@@ -1,5 +1,13 @@
 # Changelog for RESTPresenter
 
+## [0.3.4](https://github.com/xtend-packages/rest-presenter/compare/0.3.3...0.3.4) (2024-04-04)
+
+
+### Bug Fixes
+
+* Allow to define middleware on controllers ([cc4cf55](https://github.com/xtend-packages/rest-presenter/commit/cc4cf558f0aa166785ea7becc5e6021e88cfc40e))
+* Default response to exclude hidden fields ([8434f92](https://github.com/xtend-packages/rest-presenter/commit/8434f9217a79ddbc5a5c11c4b9e16e85e92cad6b))
+
 ## [0.3.3](https://github.com/xtend-packages/rest-presenter/compare/0.3.2...0.3.3) (2024-04-03)
 
 
