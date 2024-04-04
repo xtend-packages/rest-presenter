@@ -10,11 +10,19 @@ use XtendPackages\RESTPresenter\Resources\ResourceController;
 
 class UserResourceController extends ResourceController
 {
+    public function __construct(Request $request)
+    {
+        $this->middleware('auth:sanctum');
+
+        parent::__construct($request);
+    }
+
     public function index(Request $request): Collection
     {
         $users = $this->getModelQueryInstance()->get();
 
         return $users->map(
+            /* @phpstan-ignore-next-line */
             fn (User $user) => $this->present($request, $user),
         );
     }
