@@ -2,17 +2,17 @@
 
 namespace XtendPackages\RESTPresenter\Support;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Routing\Router;
 use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-use Symfony\Component\Finder\SplFileInfo;
-use XtendPackages\RESTPresenter\Resources\Users\UserResourceController;
+use XtendPackages\RESTPresenter\Concerns\WithAutoDiscovery;
 
 class XtendRouter extends Router
 {
+    use WithAutoDiscovery;
+
     public function register(): RouteRegistrar
     {
         $prefix = config('rest-presenter.api.prefix');
@@ -38,39 +38,27 @@ class XtendRouter extends Router
             )->values();
         })->name('resources');
 
-        Route::middleware('auth:sanctum')->group(function () {
-            $this->resource('users', UserResourceController::class);
-        });
-
         Route::name('auth:')
             ->prefix('auth')
             ->group(__DIR__ . '/../StarterKits/Auth/Breeze/Routes/auth.php');
 
         $this->autoDiscoverResources();
+        $this->autoDiscoverStarterKits();
     }
 
     public function autoDiscoverResources(): void
     {
-        $fileSystem = app(Filesystem::class);
-        if (! $fileSystem->isDirectory(app()->basePath(config('rest-presenter.generator.path') . '/Resources'))) {
-            return;
-        }
+        $this->autoDiscover(
+            path: app()->basePath(config('rest-presenter.generator.path') . '/Resources'),
+        );
+    }
 
-        collect($fileSystem->allFiles(app()->basePath(config('rest-presenter.generator.path') . '/Resources')))
-            ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getFilename(), 'ResourceController.php'))
-            ->mapWithKeys(function (SplFileInfo $file) {
-                $name = Str::of($file->getRelativePath())->snake('-')->value();
-                $controller = Str::of($file->getRealPath())
-                    ->replace(app()->path('Api'), config('rest-presenter.generator.namespace'))
-                    ->replace('/', '\\')
-                    ->replace('.php', '')
-                    ->value();
-
-                return [
-                    $name => $controller,
-                ];
-            })
-            ->each(fn ($controller, $name) => $this->resource($name, $controller));
+    public function autoDiscoverStarterKits(): void
+    {
+        $this->autoDiscover(
+            path: app()->basePath(config('rest-presenter.generator.path') . '/StarterKits'),
+            isKit: true,
+        );
     }
 
     public function resources(array $resources, array $options = []): void
