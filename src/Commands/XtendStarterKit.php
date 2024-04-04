@@ -44,11 +44,13 @@ class XtendStarterKit extends Command
     {
         $this->extendControllers($starterKitsDirectory, $kitPath);
         $this->extendResources($starterKitsDirectory, $kitPath);
+
+        $this->autoDiscoverResources($kitPath);
     }
 
     protected function extendControllers(string $starterKitsDirectory, string $kitPath): void
     {
-        if ($this->kitHasControllers($starterKitsDirectory, $kitPath)) {
+        if ($this->kitCanExtendControllers($starterKitsDirectory, $kitPath)) {
             collect($this->filesystem->allFiles($starterKitsDirectory . '/' . $kitPath . '/Http/Controllers'))
                 ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getFilename(), 'Controller.php'))
                 ->map(fn (SplFileInfo $file) => $file->getRelativePathName())
@@ -70,7 +72,7 @@ class XtendStarterKit extends Command
 
     protected function extendResources(string $starterKitsDirectory, string $kitPath): void
     {
-        if ($this->kitHasResources($starterKitsDirectory, $kitPath)) {
+        if ($this->kitCanExtendResources($starterKitsDirectory, $kitPath)) {
             collect($this->filesystem->allFiles($starterKitsDirectory . '/' . $kitPath . '/Resources'))
                 ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getFilename(), 'ResourceController.php'))
                 ->map(fn (SplFileInfo $file) => $file->getRelativePath())
@@ -85,13 +87,44 @@ class XtendStarterKit extends Command
                     $kitNamespace = $kitNamespace . '\\' . $resource;
                     $this->extendPresenters($starterKitsDirectory, $resourcePath, $kitNamespace);
 
-                    return $this->call('rest-presenter:make-resource', [
+                    $this->call('rest-presenter:make-resource', [
                         'kit_namespace' => $kitNamespace,
                         'name' => Str::singular(basename($path)),
                         'type' => 'extend',
                     ]);
                 });
         }
+    }
+
+    protected function autoDiscoverResources(string $kitPath): void
+    {
+        $kitNamespace = Str::of($kitPath)->replace('/', '\\')->value();
+        $supportedKit = match ($kitNamespace) {
+            'Filament\Base' => 'FilamentStarterKit',
+            default => false,
+        };
+
+        if (! $supportedKit) {
+            return;
+        }
+
+        /** @var \XtendPackages\RESTPresenter\Base\StarterKit $starterKit */
+        $starterKit = resolve('XtendPackages\\RESTPresenter\\StarterKits\\' . $kitNamespace . '\\' . $supportedKit);
+        $resources = $starterKit->autoDiscover();
+
+        $kitNamespace = Str::of($kitPath)
+            ->replace('/', '\\')->prepend('StarterKits\\')
+            ->before('\\Base')
+            ->value();
+
+        collect($resources)->each(function ($resource, $resourceNamespace) use ($kitNamespace) {
+            $this->call('rest-presenter:make-resource', [
+                'kit_namespace' => $kitNamespace . '\\' . $resourceNamespace,
+                'name' => Str::of($resourceNamespace)->classBasename()->value(),
+                'model' => $resource['model'],
+                'type' => 'new',
+            ]);
+        });
     }
 
     protected function extendPresenters(string $starterKitsDirectory, string $resourcePath, string $kitNamespace): void
@@ -112,12 +145,12 @@ class XtendStarterKit extends Command
             });
     }
 
-    protected function kitHasControllers(string $starterKitsDirectory, string $kitPath): bool
+    protected function kitCanExtendControllers(string $starterKitsDirectory, string $kitPath): bool
     {
         return $this->filesystem->exists($starterKitsDirectory . '/' . $kitPath . '/Http/Controllers');
     }
 
-    protected function kitHasResources(string $starterKitsDirectory, string $kitPath): bool
+    protected function kitCanExtendResources(string $starterKitsDirectory, string $kitPath): bool
     {
         return $this->filesystem->exists($starterKitsDirectory . '/' . $kitPath . '/Resources');
     }
