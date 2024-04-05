@@ -23,13 +23,14 @@ class MakePresenter extends GeneratorCommand
     public function handle()
     {
         if ($this->hasArgument('fields') && is_array($this->argument('fields'))) {
+            $presenter = Str::of($this->argument('name'))->replace('Presenter', '');
             $this->call('rest-presenter:make-data', [
                 'type' => 'new',
-                'name' => $this->argument('name') . 'Data',
+                'name' => $presenter->singular()->value() . 'Data',
                 'resource' => $this->argument('resource'),
                 'fields' => $this->argument('fields'),
                 'model' => $this->argument('model'),
-                'presenter' => $this->argument('name'),
+                'presenter' => $presenter->plural()->value(),
                 'kit_namespace' => $this->argument('kit_namespace'),
             ]);
         }
@@ -63,7 +64,12 @@ class MakePresenter extends GeneratorCommand
         $resourceDirectory = Str::plural($this->argument('resource'));
 
         if ($this->argument('kit_namespace')) {
-            return config('rest-presenter.generator.namespace') . '\\' . $this->argument('kit_namespace') . '\\Presenters\\' . $this->argument('name');
+            $presenterNamespace = Str::of($this->argument('name'))
+                ->replace('Presenter', '')
+                ->plural()
+                ->value();
+
+            return config('rest-presenter.generator.namespace') . '\\' . $this->argument('kit_namespace') . '\\Presenters\\' . $presenterNamespace;
         }
 
         return config('rest-presenter.generator.namespace') . '\\Resources\\' . $resourceDirectory . '\\Presenters\\' . $this->argument('name');
@@ -94,6 +100,7 @@ class MakePresenter extends GeneratorCommand
             '{{ modelClassName }}' => class_basename($this->argument('model')),
             '{{ $modelVarSingular }}' => strtolower(class_basename($this->argument('model'))),
             '{{ $modelVarPlural }}' => strtolower(Str::plural(class_basename($this->argument('model')))),
+            '{{ dataClass }}' => Str::of($this->argument('name'))->remove('Presenter')->append('Data')->value(),
         ];
     }
 
