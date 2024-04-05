@@ -35,7 +35,7 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
             ]);
     }
 
-    public function registeringPackage(): void
+    public function packageRegistered(): void
     {
         $this->app->singleton('rest-presenter', function () {
             return new RESTPresenter();

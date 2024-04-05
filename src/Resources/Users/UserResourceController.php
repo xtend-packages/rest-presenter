@@ -22,7 +22,7 @@ class UserResourceController extends ResourceController
         $users = $this->getModelQueryInstance()->get();
 
         return $users->map(
-            /* @phpstan-ignore-next-line */
+            // @phpstan-ignore-next-line
             fn (User $user) => $this->present($request, $user),
         );
     }

@@ -145,6 +145,18 @@ class MakeResource extends GeneratorCommand
 
     protected function transformPresenters(): string
     {
+        if ($this->hasArgument('presenters') && is_array($this->argument('presenters'))) {
+            $presenters = $this->argument('presenters');
+
+            return collect($presenters)->map(
+                function ($presenter, $presenterKey) {
+                    $presenterNamespace = Str::of($presenterKey)->replace('Presenter', '')->plural()->ucfirst();
+
+                    return "'$presenterKey' => Presenters\\" . $presenterNamespace . '\\' . $presenter;
+                },
+            )->implode(",\n\t\t\t") . ',';
+        }
+
         if ($this->presenters->isEmpty()) {
             return '';
         }
@@ -164,6 +176,8 @@ class MakeResource extends GeneratorCommand
             ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
             ['type', InputArgument::OPTIONAL, 'The type of resource to create'],
             ['model', InputArgument::OPTIONAL, 'The model that the resource references'],
+            ['filters', InputArgument::OPTIONAL, 'The filters to include in the resource'],
+            ['presenters', InputArgument::OPTIONAL, 'The presenters to include in the resource'],
             ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the ' . strtolower($this->type)],
         ];
     }
