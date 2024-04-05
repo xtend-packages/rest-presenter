@@ -39,7 +39,6 @@ class FilamentStarterKit extends StarterKit
                     table: mock('Filament\Tables\Table')->makePartial(),
                 );
 
-                /** @var \Filament\Forms\Form $form */
                 // $form = $page->form(
                 //     form: mock('Filament\Forms\Form')->makePartial(),
                 // );
