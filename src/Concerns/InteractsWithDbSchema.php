@@ -14,9 +14,13 @@ trait InteractsWithDbSchema
         return collect(DB::getSchemaBuilder()->getTables())->pluck('name');
     }
 
-    protected function getTableColumns(string $table): Collection
+    protected function getTableColumns(string $table, bool $withProperties = false): Collection
     {
-        return collect(Schema::getColumnListing($table));
+        $columns = ! $withProperties
+            ? Schema::getColumnListing($table)
+            : collect(Schema::getColumns($table));
+
+        return $columns;
     }
 
     protected function getTableColumnsForRelation(string $table, array $exclude = []): Collection
