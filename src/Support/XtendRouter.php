@@ -8,6 +8,7 @@ use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use XtendPackages\RESTPresenter\Concerns\WithAutoDiscovery;
+use XtendPackages\RESTPresenter\Resources\Users\UserResourceController;
 
 class XtendRouter extends Router
 {
@@ -37,6 +38,8 @@ class XtendRouter extends Router
                 fn ($route) => Str::startsWith($route['uri'], 'api/v1'),
             )->values();
         })->name('resources');
+
+        $this->resource('users', UserResourceController::class);
 
         Route::name('auth:')
             ->prefix('auth')
