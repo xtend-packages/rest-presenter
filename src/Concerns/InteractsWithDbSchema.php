@@ -16,9 +16,14 @@ trait InteractsWithDbSchema
 
     protected function getTableColumns(string $table, bool $withProperties = false): Collection
     {
-        $columns = ! $withProperties
+        $columns = collect(! $withProperties
             ? Schema::getColumnListing($table)
-            : collect(Schema::getColumns($table));
+            : Schema::getColumns($table),
+        );
+
+        if (DB::connection()->getDriverName() === 'sqlite' && $withProperties) {
+            $columns = $this->replaceJsonColumnsSqliteWorkaround($table);
+        }
 
         return $columns;
     }
@@ -38,5 +43,19 @@ trait InteractsWithDbSchema
                     ? Str::endsWith($tableName, $table)
                     : $tableName === $table,
             );
+    }
+
+    private function replaceJsonColumnsSqliteWorkaround(string $table): Collection
+    {
+        $results = DB::select("PRAGMA table_info({$table})");
+
+        return collect($results)->map(function ($column) use ($table) {
+            $column_value = DB::table($table)->whereNotNull($column->name)->value($column->name);
+            if (Str::isJson($column_value)) {
+                $column->type_name = $column->type = 'json';
+            }
+
+            return (array) $column;
+        });
     }
 }
