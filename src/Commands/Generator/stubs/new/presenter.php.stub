@@ -2,7 +2,7 @@
 
 namespace {{ namespace }};
 
-use {{ namespace }}\Data\{{ class }}Data;
+use {{ namespace }}\Data\{{ dataClass }};
 use {{ modelClassImport }} as {{ modelClassName }}Model;
 use Illuminate\Http\Request;
 use Spatie\LaravelData\Data;
@@ -18,8 +18,8 @@ class {{ class }} implements Presentable
         protected ?{{ modelClassName }}Model $model,
     ) {}
 
-    public function transform(): {{ class }}Data | Data
+    public function transform(): {{ dataClass }} | Data
     {
-        return {{ class }}Data::from($this->model);
+        return {{ dataClass }}::from($this->model);
     }
 }

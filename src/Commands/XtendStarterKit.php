@@ -118,12 +118,34 @@ class XtendStarterKit extends Command
             ->value();
 
         collect($resources)->each(function ($resource, $resourceNamespace) use ($kitNamespace) {
-            $this->call('rest-presenter:make-resource', [
-                'kit_namespace' => $kitNamespace . '\\' . $resourceNamespace,
-                'name' => Str::of($resourceNamespace)->classBasename()->value(),
-                'model' => $resource['model'],
-                'type' => 'new',
-            ]);
+            $resourceName = Str::of($resourceNamespace)
+                ->classBasename()
+                ->singular()
+                ->value();
+
+            if ($resource['fields']) {
+                $this->call(
+                    command: 'rest-presenter:make-presenter',
+                    arguments: [
+                        'kit_namespace' => $kitNamespace . '\\' . $resourceNamespace,
+                        'name' => $resourceName . 'Presenter',
+                        'type' => 'new',
+                        'model' => $resource['model'],
+                        'resource' => $resourceName,
+                        'fields' => $resource['fields'],
+                    ],
+                );
+
+                $this->call('rest-presenter:make-resource', [
+                    'kit_namespace' => $kitNamespace . '\\' . $resourceNamespace,
+                    'name' => $resourceName,
+                    'model' => $resource['model'],
+                    'presenters' => [
+                        strtolower($resourceName) => $resourceName . 'Presenter::class',
+                    ],
+                    'type' => 'new',
+                ]);
+            }
         });
     }
 

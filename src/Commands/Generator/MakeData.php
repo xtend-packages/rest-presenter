@@ -2,10 +2,8 @@
 
 namespace XtendPackages\RESTPresenter\Commands\Generator;
 
-use Carbon\Carbon;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
-use Spatie\LaravelData\Optional;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -85,14 +83,18 @@ class MakeData extends GeneratorCommand
 
     protected function transformFieldProperties(array $fields): string
     {
-        return collect($fields)->map(function (string $fieldType, string $field) {
-            $propertyType = match ($fieldType) {
-                'int', 'bigint' => 'int',
+        return collect($fields)->map(function (array $fieldProperties, string $field) {
+            $propertyType = match ($fieldProperties['type']) {
+                'int', 'integer', 'bigint' => 'int',
                 'tinyint' => 'bool',
                 'timestamp', 'datetime' => 'Carbon | Optional | null',
                 'json' => 'array',
                 default => 'string',
             };
+
+            if ($fieldProperties['nullable'] && $propertyType !== 'Carbon | Optional | null') {
+                $propertyType = '?' . $propertyType;
+            }
 
             return "public {$propertyType} \${$field}";
         })->implode(",\n\t\t");
