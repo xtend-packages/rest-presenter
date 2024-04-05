@@ -4,12 +4,13 @@ namespace XtendPackages\RESTPresenter\Resources;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithModel;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
 use XtendPackages\RESTPresenter\Concerns\WithResourceFiltering;
 
-abstract class ResourceController
+abstract class ResourceController extends Controller
 {
     use InteractsWithModel;
     use InteractsWithPresenter;
