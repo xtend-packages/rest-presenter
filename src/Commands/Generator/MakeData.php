@@ -92,7 +92,8 @@ class MakeData extends GeneratorCommand
                 default => 'string',
             };
 
-            if ($fieldProperties['nullable'] && $propertyType !== 'Carbon | Optional | null') {
+            $nullable = ! ($fieldProperties['notnull'] === 1);
+            if ($nullable && $propertyType !== 'Carbon | Optional | null') {
                 $propertyType = '?' . $propertyType;
             }
 
