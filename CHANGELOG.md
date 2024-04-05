@@ -1,5 +1,24 @@
 # Changelog for RESTPresenter
 
+## [0.4.0](https://github.com/xtend-packages/rest-presenter/compare/0.3.4...0.4.0) (2024-04-05)
+
+
+### Features
+
+* Auto generates presenter & DTO from column properties ([84c06cf](https://github.com/xtend-packages/rest-presenter/commit/84c06cfb858574c2459df6ef59a2ca9afced796c))
+* Fields returned now in the correct table order + prepend id ([64d774a](https://github.com/xtend-packages/rest-presenter/commit/64d774abd803dc3d78f04b8b254e911a3b3b265b))
+* Filament auto-discover resources ([227807a](https://github.com/xtend-packages/rest-presenter/commit/227807a5a9892d4b5314124cb8f531f410047095))
+* Register filament route resources ([35a7592](https://github.com/xtend-packages/rest-presenter/commit/35a7592f878330cab6884068b8116bb2f3952de3))
+
+
+### Bug Fixes
+
+* phpstan ignore ([205757b](https://github.com/xtend-packages/rest-presenter/commit/205757bd7273a3ac1ff3691cb69535bc214bfb44))
+* ResourceController to allow middleware + sanctum UserResource ([89572ed](https://github.com/xtend-packages/rest-presenter/commit/89572edf2bc3e0fde38a528b37026d9ec53f271e))
+* Routes need to registered after package config is registered ([23fb789](https://github.com/xtend-packages/rest-presenter/commit/23fb7897e7616a6ff500a4408506ec438e74e1ec))
+* Sqlite workaround to set json field type ([14b01c1](https://github.com/xtend-packages/rest-presenter/commit/14b01c1593a4a0f13af95b2c8ebba2ba9f8ca3b5))
+* Support for nullable types prepends question mark ([a29b881](https://github.com/xtend-packages/rest-presenter/commit/a29b88169088f441a14175f0b5a7704ad84f7b9f))
+
 ## [0.3.4](https://github.com/xtend-packages/rest-presenter/compare/0.3.3...0.3.4) (2024-04-04)
 
 
