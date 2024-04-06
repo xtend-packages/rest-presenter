@@ -2,10 +2,10 @@
 
 namespace XtendPackages\RESTPresenter\Resources\Users;
 
-use XtendPackages\RESTPresenter\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
+use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\Resources\ResourceController;
 
 class UserResourceController extends ResourceController
