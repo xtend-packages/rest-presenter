@@ -4,7 +4,6 @@ namespace XtendPackages\RESTPresenter\Commands\Generator;
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
-use Spatie\TypeScriptTransformer\Attributes\Optional as TypeScriptOptional;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,6 +23,13 @@ class MakeData extends GeneratorCommand implements TypeScriptGeneratorContract
     protected $description = 'Create a new data class';
 
     protected $type = 'Data';
+
+    public function handle()
+    {
+        parent::handle();
+
+        $this->generateTypeScriptDeclarations();
+    }
 
     protected function qualifyClass($name)
     {
