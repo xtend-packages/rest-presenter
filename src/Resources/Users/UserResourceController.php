@@ -2,10 +2,10 @@
 
 namespace XtendPackages\RESTPresenter\Resources\Users;
 
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
+use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\Resources\ResourceController;
 
 class UserResourceController extends ResourceController
@@ -19,11 +19,11 @@ class UserResourceController extends ResourceController
 
     public function index(Request $request): Collection
     {
+        /** @var Collection $users */
         $users = $this->getModelQueryInstance()->get();
 
         return $users->map(
-            // @phpstan-ignore-next-line
-            fn (User $user) => $this->present($request, $user),
+            fn ($user) => $this->present($request, $user),
         );
     }
 
