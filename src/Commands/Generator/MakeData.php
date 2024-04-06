@@ -9,12 +9,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use XtendPackages\RESTPresenter\Concerns\WithTypeScriptGenerator;
-use XtendPackages\RESTPresenter\Contracts\TypeScriptGeneratorContract;
 
 use function Laravel\Prompts\select;
 
 #[AsCommand(name: 'rest-presenter:make-data')]
-class MakeData extends GeneratorCommand implements TypeScriptGeneratorContract
+class MakeData extends GeneratorCommand
 {
     use WithTypeScriptGenerator;
 
