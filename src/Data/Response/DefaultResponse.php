@@ -25,7 +25,9 @@ class DefaultResponse extends Data
             name: $model->getAttribute('name'),
             createdAt: $model->getAttribute('created_at'),
             updatedAt: $model->getAttribute('updated_at'),
-            attributes: $model->getAttributes(),
+            attributes: collect($model->getAttributes())
+                ->except($model->getHidden())
+                ->toArray(),
         );
     }
 }
