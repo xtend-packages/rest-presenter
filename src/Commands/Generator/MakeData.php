@@ -4,16 +4,21 @@ namespace XtendPackages\RESTPresenter\Commands\Generator;
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
+use Spatie\TypeScriptTransformer\Attributes\Optional as TypeScriptOptional;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use XtendPackages\RESTPresenter\Concerns\WithTypeScriptGenerator;
+use XtendPackages\RESTPresenter\Contracts\TypeScriptGeneratorContract;
 
 use function Laravel\Prompts\select;
 
 #[AsCommand(name: 'rest-presenter:make-data')]
-class MakeData extends GeneratorCommand
+class MakeData extends GeneratorCommand implements TypeScriptGeneratorContract
 {
+    use WithTypeScriptGenerator;
+
     protected $name = 'rest-presenter:make-data';
 
     protected $description = 'Create a new data class';
@@ -84,20 +89,23 @@ class MakeData extends GeneratorCommand
     protected function transformFieldProperties(array $fields): string
     {
         return collect($fields)->map(function (array $fieldProperties, string $field) {
-            $propertyType = match ($fieldProperties['type']) {
+            $fieldType = strtolower($fieldProperties['type']);
+            $propertyType = match ($fieldType) {
                 'int', 'integer', 'bigint' => 'int',
                 'tinyint' => 'bool',
-                'timestamp', 'datetime' => 'Carbon | Optional | null',
+                'timestamp', 'datetime' => 'Carbon',
                 'json' => 'array',
                 default => 'string',
             };
 
             $nullable = ! ($fieldProperties['notnull'] === 1);
-            if ($nullable && $propertyType !== 'Carbon | Optional | null') {
+
+            if ($nullable) {
                 $propertyType = '?' . $propertyType;
             }
+            $tsOptional = $nullable ? "#[TypeScriptOptional]\n\t\t" : '';
 
-            return "public {$propertyType} \${$field}";
+            return $tsOptional . "public {$propertyType} \${$field}";
         })->implode(",\n\t\t");
     }
 
