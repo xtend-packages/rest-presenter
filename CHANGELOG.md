@@ -1,5 +1,19 @@
 # Changelog for RESTPresenter
 
+## [0.5.0](https://github.com/xtend-packages/rest-presenter/compare/0.4.0...0.5.0) (2024-04-06)
+
+
+### Features
+
+* Add TS support to generate data ([62e84cb](https://github.com/xtend-packages/rest-presenter/commit/62e84cb53f9c00cfe3ecdefde56acb294ccbd698))
+* TypeScript now generated for data with our own custom writer ([597c17b](https://github.com/xtend-packages/rest-presenter/commit/597c17b67cdd93e21e7f251d43649021cfa66864))
+
+
+### Bug Fixes
+
+* Move spatie typescript transformer can not be a dev dependency ([ed67257](https://github.com/xtend-packages/rest-presenter/commit/ed67257d2bfde273cf85113a7fa6ccd837960f3f))
+* User resource needs to use package model ([927e97f](https://github.com/xtend-packages/rest-presenter/commit/927e97fcbd6c35317b8bae6e7dabe55db5abb0b1))
+
 ## [0.4.0](https://github.com/xtend-packages/rest-presenter/compare/0.3.4...0.4.0) (2024-04-05)
 
 
