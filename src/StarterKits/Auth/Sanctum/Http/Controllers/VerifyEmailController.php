@@ -1,6 +1,6 @@
 <?php
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers;
+namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Http\Controllers;
 
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;

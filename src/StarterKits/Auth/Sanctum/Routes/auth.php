@@ -1,12 +1,12 @@
 <?php
 
 use XtendPackages\RESTPresenter\Facades\XtendRoute;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\AuthenticatedSessionController;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\EmailVerificationNotificationController;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\NewPasswordController;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\PasswordResetLinkController;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\RegisteredUserController;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers\VerifyEmailController;
+use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Http\Controllers\AuthenticatedSessionController;
+use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Http\Controllers\EmailVerificationNotificationController;
+use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Http\Controllers\NewPasswordController;
+use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Http\Controllers\PasswordResetLinkController;
+use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Http\Controllers\RegisteredUserController;
+use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Http\Controllers\VerifyEmailController;
 
 /** @phpstan-ignore-next-line */
 XtendRoute::auth(

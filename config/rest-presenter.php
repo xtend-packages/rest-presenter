@@ -44,6 +44,15 @@ return [
         'key_header' => env('REST_PRESENTER_API_KEY_HEADER', 'X-REST-PRESENTER-API-KEY'),
         // Note should only be used in development environment
         'impersonate_password' => env('REST_PRESENTER_API_IMPERSONATE_PASSWORD', 'impersonate'),
+        'register_data_request_rules' => [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'confirmed', 'min:8'],
+        ],
+        'login_data_request_rules' => [
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:8'],
+        ],
     ],
     'data' => [
         'response' => DefaultResponse::class,

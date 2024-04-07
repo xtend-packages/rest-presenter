@@ -43,7 +43,7 @@ class XtendRouter extends Router
 
         Route::name('auth:')
             ->prefix('auth')
-            ->group(__DIR__ . '/../StarterKits/Auth/Breeze/Routes/auth.php');
+            ->group(__DIR__.'/../StarterKits/Auth/Sanctum/Routes/auth.php');
 
         $this->autoDiscoverResources();
         $this->autoDiscoverStarterKits();

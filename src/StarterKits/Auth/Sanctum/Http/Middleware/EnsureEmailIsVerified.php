@@ -1,6 +1,6 @@
 <?php
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Middleware;
+namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\MustVerifyEmail;

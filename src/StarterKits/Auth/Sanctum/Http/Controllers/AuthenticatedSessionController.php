@@ -1,12 +1,12 @@
 <?php
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers;
+namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use XtendPackages\RESTPresenter\Controllers\Controller;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Requests\Auth\LoginRequest;
+use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {

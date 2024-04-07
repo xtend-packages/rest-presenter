@@ -1,6 +1,6 @@
 <?php
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Controllers;
+namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Http\Controllers;
 
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\JsonResponse;

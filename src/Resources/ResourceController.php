@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithModel;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
+use XtendPackages\RESTPresenter\Concerns\WithResourceActions;
 use XtendPackages\RESTPresenter\Concerns\WithResourceFiltering;
 
 abstract class ResourceController extends Controller
@@ -16,6 +17,7 @@ abstract class ResourceController extends Controller
     use InteractsWithPresenter;
     use InteractsWithRequest;
     use WithResourceFiltering;
+    use WithResourceActions;
 
     public array $sorts;
 
@@ -27,6 +29,7 @@ abstract class ResourceController extends Controller
 
         $this->sorts = $request->sorts ?? [];
         $this->applyFilters($query);
+        $this->applyActions($query);
 
         $this->setModelQuery($query);
     }

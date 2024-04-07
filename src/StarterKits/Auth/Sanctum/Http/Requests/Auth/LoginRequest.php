@@ -1,6 +1,6 @@
 <?php
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\Http\Requests\Auth;
+namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Http\Requests\Auth;
 
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
