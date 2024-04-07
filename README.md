@@ -18,8 +18,9 @@ RESTPresenter simplifies Laravel API development by providing a lightweight pack
 
 ## Starter Kits
 Our initial release includes the following Starter Kits to jumpstart your development:
-- [Breeze Auth Starter Kit](https://github.com/xtend-packages/rest-presenter/issues/1)
-- [Lunar API Starter Kit](https://github.com/xtend-packages/rest-presenter/issues/2) 
+- [Breeze Auth Starter Kit](https://github.com/xtend-packages/rest-presenter/discussions/categories/general) (Will be replaced soon by Sanctum Auth Kit)
+- [Lunar API Starter Kit](https://github.com/xtend-packages/rest-presenter/discussions/categories/lunar-starter-kit) 
+- [Filament API Starter Kit](https://github.com/xtend-packages/rest-presenter/discussions/categories/filament-starter-kit) 
 
 ## Key Features
 
@@ -27,9 +28,10 @@ Our initial release includes the following Starter Kits to jumpstart your develo
 - Simplified data transformation using our Presenter layer.
 - Built-in example filters and presenters for rapid API development.
 - Testing support to ensure reliability and stability.
+- Automating API creation from resources in Filament.
+- TypeScript auto-generation for API resource DTOs.
 
 ## Planned Features
-- Automating API creation from resources in packages like Filament.
 - Release of Sponsorware API Kits for comprehensive API integration.
 - Customisable kits providing a solid foundation for API development.
 - Future open-sourcing of full kits upon reaching sponsorship milestones.
@@ -46,6 +48,7 @@ RESTPresenter is more than just a CRUD generator. It offers:
 
 ## Roadmap
 Check out our [Roadmap](https://github.com/orgs/xtend-packages/projects/1/views/1) for upcoming features and improvements. Feel free to open an issue for suggestions or feature requests. We'll soon be launching our Discord for collaborative discussions.
+Meanwhile start a discussion on GitHub to share your thoughts and ideas.
 
 ## Requirements
 
@@ -70,7 +73,17 @@ php artisan rest-presenter:setup
 ```
 Select the Starter Kits to use during setup to configure the package according to your needs. The command also publishes the configuration file rest-presenter.php to your config directory and automatically registers the RESTPresenterServiceProvider.
 
+## So What Are Presenters?
+Presenters are simply a way to transform data before it's sent to the client. They allow you to modify the data in any way you want, without modifying the API resources. This is especially useful when you need to transform data in a specific way for a particular endpoint before sending it to the client.
+
+To use a presenter, simply add the header property `X-REST-PRESENTER: PresenterName` to your request. RESTPresenter will automatically apply the presenter to the data before sending it to the client.
+Presenters can be used with collections and single resources. They can also be used with nested resources, allowing you to transform data at any level of the response.
+
 ## Usage
+
+### Video Tutorials
+https://rest-presenter.com\
+Coming soon...
 
 ### Generate Resources (Prompts)
 To generate a new resource, use the following command:
@@ -109,6 +122,9 @@ class RESTPresenterServiceProvider extends ServiceProvider
 ### Configuration
 
 Configure RESTPresenter in the `config/rest-presenter.php` file to customize the package according to your project requirements.
+
+## API Endpoints
+Users can import this collection into their Insomnia application to quickly access and test the endpoints provided by RESTPresenter. This file is located [here](https://raw.githubusercontent.com/xtend-packages/rest-presenter/main/resources/insomnia/rest-presenter-Insomnia_2024-04-07.json)
 
 ## Testing
 
