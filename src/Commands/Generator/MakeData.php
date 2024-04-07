@@ -8,6 +8,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use XtendPackages\RESTPresenter\Concerns\InteractsWithDbSchema;
 use XtendPackages\RESTPresenter\Concerns\WithTypeScriptGenerator;
 
 use function Laravel\Prompts\select;
@@ -15,6 +16,7 @@ use function Laravel\Prompts\select;
 #[AsCommand(name: 'rest-presenter:make-data')]
 class MakeData extends GeneratorCommand
 {
+    use InteractsWithDbSchema;
     use WithTypeScriptGenerator;
 
     protected $name = 'rest-presenter:make-data';
@@ -103,7 +105,7 @@ class MakeData extends GeneratorCommand
                 default => 'string',
             };
 
-            $nullable = ! ($fieldProperties['notnull'] === 1);
+            $nullable = $this->isFieldNullable($fieldProperties);
 
             if ($nullable) {
                 $propertyType = '?' . $propertyType;
