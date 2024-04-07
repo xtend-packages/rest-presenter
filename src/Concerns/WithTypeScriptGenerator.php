@@ -16,7 +16,7 @@ trait WithTypeScriptGenerator
         $this->call('typescript:transform', [
             '--path' => $this->getDataPath(),
             '--output' => $this->getOutputPath(),
-            '--format' => true,
+            // '--format' => true,
         ]);
     }
 
