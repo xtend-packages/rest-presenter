@@ -16,7 +16,7 @@ trait WithTypeScriptGenerator
         $this->call('typescript:transform', [
             '--path' => $this->getDataPath(),
             '--output' => $this->getOutputPath(),
-            '--format' => true,
+            // '--format' => true,
         ]);
     }
 
@@ -32,7 +32,7 @@ trait WithTypeScriptGenerator
     protected function getOutputPath(): string
     {
         return Str::of($this->argument('name'))
-            ->snake('-')
+            ->kebab()
             ->prepend(config('rest-presenter.generator.ts_types_path') . '/')
             ->append('.d.ts')
             ->value();

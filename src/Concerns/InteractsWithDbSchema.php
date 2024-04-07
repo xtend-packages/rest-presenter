@@ -45,6 +45,15 @@ trait InteractsWithDbSchema
             );
     }
 
+    protected function isFieldNullable(array $fieldProperties): bool
+    {
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            return $fieldProperties['notnull'] === 0;
+        }
+
+        return $fieldProperties['nullable'] ?? false;
+    }
+
     private function replaceJsonColumnsSqliteWorkaround(string $table): Collection
     {
         $results = DB::select("PRAGMA table_info({$table})");

@@ -57,7 +57,7 @@ trait InteractsWithPresenter
     protected function getPresenterFromRequestHeader(): string
     {
         $headerName = strtolower(config('rest-presenter.api.presenter_header', 'x-rest-presenter'));
-        $presenter = Str::snake(request()->headers->get($headerName, 'default'), '-');
+        $presenter = Str::kebab(request()->headers->get($headerName, 'default'));
 
         if ($presenter && ! array_key_exists($presenter, $this->getPresenters())) {
             throw new PresenterNotFoundException($presenter);

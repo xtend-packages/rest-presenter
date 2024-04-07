@@ -62,6 +62,11 @@ You can install the package via composer:
 ```bash
 composer require xtend-packages/rest-presenter
 ```
+Please note: if you receive an error during installing this package, you may need to update your minimum stability requirement to dev in your composer.json file:
+
+```bash
+"minimum-stability": "dev",
+```
 
 After installation, the package sets up default Breeze auth scaffolding along with the users resource. You can access the register endpoint at api/v1/auth/register using API clients like Insomnia.
 
@@ -105,7 +110,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use XtendPackages\RESTPresenter\Facades\RESTPresenter;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\BreezeApiKitServiceProvider;
+use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\BreezeApiKitServiceProvider;
 
 class RESTPresenterServiceProvider extends ServiceProvider
 {

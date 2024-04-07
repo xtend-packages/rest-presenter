@@ -21,8 +21,7 @@ trait WithAutoDiscovery
             ->mapWithKeys(function (SplFileInfo $file) {
                 $name = Str::of(basename($file->getRelativePath()))
                     ->replace('/', '.')
-                    ->plural()
-                    ->lower()
+                    ->kebab()
                     ->value();
 
                 $controller = Str::of($file->getRealPath())
