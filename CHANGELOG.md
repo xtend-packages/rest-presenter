@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.5.3](https://github.com/xtend-packages/rest-presenter/compare/0.5.2...0.5.3) (2024-04-07)
+
+
+### Bug Fixes
+
+* All custom resources and presenters are now generated correctly ([aea569a](https://github.com/xtend-packages/rest-presenter/commit/aea569a819289334b8a32fc7a8c455e8c3f29f2e))
+
 ## [0.5.2](https://github.com/xtend-packages/rest-presenter/compare/0.5.1...0.5.2) (2024-04-07)
 
 
