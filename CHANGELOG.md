@@ -1,5 +1,20 @@
 # Changelog for RESTPresenter
 
+## [0.5.1](https://github.com/xtend-packages/rest-presenter/compare/0.5.0...0.5.1) (2024-04-07)
+
+
+### Bug Fixes
+
+* sqlite nullable check condition ([ce12803](https://github.com/xtend-packages/rest-presenter/commit/ce1280321dd0c911f4fc1d341d360d108ae0c906))
+* Temp disable TS formatting as it conflicts with .prettierrc.js ([27cb548](https://github.com/xtend-packages/rest-presenter/commit/27cb548d196a5d2977a7d096272161f0cb382ce5))
+
+
+### Documentation
+
+* Example RESTPresenter insomnia collection ([6dcd24d](https://github.com/xtend-packages/rest-presenter/commit/6dcd24dcbfb742bf3d86256ecd05103e1f5c4472))
+* Inform users about minimum stability requirement ([ab327e6](https://github.com/xtend-packages/rest-presenter/commit/ab327e68078127c3159bb096c86213b890c38d7b))
+* Update docs explain about presenters + update starter kits links ([a5dcc43](https://github.com/xtend-packages/rest-presenter/commit/a5dcc43c2e830f21f57dab58f12b12aa1abeaf7b))
+
 ## [0.5.0](https://github.com/xtend-packages/rest-presenter/compare/0.4.0...0.5.0) (2024-04-06)
 
 
