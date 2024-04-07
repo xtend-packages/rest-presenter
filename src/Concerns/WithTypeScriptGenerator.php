@@ -32,7 +32,7 @@ trait WithTypeScriptGenerator
     protected function getOutputPath(): string
     {
         return Str::of($this->argument('name'))
-            ->snake('-')
+            ->kebab()
             ->prepend(config('rest-presenter.generator.ts_types_path') . '/')
             ->append('.d.ts')
             ->value();

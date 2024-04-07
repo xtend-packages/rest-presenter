@@ -118,15 +118,17 @@ class MakeResource extends GeneratorCommand
 
     protected function buildResourceReplacements(): array
     {
+        $modelClass = Str::of(class_basename($this->argument('model')));
+
         return [
             '{{ resourceNamespace }}' => $this->argument('kit_namespace')
                 ? 'XtendPackages\\RESTPresenter\\' . $this->argument('kit_namespace') . '\\' . $this->getNameInput()
                 : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($this->argument('name')) . '\\' . $this->getNameInput(),
             '{{ aliasResource }}' => 'Xtend' . $this->getNameInput(),
             '{{ modelClassImport }}' => $this->argument('model'),
-            '{{ modelClassName }}' => class_basename($this->argument('model')),
-            '{{ $modelVarSingular }}' => strtolower(class_basename($this->argument('model'))),
-            '{{ $modelVarPlural }}' => strtolower(Str::plural(class_basename($this->argument('model')))),
+            '{{ modelClassName }}' => $modelClass->value(),
+            '{{ $modelVarSingular }}' => $modelClass->lcfirst(),
+            '{{ $modelVarPlural }}' => $modelClass->plural()->lcfirst(),
             '{{ filters }}' => $this->transformFilters(),
             '{{ presenters }}' => $this->transformPresenters(),
         ];
@@ -150,7 +152,11 @@ class MakeResource extends GeneratorCommand
 
             return collect($presenters)->map(
                 function ($presenter, $presenterKey) {
-                    $presenterNamespace = Str::of($presenterKey)->replace('Presenter', '')->plural()->ucfirst();
+                    $presenterNamespace = Str::of($presenterKey)
+                        ->replace('Presenter', '')
+                        ->studly()
+                        ->plural()
+                        ->value();
 
                     return "'$presenterKey' => Presenters\\" . $presenterNamespace . '\\' . $presenter;
                 },
