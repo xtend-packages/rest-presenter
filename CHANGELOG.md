@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.5.2](https://github.com/xtend-packages/rest-presenter/compare/0.5.1...0.5.2) (2024-04-07)
+
+
+### Bug Fixes
+
+* Support multi-word resources ([898f7ea](https://github.com/xtend-packages/rest-presenter/commit/898f7eab1cdc2dd79e186b9d7fbd6f0c86781722))
+
 ## [0.5.1](https://github.com/xtend-packages/rest-presenter/compare/0.5.0...0.5.1) (2024-04-07)
 
 
