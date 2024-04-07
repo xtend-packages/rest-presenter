@@ -136,12 +136,16 @@ class XtendStarterKit extends Command
                     ],
                 );
 
+                $resourceKey = Str::of($resourceName)
+                    ->kebab()
+                    ->value();
+
                 $this->call('rest-presenter:make-resource', [
                     'kit_namespace' => $kitNamespace . '\\' . $resourceNamespace,
                     'name' => $resourceName,
                     'model' => $resource['model'],
                     'presenters' => [
-                        strtolower($resourceName) => $resourceName . 'Presenter::class',
+                        $resourceKey => $resourceName . 'Presenter::class',
                     ],
                     'type' => 'new',
                 ]);

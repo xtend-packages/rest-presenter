@@ -61,18 +61,22 @@ class MakePresenter extends GeneratorCommand
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        $resourceDirectory = Str::plural($this->argument('resource'));
+        return config('rest-presenter.generator.namespace') . '\\' . $this->getPresenterNamespace();
+    }
 
-        if ($this->argument('kit_namespace')) {
-            $presenterNamespace = Str::of($this->argument('name'))
-                ->replace('Presenter', '')
-                ->plural()
-                ->value();
+    protected function getPresenterNamespace(): string
+    {
+        $resourceDirectory = 'Resources\\' . Str::plural($this->argument('resource'));
+        $presenterNamespace = Str::of($this->argument('name'))
+            ->replace('Presenter', '')
+            ->plural()
+            ->value();
 
-            return config('rest-presenter.generator.namespace') . '\\' . $this->argument('kit_namespace') . '\\Presenters\\' . $presenterNamespace;
-        }
+        $resourceNamespace = $this->argument('kit_namespace')
+            ? $this->argument('kit_namespace')
+            : $resourceDirectory;
 
-        return config('rest-presenter.generator.namespace') . '\\Resources\\' . $resourceDirectory . '\\Presenters\\' . $this->argument('name');
+        return $resourceNamespace . '\\Presenters\\' . $presenterNamespace;
     }
 
     protected function getNameInput(): string
