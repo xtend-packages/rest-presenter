@@ -6,7 +6,6 @@ use Illuminate\Console\GeneratorCommand;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use ReflectionMethod;
@@ -40,10 +39,13 @@ class MakeResource extends GeneratorCommand
 
     protected Collection $presenters;
 
+    protected Collection $presentersArgument;
+
     public function handle()
     {
         $this->filters ??= collect();
         $this->presenters ??= collect();
+        $this->presentersArgument ??= collect();
 
         $this->filters->each(
             fn (string $filter, string $relation) => $this->call(
@@ -62,7 +64,7 @@ class MakeResource extends GeneratorCommand
             fn (array $fields, string $presenter) => $this->call(
                 command: 'rest-presenter:make-presenter',
                 arguments: [
-                    'name' => $presenter,
+                    'name' => $presenter . 'Presenter',
                     'type' => 'new',
                     'model' => $this->argument('model'),
                     'resource' => Str::plural($this->argument('name')),
@@ -147,33 +149,35 @@ class MakeResource extends GeneratorCommand
 
     protected function transformPresenters(): string
     {
-        if ($this->hasArgument('presenters') && is_array($this->argument('presenters'))) {
-            $presenters = $this->argument('presenters');
-
-            return collect($presenters)->map(
-                function ($presenter, $presenterKey) {
-                    $presenterNamespace = Str::of($presenterKey)
-                        ->replace('Presenter', '')
-                        ->studly()
-                        ->plural()
-                        ->value();
-
-                    return "'$presenterKey' => Presenters\\" . $presenterNamespace . '\\' . $presenter;
-                },
-            )->implode(",\n\t\t\t") . ',';
-        }
-
-        if ($this->presenters->isEmpty()) {
+        if (! $this->hasPresenters()) {
             return '';
         }
 
-        return $this->presenters->map(
-            function ($fields, $presenter) {
-                $presenterKey = strtolower($presenter);
+        return $this->getPresenters()->map(
+            function ($presenter, $presenterKey) {
+                $presenterNamespace = Str::of($presenterKey)
+                    ->replace('Presenter', '')
+                    ->studly()
+                    ->plural()
+                    ->value();
 
-                return "'$presenterKey' => Presenters\\" . ucfirst($presenter) . '\\' . ucfirst($presenter) . '::class';
+                return "'$presenterKey' => Presenters\\" . $presenterNamespace . '\\' . $presenter;
             },
         )->implode(",\n\t\t\t") . ',';
+    }
+
+    protected function hasPresenters(): bool
+    {
+        return $this->getPresenters()->isNotEmpty();
+    }
+
+    protected function getPresenters(): Collection
+    {
+        if ($this->argument('presenters') && is_array($this->argument('presenters'))) {
+            return collect($this->argument('presenters'));
+        }
+
+        return $this->presentersArgument;
     }
 
     protected function getArguments()
@@ -301,7 +305,7 @@ class MakeResource extends GeneratorCommand
         );
 
         if ($presenterName) {
-            $fields = $this->generateModelFields();
+            $fields = $this->generateModelFields()->keyBy('name');
             $selectedFields = multiselect(
                 label: 'Select the fields you would like to include in the presenter:',
                 options: $fields->keys()->toArray(),
@@ -312,7 +316,15 @@ class MakeResource extends GeneratorCommand
         }
 
         $this->presenters ??= collect();
+        $this->presentersArgument ??= collect();
         $this->presenters->put($presenterName, $presenterFields ?? []);
+
+        $presenterKey = Str::of($presenterName)
+            ->replace('Presenter', '')
+            ->kebab()
+            ->value();
+
+        $this->presentersArgument->put($presenterKey, $presenterName . 'Presenter::class');
 
         $addAnother = select(
             label: 'Add another custom presenter?',
@@ -329,8 +341,9 @@ class MakeResource extends GeneratorCommand
     {
         $table = $this->model->getTable();
 
-        return $this->getTableColumns($table)->mapWithKeys(
-            fn ($column) => [$column => Schema::getColumnType($table, $column)],
+        return $this->getTableColumns(
+            table: $table,
+            withProperties: true,
         );
     }
 
