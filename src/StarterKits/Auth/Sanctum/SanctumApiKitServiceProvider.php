@@ -7,7 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use XtendPackages\RESTPresenter\StarterKits\StarterKitsServiceProvider;
 
-class BreezeApiKitServiceProvider extends StarterKitsServiceProvider
+class SanctumApiKitServiceProvider extends StarterKitsServiceProvider
 {
     public function register(): void
     {

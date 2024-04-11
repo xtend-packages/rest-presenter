@@ -39,11 +39,10 @@ return [
         ],
     ],
     'auth' => [
+        'abilities' => ['*'],
         'key' => env('REST_PRESENTER_AUTH_API_KEY', 'rest-presenter-secret-key'),
         'token_name' => env('REST_PRESENTER_API_TOKEN_NAME', 'rest-presenter-api-token'),
         'key_header' => env('REST_PRESENTER_API_KEY_HEADER', 'X-REST-PRESENTER-API-KEY'),
-        // Note should only be used in development environment
-        'impersonate_password' => env('REST_PRESENTER_API_IMPERSONATE_PASSWORD', 'impersonate'),
         'register_data_request_rules' => [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -52,6 +51,10 @@ return [
         'login_data_request_rules' => [
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
+        ],
+        'logout_revoke_all_tokens' => env('REST_PRESENTER_AUTH_LOGOUT_REVOKE_ALL_TOKENS', false),
+        'rate_limit' => [
+            'max_attempts' => env('REST_PRESENTER_AUTH_RATE_LIMIT_MAX_ATTEMPTS', 5),
         ],
     ],
     'data' => [

@@ -41,10 +41,6 @@ class XtendRouter extends Router
 
         $this->resource('users', UserResourceController::class);
 
-        Route::name('auth:')
-            ->prefix('auth')
-            ->group(__DIR__.'/../StarterKits/Auth/Sanctum/Routes/auth.php');
-
         $this->autoDiscoverResources();
         $this->autoDiscoverStarterKits();
     }

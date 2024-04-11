@@ -1,19 +1,21 @@
 <?php
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Resources;
+namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Resources\Auth;
 
 use XtendPackages\RESTPresenter\Resources\ResourceController;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
 
 class AuthResourceController extends ResourceController
 {
-    public function actions(): array
+    public static bool $onlyRegisterActionRoutes = true;
+
+    public function routeActions(): array
     {
         return [
-            'authenticated' => Actions\Authenticate::class,
             'register' => Actions\Register::class,
+            'login' => Actions\Login::class,
             'logout' => Actions\Logout::class,
-            'forgot-password' => Actions\ForgotPassword::class,
+            'reset-password' => Actions\ResetPassword::class,
             'verify-email' => Actions\VerifyEmail::class,
         ];
     }

@@ -2,17 +2,19 @@
 
 namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
 
-use XtendPackages\RESTPresenter\Models\User;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Data\Request\RegisterDataRequest;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\JsonResponse;
 
 class VerifyEmail
 {
-    public function execute(RegisterDataRequest $request): User
+    public static string $method = 'POST';
+
+    public function __invoke(EmailVerificationRequest $request): JsonResponse
     {
-        return User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+        $request->fulfill();
+
+        return response()->json([
+            'message' => __('auth.email_verified'),
         ]);
     }
 }

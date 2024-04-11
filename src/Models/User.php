@@ -7,6 +7,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use XtendPackages\RESTPresenter\Factories\UserFactory;
 
+/**
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class User extends Authenticatable
 {
     use HasApiTokens;

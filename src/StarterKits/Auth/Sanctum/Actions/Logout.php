@@ -2,17 +2,36 @@
 
 namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
 
-use XtendPackages\RESTPresenter\Models\User;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Data\Request\RegisterDataRequest;
+use Illuminate\Http\JsonResponse;
 
 class Logout
 {
-    public function execute(RegisterDataRequest $request): User
+    public static string $method = 'GET';
+
+    public function __invoke(): JsonResponse
     {
-        return User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+        config('rest-presenter.auth.logout_revoke_all_tokens')
+            ? $this->deleteAllTokens()
+            : $this->deleteCurrentToken();
+
+        return response()->json([
+            'message' => __('auth.logout'),
         ]);
+    }
+
+    protected function deleteAllTokens(): void
+    {
+        /** @var \Illuminate\Database\Eloquent\Relations\MorphMany $tokens */
+        $tokens = auth()->user()->tokens();
+
+        $tokens->delete();
+    }
+
+    protected function deleteCurrentToken(): void
+    {
+        /** @var \Laravel\Sanctum\Contracts\HasAbilities $currentAccessToken */
+        $currentAccessToken = auth()->user()->currentAccessToken();
+
+        $currentAccessToken->delete();
     }
 }
