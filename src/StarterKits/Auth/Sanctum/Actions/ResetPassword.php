@@ -35,6 +35,7 @@ class ResetPassword
 
         if ($status != Password::RESET_LINK_SENT) {
             $this->message = __($status);
+
             return;
         }
 
