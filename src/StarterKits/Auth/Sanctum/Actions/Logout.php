@@ -8,6 +8,10 @@ class Logout
 {
     public static string $method = 'GET';
 
+    public static array $middleware = ['auth:sanctum'];
+
+    protected string $message = '';
+
     public function __invoke(): JsonResponse
     {
         config('rest-presenter.auth.logout_revoke_all_tokens')
@@ -15,7 +19,7 @@ class Logout
             : $this->deleteCurrentToken();
 
         return response()->json([
-            'message' => __('auth.logout'),
+            'message' => $this->message,
         ]);
     }
 
@@ -25,6 +29,8 @@ class Logout
         $tokens = auth()->user()->tokens();
 
         $tokens->delete();
+
+        $this->message = __('rest-presenter::auth.logout_message');
     }
 
     protected function deleteCurrentToken(): void
@@ -33,5 +39,7 @@ class Logout
         $currentAccessToken = auth()->user()->currentAccessToken();
 
         $currentAccessToken->delete();
+
+        $this->message = __('rest-presenter::auth.logout_device_message');
     }
 }
