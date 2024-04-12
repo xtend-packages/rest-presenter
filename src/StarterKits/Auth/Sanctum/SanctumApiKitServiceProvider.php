@@ -4,6 +4,9 @@ namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum;
 
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Schema;
 use XtendPackages\RESTPresenter\StarterKits\StarterKitsServiceProvider;
 
@@ -16,8 +19,16 @@ class SanctumApiKitServiceProvider extends StarterKitsServiceProvider
 
     public function boot(): void
     {
-        ResetPassword::createUrlUsing(function (object $notifiable, string $token) {
-            return config('app.frontend_url') . "/password-reset/$token?email={$notifiable->getEmailForPasswordReset()}";
+        // @todo: Move this to mailable class and support translations
+        ResetPassword::toMailUsing(function (User $notifiable, string $token) {
+            return (new MailMessage)
+                ->subject(Lang::get('Reset Password Notification'))
+                ->line(Lang::get('You are receiving this email because we received a password reset request for your account.'))
+                ->action(Lang::get('Login'), url(config('app.frontend_url')))
+                ->line(Lang::get('Please use the following temporary password to login to your account: :password', [
+                    'password' => Actions\ResetPassword::generateTemporaryPassword($notifiable, $token),
+                ]))
+                ->line(Lang::get('If you did not request a password reset, no further action is required.'));
         });
     }
 
