@@ -4,6 +4,7 @@ namespace XtendPackages\RESTPresenter\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use XtendPackages\RESTPresenter\Factories\UserFactory;
 
@@ -16,8 +17,7 @@ use XtendPackages\RESTPresenter\Factories\UserFactory;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens;
-    use HasFactory;
+    use HasFactory, HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.
