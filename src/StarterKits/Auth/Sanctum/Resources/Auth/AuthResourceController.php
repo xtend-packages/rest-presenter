@@ -16,7 +16,6 @@ class AuthResourceController extends ResourceController
             'login' => Actions\Login::class,
             'logout' => Actions\Logout::class,
             'reset-password' => Actions\ResetPassword::class,
-            'verify-email' => Actions\VerifyEmail::class,
         ];
     }
 }

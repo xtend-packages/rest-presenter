@@ -22,16 +22,13 @@ class Register
 
         event(new Registered($user));
 
-        if (method_exists($user, 'notify')) {
-            $user->sendEmailVerificationNotification();
-        }
-
         return response()->json([
             'token' => $user->createToken(
                 name: config('rest-presenter.auth.token_name'),
                 abilities: config('rest-presenter.auth.abilities'),
             )->plainTextToken,
             'user' => DefaultResponse::from($user),
+            'message' => __('rest-presenter::auth.register_message'),
         ]);
     }
 }
