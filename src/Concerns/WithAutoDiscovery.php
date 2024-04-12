@@ -59,7 +59,9 @@ trait WithAutoDiscovery
 
         collect($resource->routeActions())
             ->each(function ($controller, $name) {
-                return Route::match($controller::$method, $name, $controller)->name($name);
+                return Route::match($controller::$method, $name, $controller)
+                    ->middleware($controller::$middleware ?? [])
+                    ->name($name);
             });
     }
 
