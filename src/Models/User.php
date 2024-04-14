@@ -4,13 +4,22 @@ namespace XtendPackages\RESTPresenter\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use XtendPackages\RESTPresenter\Factories\UserFactory;
 
+/**
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ *
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.

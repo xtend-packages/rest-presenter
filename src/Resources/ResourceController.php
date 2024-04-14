@@ -9,6 +9,7 @@ use XtendPackages\RESTPresenter\Concerns\InteractsWithModel;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
 use XtendPackages\RESTPresenter\Concerns\WithResourceFiltering;
+use XtendPackages\RESTPresenter\Concerns\WithResourceRouteActions;
 
 abstract class ResourceController extends Controller
 {
@@ -16,10 +17,18 @@ abstract class ResourceController extends Controller
     use InteractsWithPresenter;
     use InteractsWithRequest;
     use WithResourceFiltering;
+    use WithResourceRouteActions;
 
     public array $sorts;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, bool $init = true)
+    {
+        if ($init) {
+            $this->init($request);
+        }
+    }
+
+    protected function init(Request $request)
     {
         $this->setModelForResource();
 
@@ -38,7 +47,7 @@ abstract class ResourceController extends Controller
     {
         if (static::$model === Model::class) {
             match (class_basename(static::class)) {
-                'UserResourceController' => $this->setModel(config('rest-presenter.resources.user.model')),
+                'AuthResourceController', 'UserResourceController' => $this->setModel(config('rest-presenter.resources.user.model')),
                 default => throw new \Exception('Model not found for resource controller'),
             };
         }

@@ -23,6 +23,7 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
             ->name('rest-presenter')
             ->hasViews()
             ->hasConfigFile()
+            ->hasTranslations()
             ->publishesServiceProvider('RESTPresenterServiceProvider')
             ->hasCommands([
                 RESTPresenterSetupCommand::class,

@@ -35,6 +35,8 @@ class MakeResource extends GeneratorCommand
 
     protected Model $model;
 
+    protected Collection $actions;
+
     protected Collection $filters;
 
     protected Collection $presenters;
@@ -43,9 +45,21 @@ class MakeResource extends GeneratorCommand
 
     public function handle()
     {
+        $this->actions ??= collect();
         $this->filters ??= collect();
         $this->presenters ??= collect();
         $this->presentersArgument ??= collect();
+
+        $this->actions->each(
+            fn (string $action) => $this->call(
+                command: 'rest-presenter:make-action',
+                arguments: [
+                    'name' => ucfirst($action),
+                    'resource' => Str::plural($this->argument('name')),
+                    'type' => 'new',
+                ],
+            ),
+        );
 
         $this->filters->each(
             fn (string $filter, string $relation) => $this->call(
@@ -131,9 +145,21 @@ class MakeResource extends GeneratorCommand
             '{{ modelClassName }}' => $modelClass->value(),
             '{{ $modelVarSingular }}' => $modelClass->lcfirst(),
             '{{ $modelVarPlural }}' => $modelClass->plural()->lcfirst(),
+            '{{ actions }}' => $this->transformActions(),
             '{{ filters }}' => $this->transformFilters(),
             '{{ presenters }}' => $this->transformPresenters(),
         ];
+    }
+
+    protected function transformActions(): string
+    {
+        if ($this->actions->isEmpty()) {
+            return '';
+        }
+
+        return $this->actions->map(
+            fn ($action) => "'$action' => Actions\\" . ucfirst($action) . '::class',
+        )->implode(",\n\t\t\t") . ',';
     }
 
     protected function transformFilters(): string
