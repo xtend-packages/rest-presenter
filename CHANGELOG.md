@@ -1,5 +1,20 @@
 # Changelog for RESTPresenter
 
+## [0.6.0](https://github.com/xtend-packages/rest-presenter/compare/0.5.3...0.6.0) (2024-04-14)
+
+
+### Features
+
+* Reset password and generate temp password to login ([5022992](https://github.com/xtend-packages/rest-presenter/commit/5022992db55c8f34cd6496d791971cdb0ee424ea))
+* Update Sanctum Auth Kit + Register Route Actions ([7b1d965](https://github.com/xtend-packages/rest-presenter/commit/7b1d9653771b74be7398051611a69e2cba7d4c71))
+
+
+### Bug Fixes
+
+* Allow actions to set auth middleware + translatable message ([6352404](https://github.com/xtend-packages/rest-presenter/commit/6352404023bdec1a03c601082a6243c4bef8b985))
+* AutoDiscovery with middleware ([312ef14](https://github.com/xtend-packages/rest-presenter/commit/312ef14c0a35ff85660a616f570a645c45441eb5))
+* Temp remove verification email does not work with token auth flow ([489b99d](https://github.com/xtend-packages/rest-presenter/commit/489b99db6db4e7c859405d951cc6503cf81a88b5))
+
 ## [0.5.3](https://github.com/xtend-packages/rest-presenter/compare/0.5.2...0.5.3) (2024-04-07)
 
 
