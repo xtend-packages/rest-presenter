@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.6.1](https://github.com/xtend-packages/rest-presenter/compare/0.6.0...0.6.1) (2024-04-14)
+
+
+### Bug Fixes
+
+* For those not using filament now checks if the resources exist ([4a64afe](https://github.com/xtend-packages/rest-presenter/commit/4a64afe669db1344a86819a1cb4770edc35414a8))
+
 ## [0.6.0](https://github.com/xtend-packages/rest-presenter/compare/0.5.3...0.6.0) (2024-04-14)
 
 
