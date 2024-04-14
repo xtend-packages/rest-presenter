@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Http\JsonResponse;
+
+class {{ class }}
+{
+    public function __invoke({{ dataRequestClass }} $request): JsonResponse
+    {
+        return response()->json([
+            'message' => 'Placeholder for the action message response',
+        ]);
+    }
+}

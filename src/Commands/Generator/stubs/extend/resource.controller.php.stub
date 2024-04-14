@@ -6,23 +6,24 @@ use {{ resourceNamespace }} as {{ aliasResource }};
 
 class {{ class }} extends {{ aliasResource }}
 {
+    public function routeActions(): array
+    {
+        return array_merge(
+            parent::routeActions(), [],
+        );
+    }
+
     public function filters(): array
     {
         return array_merge(
-            parent::filters(),
-            [
-                // @todo Add your custom filters here
-            ],
+            parent::filters(), [],
         );
     }
 
     public function presenters(): array
     {
         return array_merge(
-            parent::presenters(),
-            [
-                // @todo Add your custom presenters here
-            ],
+            parent::presenters(), [],
         );
     }
 }
