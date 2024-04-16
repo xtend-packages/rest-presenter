@@ -19,6 +19,7 @@
     ],
     "require": {
         "php": "^8.2",
+        "gloss-php/type-guard": "dev-main",
         "laravel/framework": "^10|^11",
         "laravel/prompts": "^0.1.16",
         "laravel/sanctum": "^3.0|^4.0",
@@ -39,9 +40,6 @@
         "pestphp/pest-plugin-faker": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.3",
         "pestphp/pest-plugin-livewire": "^2.1",
-        "phpstan/extension-installer": "^1.3",
-        "phpstan/phpstan-deprecation-rules": "^1.1",
-        "phpstan/phpstan-phpunit": "^1.3",
         "phpunit/phpunit": "^10",
         "spatie/invade": "^1.1",
         "spatie/pest-plugin-snapshots": "^2.1"
@@ -60,7 +58,7 @@
     },
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
-        "analyse": "vendor/bin/phpstan analyse",
+        "analyse": "vendor/bin/phpstan",
         "test": "vendor/bin/pest --testsuite=RESTPresenter",
         "test-coverage": "vendor/bin/pest --testsuite=RESTPresenter --coverage",
         "test-starter-kit:lunar": "vendor/bin/pest --testsuite=starter-kit:lunar",
