@@ -2,12 +2,9 @@
 
 namespace XtendPackages\RESTPresenter\StarterKits\Filament\Base;
 
-use Filament\Forms\ComponentContainer;
-use Filament\Forms\Components\Field;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Symfony\Component\Finder\SplFileInfo;
 use XtendPackages\RESTPresenter\Base\StarterKit;
@@ -28,6 +25,10 @@ class FilamentStarterKit extends StarterKit
 
     protected function autoDiscoverResources(): void
     {
+        if (! $this->filesystem->isDirectory(app_path('Filament/Resources'))) {
+            return;
+        }
+
         collect($this->filesystem->allFiles(app_path('Filament/Resources')))
             ->filter(fn (SplFileInfo $file) => basename($file->getRelativePath()) === 'Pages')
             ->map(fn (SplFileInfo $file) => $file->getRelativePathname())
