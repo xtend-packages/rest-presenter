@@ -2,12 +2,12 @@
 
 namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
 
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
+use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Concerns\WithSanctumRateLimit;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Data\Request\LoginDataRequest;
 
@@ -20,12 +20,17 @@ class Login
     public function __invoke(LoginDataRequest $request): JsonResponse
     {
         $this->authenticate($request);
-        $user = auth()->user();
+        $user = type(auth()->user())->as(User::class);
+
+        $config = [
+            'abilities' => type(config('rest-presenter.auth.abilities'))->asArray(),
+            'tokenName' => type(config('rest-presenter.auth.token_name'))->asString(),
+        ];
 
         return response()->json([
             'token' => $user->createToken(
-                name: config('rest-presenter.auth.token_name'),
-                abilities: config('rest-presenter.auth.abilities'),
+                name: $config['tokenName'],
+                abilities: $config['abilities'],
             )->plainTextToken,
             'user' => DefaultResponse::from($user),
         ]);

@@ -13,7 +13,7 @@ use XtendPackages\RESTPresenter\Factories\UserFactory;
  * @property string $email
  * @property string $password
  *
- * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin \Illuminate\Database\Eloquent\Builder<User>
  */
 class User extends Authenticatable
 {

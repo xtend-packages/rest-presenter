@@ -19,6 +19,9 @@ abstract class ResourceController extends Controller
     use WithResourceFiltering;
     use WithResourceRouteActions;
 
+    /**
+     * @var array<int, string>
+     */
     public array $sorts;
 
     public function __construct(Request $request, bool $init = true)
@@ -28,13 +31,14 @@ abstract class ResourceController extends Controller
         }
     }
 
-    protected function init(Request $request)
+    protected function init(Request $request): void
     {
         $this->setModelForResource();
 
         $query = $this->getModelQuery();
 
-        $this->sorts = $request->sorts ?? [];
+
+        $this->sorts = type($request->sorts ?? [])->asArray();
         $this->applyFilters($query);
 
         $this->setModelQuery($query);
@@ -46,8 +50,9 @@ abstract class ResourceController extends Controller
     protected function setModelForResource(): void
     {
         if (static::$model === Model::class) {
+            $userModelFromConfig = type(config('rest-presenter.resources.user.model'))->as(Model::class);
             match (class_basename(static::class)) {
-                'AuthResourceController', 'UserResourceController' => $this->setModel(config('rest-presenter.resources.user.model')),
+                'AuthResourceController', 'UserResourceController' => $this->setModel($userModelFromConfig),
                 default => throw new \Exception('Model not found for resource controller'),
             };
         }

@@ -6,28 +6,39 @@ use Illuminate\Support\Arr;
 
 trait InteractsWithRequest
 {
-    public function filterBy($key): mixed
+    /**
+     * @param  string|int|null  $key
+     */
+    public function filterBy(mixed $key): mixed
     {
         return Arr::get($this->filtersFromRequest(), $key);
     }
 
-    public function hasFilter($key): bool
+    /**
+     * @param  string|int  $key
+     */
+    public function hasFilter(mixed $key): bool
     {
         return array_key_exists(
             $key, method_exists($this, 'filtersFromRequest') ? $this->filtersFromRequest() : [],
         );
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function filtersFromRequest(): array
     {
         $filters = request()->collect()->get('filters');
         if (is_array($filters)) {
             $filters = json_encode($filters);
         }
+
+        $filters = type($filters)->asString();
         if (json_decode($filters) !== null) {
             $filters = json_decode($filters, true);
         }
 
-        return $filters ?? [];
+        return type($filters ?? [])->asArray();
     }
 }

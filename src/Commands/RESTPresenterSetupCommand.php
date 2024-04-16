@@ -120,7 +120,7 @@ class RESTPresenterSetupCommand extends Command
         $generatedKitsDirectory = config('rest-presenter.generator.path') . '/StarterKits';
         $this->filesystem->ensureDirectoryExists($generatedKitsDirectory);
 
-        /** @var \Illuminate\Support\Collection $unpublishedStarterKits */
+        /** @var \Illuminate\Support\Collection<string, string> $unpublishedStarterKits */
         $unpublishedStarterKits = collect($this->filesystem->allFiles($starterKitsDirectory))
             ->map(fn ($file) => $file->getRelativePathname())
             ->filter(fn ($file) => ! $this->filesystem->exists($generatedKitsDirectory . '/' . $file))
@@ -137,7 +137,7 @@ class RESTPresenterSetupCommand extends Command
 
         $starterKits = multiselect(
             label: 'Would you like to install any of these starter kits?',
-            options: $unpublishedStarterKits->toArray(),
+            options: $unpublishedStarterKits->toArray(), // @phpstan-ignore-line
             hint: 'You can re-run this command to install more starter kits later',
         );
 
@@ -152,7 +152,9 @@ class RESTPresenterSetupCommand extends Command
 
     protected function firstTimeSetup(): bool
     {
-        return ! $this->filesystem->exists(config('rest-presenter.generator.path'));
+        return ! $this->filesystem->exists(
+            path: type(config('rest-presenter.generator.path'))->asString(),
+        );
     }
 
     protected function checkForUpdates(): void

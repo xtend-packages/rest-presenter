@@ -14,8 +14,14 @@ class FilamentStarterKit extends StarterKit
 {
     use InteractsWithDbSchema;
 
+    /**
+     * @var array<string, array<string, mixed>>
+     */
     protected array $resources = [];
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public function autoDiscover(): array
     {
         $this->autoDiscoverResources();
@@ -34,15 +40,13 @@ class FilamentStarterKit extends StarterKit
             ->map(fn (SplFileInfo $file) => $file->getRelativePathname())
             ->map(fn (string $file) => resolve('App\\Filament\\Resources\\' . str_replace(['/', '.php'], ['\\', ''], $file)))
             ->filter(fn ($class) => is_subclass_of($class, ListRecords::class))
-            ->each(function (ListRecords $page) {
+            ->each(function ($page) {
+                /** @var \Filament\Resources\Pages\ListRecords $page */
+                $page = type($page)->as(ListRecords::class);
                 /** @var \Filament\Tables\Table $table */
                 $table = $page->table(
                     table: mock('Filament\Tables\Table')->makePartial(),
                 );
-
-                // $form = $page->form(
-                //     form: mock('Filament\Forms\Form')->makePartial(),
-                // );
 
                 $resourceNamespace = Str::of(get_class($page))
                     ->replace('App\\Filament\\', '')
@@ -70,6 +74,9 @@ class FilamentStarterKit extends StarterKit
             });
     }
 
+    /**
+     * @return \Illuminate\Support\Collection<string, string>
+     */
     protected function generateModelFields(Model $model): Collection
     {
         $table = $model->getTable();

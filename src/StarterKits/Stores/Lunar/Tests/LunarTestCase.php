@@ -76,7 +76,7 @@ class LunarTestCase extends TestCase
                 $this->foreignUuId($field_name)
                     ->nullable($nullable)
                     ->constrained(
-                        (new $userModel())->getTable()
+                        (new $userModel())->getTable() // @phpstan-ignore-line
                     );
             } elseif ($type == 'int') {
                 $this->unsignedInteger($field_name)->nullable($nullable);
@@ -85,7 +85,7 @@ class LunarTestCase extends TestCase
                 $this->foreignId($field_name)
                     ->nullable($nullable)
                     ->constrained(
-                        (new $userModel())->getTable()
+                        (new $userModel())->getTable() // @phpstan-ignore-line
                     );
             }
         });

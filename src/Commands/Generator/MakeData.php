@@ -50,23 +50,27 @@ class MakeData extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/' . $this->argument('type') . '/data.php.stub';
+        return __DIR__ . '/stubs/' . type($this->argument('type'))->asString() . '/data.php.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        $resourceDirectory = Str::plural($this->argument('resource'));
+        $resourceName = type($this->argument('resource'))->asString();
+        $namespace = type(config('rest-presenter.generator.namespace'))->asString();
+        $kitNamespace = type($this->argument('kit_namespace'))->asString();
+        $presenterName = type($this->argument('presenter'))->asString();
+        $resourceDirectory = Str::plural($resourceName);
 
-        if ($this->argument('kit_namespace')) {
-            return config('rest-presenter.generator.namespace') . '\\' . $this->argument('kit_namespace') . '\\Presenters\\' . $this->argument('presenter') . '\\Data';
+        if ($kitNamespace) {
+            return $namespace . '\\' . $kitNamespace . '\\Presenters\\' . $presenterName . '\\Data';
         }
 
-        return config('rest-presenter.generator.namespace') . '\\Resources\\' . $resourceDirectory . '\\Presenters\\' . $this->argument('presenter') . '\\Data';
+        return $namespace . '\\Resources\\' . $resourceDirectory . '\\Presenters\\' . $presenterName . '\\Data';
     }
 
     protected function getNameInput(): string
     {
-        return $this->argument('name');
+        return type($this->argument('name'))->asString();
     }
 
     protected function buildClass($name): string
@@ -78,25 +82,36 @@ class MakeData extends GeneratorCommand
         );
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function buildResourceReplacements(): array
     {
+        $resourceName = type($this->argument('name'))->asString();
+        $kitNamespace = type($this->argument('kit_namespace'))->asString();
+        $model = type($this->argument('model'))->asString();
+        $fields = type($this->argument('fields') ?? [])->asArray();
+
         return [
-            '{{ presenterNamespace }}' => $this->argument('kit_namespace')
-                ? 'XtendPackages\\RESTPresenter\\' . $this->argument('kit_namespace') . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
-                : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($this->argument('name')) . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
+            '{{ presenterNamespace }}' => $kitNamespace
+                ? 'XtendPackages\\RESTPresenter\\' . $kitNamespace . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
+                : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($resourceName) . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
             '{{ aliasPresenter }}' => 'Xtend' . $this->getNameInput() . 'Presenter',
-            '{{ modelClassImport }}' => $this->argument('model'),
-            '{{ modelClassName }}' => class_basename($this->argument('model')),
-            '{{ $modelVarSingular }}' => strtolower(class_basename($this->argument('model'))),
-            '{{ $modelVarPlural }}' => strtolower(Str::plural(class_basename($this->argument('model')))),
-            '{{ properties }}' => $this->transformFieldProperties($this->argument('fields')),
+            '{{ modelClassImport }}' => $model,
+            '{{ modelClassName }}' => class_basename($model),
+            '{{ $modelVarSingular }}' => strtolower(class_basename($model)),
+            '{{ $modelVarPlural }}' => strtolower(Str::plural(class_basename($model))),
+            '{{ properties }}' => $this->transformFieldProperties($fields),
         ];
     }
 
+    /**
+     * @param array<string, array<string, mixed>> $fields
+     */
     protected function transformFieldProperties(array $fields): string
     {
         return collect($fields)->map(function (array $fieldProperties, string $field) {
-            $fieldType = strtolower($fieldProperties['type']);
+            $fieldType = strtolower(type($fieldProperties['type'])->asString());
             $propertyType = match ($fieldType) {
                 'int', 'integer', 'bigint' => 'int',
                 'tinyint' => 'bool',
@@ -116,12 +131,15 @@ class MakeData extends GeneratorCommand
         })->implode(",\n\t\t");
     }
 
-    protected function getArguments()
+    /**
+     * @return array<int, array<int, int|string>>
+     */
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
             ['resource', InputArgument::REQUIRED, 'The resource of the ' . strtolower($this->type)],
-            ['type', InputArgument::OPTIONAL, 'The type of filter to create'],
+            ['type', InputArgument::REQUIRED, 'The type of filter to create'],
             ['model', InputArgument::OPTIONAL, 'The model class to use'],
             ['presenter', InputArgument::OPTIONAL, 'The presenter class to use'],
             ['fields', InputArgument::OPTIONAL, 'The fields to include in the presenter'],
@@ -129,6 +147,9 @@ class MakeData extends GeneratorCommand
         ];
     }
 
+    /**
+     * @return array<string, array<int, string>>
+     */
     protected function promptForMissingArgumentsUsing(): array
     {
         return [
@@ -151,7 +172,7 @@ class MakeData extends GeneratorCommand
         ]);
 
         if ($type !== 'new') {
-            $input->setOption($type, true);
+            $input->setOption(type($type)->asString(), true);
         }
     }
 }

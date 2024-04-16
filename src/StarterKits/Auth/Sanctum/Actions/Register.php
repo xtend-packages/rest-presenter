@@ -22,10 +22,15 @@ class Register
 
         event(new Registered($user));
 
+        $config = [
+            'abilities' => type(config('rest-presenter.auth.abilities'))->asArray(),
+            'tokenName' => type(config('rest-presenter.auth.token_name'))->asString(),
+        ];
+
         return response()->json([
             'token' => $user->createToken(
-                name: config('rest-presenter.auth.token_name'),
-                abilities: config('rest-presenter.auth.abilities'),
+                name: $config['tokenName'],
+                abilities: $config['abilities'],
             )->plainTextToken,
             'user' => DefaultResponse::from($user),
             'message' => __('rest-presenter::auth.register_message'),

@@ -13,7 +13,9 @@ trait WithSanctumRateLimit
 {
     protected function ensureIsNotRateLimited(LoginDataRequest $request): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey($request), config('rest-presenter.auth.rate_limit.max_attempts'))) {
+        $maxAttempts = type(config('rest-presenter.auth.rate_limit.max_attempts'))->asInt();
+
+        if (! RateLimiter::tooManyAttempts($this->throttleKey($request), $maxAttempts)) {
             return;
         }
 

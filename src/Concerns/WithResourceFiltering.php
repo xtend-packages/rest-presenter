@@ -8,9 +8,16 @@ use Illuminate\Support\Collection;
 
 trait WithResourceFiltering
 {
+    /**
+     * @var Collection<string, string>
+     */
     public Collection $filters;
 
-    protected function applyFilters($query): Builder
+    /**
+     * @template TModelClass of \Illuminate\Database\Eloquent\Model
+     * @param  Builder<TModelClass>  $query
+     */
+    protected function applyFilters(Builder $query): mixed
     {
         return app(Pipeline::class)
             ->send($query)
@@ -18,6 +25,9 @@ trait WithResourceFiltering
             ->thenReturn();
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function getFilters(): array
     {
         return method_exists($this, 'filters') ? $this->filters() : [];

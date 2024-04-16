@@ -26,7 +26,7 @@ trait InteractsWithPresenter
 
     protected function getPresenterNamespace(string $fromRequest): string
     {
-        $namespace = config('rest-presenter.generator.namespace');
+        $namespace = type(config('rest-presenter.generator.namespace'))->asString();
         $xtendPresenter = Str::of($fromRequest)->replace('XtendPackages\RESTPresenter', $namespace)->value();
         $extendPresenterFile = Str::of($fromRequest)->replace('XtendPackages\RESTPresenter', '')
             ->replace('\\', '/')
@@ -44,6 +44,9 @@ trait InteractsWithPresenter
         )->transform();
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function getPresenters(): array
     {
         return array_merge([
@@ -56,8 +59,14 @@ trait InteractsWithPresenter
      */
     protected function getPresenterFromRequestHeader(): string
     {
-        $headerName = strtolower(config('rest-presenter.api.presenter_header', 'x-rest-presenter'));
-        $presenter = Str::kebab(request()->headers->get($headerName, 'default'));
+        $headerName = type(config('rest-presenter.generator.header'))->asString();
+        $headerName = strtolower($headerName);
+        if (! request()->headers->has($headerName)) {
+            return 'default';
+        }
+
+        $presenter = type(request()->headers->get($headerName))->asString();
+        $presenter = Str::kebab($presenter);
 
         if ($presenter && ! array_key_exists($presenter, $this->getPresenters())) {
             throw new PresenterNotFoundException($presenter);

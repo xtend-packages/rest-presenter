@@ -41,23 +41,26 @@ class MakeFilter extends GeneratorCommand
             default => 'attribute',
         };
 
-        return __DIR__ . '/stubs/' . $this->argument('type') . '/filter/' . $filterStub . '.php.stub';
+        return __DIR__ . '/stubs/' . type($this->argument('type'))->asString() . '/filter/' . $filterStub . '.php.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        $resourceDirectory = Str::plural($this->argument('resource'));
+        $resourceName = type($this->argument('resource'))->asString();
+        $resourceDirectory = Str::plural($resourceName);
+        $namespace = type(config('rest-presenter.generator.namespace'))->asString();
+        $kitNamespace = type($this->argument('kit_namespace'))->asString();
 
-        if ($this->argument('kit_namespace')) {
-            return config('rest-presenter.generator.namespace') . '\\' . $this->argument('kit_namespace') . '\\Filters';
+        if ($kitNamespace) {
+            return $namespace . '\\' . $kitNamespace . '\\Filters';
         }
 
-        return config('rest-presenter.generator.namespace') . '\\Resources\\' . $resourceDirectory . '\\Filters';
+        return $namespace . '\\Resources\\' . $resourceDirectory . '\\Filters';
     }
 
     protected function getNameInput(): string
     {
-        return $this->argument('name');
+        return type($this->argument('name'))->asString();
     }
 
     protected function buildClass($name): string
@@ -69,19 +72,28 @@ class MakeFilter extends GeneratorCommand
         );
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function buildResourceReplacements(): array
     {
+        $resourceName = type($this->argument('name'))->asString();
+        $kitNamespace = type($this->argument('kit_namespace'))->asString();
+
         return [
-            '{{ filterNamespace }}' => $this->argument('kit_namespace')
-                ? 'XtendPackages\\RESTPresenter\\' . $this->argument('kit_namespace') . '\\Filters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
-                : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($this->argument('name')) . '\\Filters\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
+            '{{ filterNamespace }}' => $kitNamespace
+                ? 'XtendPackages\\RESTPresenter\\' . $kitNamespace . '\\Filters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
+                : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($resourceName) . '\\Filters\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
             '{{ aliasFilter }}' => 'Xtend' . $this->getNameInput() . 'Filter',
-            '{{ relationship }}' => strtolower($this->argument('name')),
-            '{{ relationship_search_key }}' => $this->argument('relation_search_key'),
+            '{{ relationship }}' => strtolower($resourceName),
+            '{{ relationship_search_key }}' => type($this->argument('relation_search_key') ?? '')->asString(),
         ];
     }
 
-    protected function getArguments()
+    /**
+     * @return array<int, array<int, int|string>>
+     */
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],

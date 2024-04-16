@@ -20,13 +20,13 @@ class SanctumApiKitServiceProvider extends StarterKitsServiceProvider
     public function boot(): void
     {
         // @todo: Move this to mailable class and support translations
-        ResetPassword::toMailUsing(function (User $notifiable, string $token) {
+        ResetPassword::toMailUsing(static function ($notifiable, string $token) {
             return (new MailMessage)
-                ->subject(Lang::get('Reset Password Notification'))
+                ->subject(Lang::get('Reset Password Notification')) // @phpstan-ignore-line
                 ->line(Lang::get('You are receiving this email because we received a password reset request for your account.'))
-                ->action(Lang::get('Login'), url(config('app.frontend_url')))
+                ->action(Lang::get('Login'), url(config('app.frontend_url'))) // @phpstan-ignore-line
                 ->line(Lang::get('Please use the following temporary password to login to your account: :password', [
-                    'password' => Actions\ResetPassword::generateTemporaryPassword($notifiable, $token),
+                    'password' => Actions\ResetPassword::generateTemporaryPassword($notifiable, $token), // @phpstan-ignore-line
                 ]))
                 ->line(Lang::get('If you did not request a password reset, no further action is required.'));
         });

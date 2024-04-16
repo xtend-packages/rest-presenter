@@ -9,11 +9,17 @@ use Illuminate\Support\Str;
 
 trait InteractsWithDbSchema
 {
+    /**
+     * @return Collection<(int|string), mixed>
+     */
     protected function getAllTableNames(): Collection
     {
         return collect(DB::getSchemaBuilder()->getTables())->pluck('name');
     }
 
+    /**
+     * @return \Illuminate\Support\Collection<string, string>
+     */
     protected function getTableColumns(string $table, bool $withProperties = false): Collection
     {
         $columns = collect(! $withProperties
@@ -28,6 +34,12 @@ trait InteractsWithDbSchema
         return $columns;
     }
 
+    /**
+     * @param  string  $table
+     * @param  array<string>  $exclude
+     *
+     * @return \Illuminate\Support\Collection<string, string>
+     */
     protected function getTableColumnsForRelation(string $table, array $exclude = []): Collection
     {
         return $this->getTableColumns($table)->filter(
@@ -35,25 +47,31 @@ trait InteractsWithDbSchema
         );
     }
 
-    protected function findTableByName(string $table, $exactMatch = true): ?string
+    protected function findTableByName(string $table, bool $exactMatch = true): mixed
     {
         return $this->getAllTableNames()
             ->first(
-                fn (string $tableName) => ! $exactMatch
-                    ? Str::endsWith($tableName, $table)
+                fn ($tableName) => ! $exactMatch
+                    ? Str::endsWith(type($tableName)->asString(), $table)
                     : $tableName === $table,
             );
     }
 
+    /**
+     * @param  array<string, mixed>  $fieldProperties
+     */
     protected function isFieldNullable(array $fieldProperties): bool
     {
         if (DB::connection()->getDriverName() === 'sqlite') {
             return $fieldProperties['notnull'] === 0;
         }
 
-        return $fieldProperties['nullable'] ?? false;
+        return type($fieldProperties['nullable'])->asBool();
     }
 
+    /**
+     * @return Collection<int|string, array<string, mixed>>
+     */
     private function replaceJsonColumnsSqliteWorkaround(string $table): Collection
     {
         $results = DB::select("PRAGMA table_info({$table})");
@@ -64,7 +82,7 @@ trait InteractsWithDbSchema
                 $column->type_name = $column->type = 'json';
             }
 
-            return (array) $column;
+            return $column;
         });
     }
 }

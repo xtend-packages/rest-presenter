@@ -15,6 +15,9 @@ class RESTPresenter
         return $this;
     }
 
+    /**
+     * @param  array<string, string>  $starterKits
+     */
     public function starterKits(array $starterKits): self
     {
         foreach ($starterKits as $starterKit) {
@@ -24,7 +27,7 @@ class RESTPresenter
         return $this;
     }
 
-    protected function registerKit($kit): void
+    protected function registerKit(string $kit): void
     {
         if (! $this->isKitRegistered($kit)) {
             $this->app->register($kit);

@@ -23,7 +23,8 @@ class MakePresenter extends GeneratorCommand
     public function handle()
     {
         if ($this->hasArgument('fields') && is_array($this->argument('fields'))) {
-            $presenter = Str::of($this->argument('name'))->replace('Presenter', '');
+            $name = type($this->argument('name'))->asString();
+            $presenter = Str::of($name)->replace('Presenter', '');
             $this->call('rest-presenter:make-data', [
                 'type' => 'new',
                 'name' => $presenter->singular()->value() . 'Data',
@@ -56,7 +57,7 @@ class MakePresenter extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/' . $this->argument('type') . '/presenter.php.stub';
+        return __DIR__ . '/stubs/' . type($this->argument('type'))->asString() . '/presenter.php.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
@@ -66,8 +67,10 @@ class MakePresenter extends GeneratorCommand
 
     protected function getPresenterNamespace(): string
     {
-        $resourceDirectory = 'Resources\\' . Str::plural($this->argument('resource'));
-        $presenterNamespace = Str::of($this->argument('name'))
+        $resourceName = type($this->argument('resource'))->asString();
+        $presenterName = type($this->argument('name'))->asString();
+        $resourceDirectory = 'Resources\\' . Str::plural($resourceName);
+        $presenterNamespace = Str::of($presenterName)
             ->replace('Presenter', '')
             ->plural()
             ->value();
@@ -76,12 +79,13 @@ class MakePresenter extends GeneratorCommand
             ? $this->argument('kit_namespace')
             : $resourceDirectory;
 
+        $resourceNamespace = type($resourceNamespace)->asString();
         return $resourceNamespace . '\\Presenters\\' . $presenterNamespace;
     }
 
     protected function getNameInput(): string
     {
-        return $this->argument('name');
+        return type($this->argument('name'))->asString();
     }
 
     protected function buildClass($name): string
@@ -93,33 +97,46 @@ class MakePresenter extends GeneratorCommand
         );
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function buildResourceReplacements(): array
     {
+        $name = type($this->argument('name'))->asString();
+        $model = type($this->argument('model'))->asString();
+        $kitNamespace = type($this->argument('kit_namespace'))->asString();
+
         return [
-            '{{ presenterNamespace }}' => $this->argument('kit_namespace')
-                ? 'XtendPackages\\RESTPresenter\\' . $this->argument('kit_namespace') . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
-                : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($this->argument('name')) . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
+            '{{ presenterNamespace }}' => $kitNamespace
+                ? 'XtendPackages\\RESTPresenter\\' . $kitNamespace . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
+                : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($name) . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
             '{{ aliasPresenter }}' => 'Xtend' . $this->getNameInput() . 'Presenter',
-            '{{ modelClassImport }}' => $this->argument('model'),
-            '{{ modelClassName }}' => class_basename($this->argument('model')),
-            '{{ $modelVarSingular }}' => strtolower(class_basename($this->argument('model'))),
-            '{{ $modelVarPlural }}' => strtolower(Str::plural(class_basename($this->argument('model')))),
-            '{{ dataClass }}' => Str::of($this->argument('name'))->remove('Presenter')->append('Data')->value(),
+            '{{ modelClassImport }}' => $model,
+            '{{ modelClassName }}' => class_basename($model),
+            '{{ $modelVarSingular }}' => strtolower(class_basename($model)),
+            '{{ $modelVarPlural }}' => strtolower(Str::plural(class_basename($model))),
+            '{{ dataClass }}' => Str::of($name)->remove('Presenter')->append('Data')->value(),
         ];
     }
 
-    protected function getArguments()
+    /**
+     * @return array<int, array<int, int|string>>
+     */
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
+            ['type', InputArgument::REQUIRED, 'The type of filter to create'],
             ['resource', InputArgument::OPTIONAL, 'The resource of the ' . strtolower($this->type)],
-            ['type', InputArgument::OPTIONAL, 'The type of filter to create'],
             ['model', InputArgument::OPTIONAL, 'The model class to use'],
             ['fields', InputArgument::OPTIONAL, 'The fields to include in the presenter'],
             ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the ' . strtolower($this->type)],
         ];
     }
 
+    /**
+     * @return array<string, array<int, string>>
+     */
     protected function promptForMissingArgumentsUsing(): array
     {
         return [
@@ -142,7 +159,7 @@ class MakePresenter extends GeneratorCommand
         ]);
 
         if ($type !== 'new') {
-            $input->setOption($type, true);
+            $input->setOption(type($type)->asString(), true);
         }
     }
 }

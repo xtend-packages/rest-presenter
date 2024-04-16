@@ -21,14 +21,17 @@ class XtendRouter extends Router
 
         return Route::name($prefix . '.' . $version . '.')
             ->prefix($prefix . '/' . $version)
-            ->middleware(config('rest-presenter.api.middleware'))
+            ->middleware(config('rest-presenter.api.middleware') ?? []) // @phpstan-ignore-line
             ->group(fn () => $this->routes());
     }
 
     public function routes(): void
     {
         Route::get('resources', function () {
-            return collect(Route::getRoutes())->map(fn (\Illuminate\Routing\Route $route) => [
+            /** @var \Illuminate\Routing\Route[] $routes */
+            $routes = Route::getRoutes();
+
+            return collect($routes)->map(fn (\Illuminate\Routing\Route $route) => [
                 'uri' => $route->uri,
                 'methods' => $route->methods,
                 'name' => $route->action['as'] ?? null,
@@ -60,6 +63,10 @@ class XtendRouter extends Router
         );
     }
 
+    /**
+     * @param  array<string>  $resources
+     * @param  array<string>  $options
+     */
     public function resources(array $resources, array $options = []): void
     {
         foreach ($resources as $name => $controller) {
@@ -67,8 +74,16 @@ class XtendRouter extends Router
         }
     }
 
+    /**
+     * @param $name
+     * @param $controller
+     * @param  array<string>  $options
+     *
+     * @return \Illuminate\Routing\PendingResourceRegistration
+     */
     public function resource($name, $controller, array $options = []): PendingResourceRegistration
     {
+        /** @var string $namespace */
         $namespace = config('rest-presenter.generator.namespace');
         $xtendController = Str::of($controller)->replace('XtendPackages\RESTPresenter', $namespace)->value();
         $extendControllerFile = Str::of($controller)->replace('XtendPackages\RESTPresenter', '')
@@ -81,8 +96,16 @@ class XtendRouter extends Router
         return Route::apiResource($name, $controller);
     }
 
+    /**
+     * @param  string  $httpVerb
+     * @param  string  $uri
+     * @param  string  $controller
+     * @param  string  $name
+     * @param  array<string>|null  $middleware
+     */
     public function auth(string $httpVerb, string $uri, string $controller, string $name, ?array $middleware = null): void
     {
+        /** @var string $namespace */
         $namespace = config('rest-presenter.generator.namespace');
         $xtendController = Str::of($controller)->replace('XtendPackages\RESTPresenter', $namespace)->value();
         $extendControllerFile = Str::of($controller)->replace('XtendPackages\RESTPresenter', '')
@@ -92,7 +115,7 @@ class XtendRouter extends Router
         $controller = file_exists($extendControllerFile) ? $xtendController : $controller;
 
         Route::match([$httpVerb], $uri, [$controller, 'store'])
-            ->middleware($middleware)
-            ->name($name);
+            ->name($name)
+            ->middleware($middleware);
     }
 }

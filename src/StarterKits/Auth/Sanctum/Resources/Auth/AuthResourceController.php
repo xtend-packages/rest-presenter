@@ -9,6 +9,9 @@ class AuthResourceController extends ResourceController
 {
     public static bool $onlyRegisterActionRoutes = true;
 
+    /**
+     * @return array<string, string>
+     */
     public function routeActions(): array
     {
         return [

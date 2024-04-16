@@ -22,15 +22,23 @@ class XtendStarterKit extends Command
 
     public function handle(): int
     {
+        $name = type($this->argument('name'))->asString();
         $starterKitsDirectory = __DIR__ . '/../StarterKits';
         $generatedKitsDirectory = config('rest-presenter.generator.path') . '/StarterKits';
-        $kitPath = collect($this->filesystem->allFiles($starterKitsDirectory))
-            ->filter(fn ($file) => Str::startsWith($file->getFilename(), $this->argument('name')))
-            ->first()
-            ->getRelativePath();
+        $kitFindPath = collect($this->filesystem->allFiles($starterKitsDirectory))
+            ->filter(fn ($file) => Str::startsWith($file->getFilename(), $name))
+            ->first();
+
+        if (! $kitFindPath) {
+            $this->components->warn(__('The starter kit ":kit" path was not found!', ['kit' => $name]));
+
+            return self::FAILURE;
+        }
+
+        $kitPath = $kitFindPath->getRelativePath();
 
         if ($this->kitAlreadyExtended($generatedKitsDirectory, $kitPath)) {
-            $this->components->warn(__('The starter kit ":kit" has already been extended!', ['kit' => $this->argument('name')]));
+            $this->components->warn(__('The starter kit ":kit" has already been extended!', ['kit' => $name]));
 
             return self::FAILURE;
         }
@@ -54,13 +62,12 @@ class XtendStarterKit extends Command
         if ($this->kitCanExtendControllers($starterKitsDirectory, $kitPath)) {
             collect($this->filesystem->allFiles($starterKitsDirectory . '/' . $kitPath . '/Http/Controllers'))
                 ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getFilename(), 'Controller.php'))
-                ->map(fn (SplFileInfo $file) => $file->getRelativePathName())
-                ->each(function ($path) use ($kitPath) {
+                ->each(function (SplFileInfo $file) use ($kitPath) {
+                    $path = $file->getRelativePathName();
                     $kitNamespace = Str::of($kitPath)
                         ->replace('/', '\\')->prepend('StarterKits\\')
                         ->append('\\Http\\Controllers')
                         ->value();
-
                     $controller = basename($path);
                     $this->call('rest-presenter:make-controller', [
                         'kit_namespace' => $kitNamespace,
@@ -77,8 +84,8 @@ class XtendStarterKit extends Command
         if ($this->kitCanExtendResources($starterKitsDirectory, $kitPath)) {
             collect($this->filesystem->allFiles($starterKitsDirectory . '/' . $kitPath . '/Resources'))
                 ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getFilename(), 'ResourceController.php'))
-                ->map(fn (SplFileInfo $file) => $file->getRelativePath())
-                ->each(function ($path) use ($starterKitsDirectory, $kitPath) {
+                ->each(function (SplFileInfo $file) use ($starterKitsDirectory, $kitPath) {
+                    $path = $file->getRelativePath();
                     $kitNamespace = Str::of($kitPath)
                         ->replace('/', '\\')->prepend('StarterKits\\')
                         ->append('\\Resources\\' . Str::of($path)->replace('/', '\\')->beforeLast('\\'))

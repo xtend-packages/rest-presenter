@@ -44,12 +44,12 @@ class ResetPassword
 
     protected function setTemporaryPassword(User $user, string $token): void
     {
-        $user->password = bcrypt(self::generateTemporaryPassword($user, $token));
+        $user->password = bcrypt(self::generateTemporaryPassword($user, $token)); // @phpstan-ignore-line
         $user->save();
     }
 
     public static function generateTemporaryPassword(User $user, string $token): string
     {
-        return 'temp-' . Str::take($token, 5) . '-' . Str::padLeft($user->id, 4, '0');
+        return 'temp-' . Str::take($token, 5) . '-' . Str::padLeft((string)$user->id, 4, '0');
     }
 }

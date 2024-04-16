@@ -17,8 +17,11 @@ class LoginDataRequest extends Data
     ) {
     }
 
+    /**
+     * @return array<string, array<mixed>>
+     */
     public static function rules(ValidationContext $context): array
     {
-        return config('rest-presenter.auth.login_data_request_rules');
+        return type(config('rest-presenter.auth.login_data_request_rules'))->asArray();
     }
 }

@@ -8,15 +8,18 @@ use Spatie\TypeScriptTransformer\Writers\Writer;
 
 class ModuleWriter implements Writer
 {
+    /**
+     * @throws \Exception
+     */
     public function format(TypesCollection $collection): string
     {
         $output = '';
 
-        /** @var \ArrayIterator $iterator */
+        /** @var \ArrayIterator<int, \Spatie\TypeScriptTransformer\Structures\TransformedType> $iterator */
         $iterator = $collection->getIterator();
 
         $iterator->uasort(function (TransformedType $a, TransformedType $b) {
-            return strcmp($a->name, $b->name);
+            return strcmp(type($a->name)->asString(), type($b->name)->asString());
         });
 
         foreach ($iterator as $type) {
@@ -25,8 +28,8 @@ class ModuleWriter implements Writer
                 continue;
             }
 
-            $type->keyword = config('rest-presenter.generator.ts_types_keyword');
-            $type->trailingSemicolon = config('rest-presenter.generator.ts_types_trailing_semicolon');
+            $type->keyword = type(config('rest-presenter.generator.ts_types_keyword'))->asString();
+            $type->trailingSemicolon = type(config('rest-presenter.generator.ts_types_trailing_semicolon'))->asBool();
 
             $output .= "export {$type->toString()}" . PHP_EOL;
         }
