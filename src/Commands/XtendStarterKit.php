@@ -100,6 +100,7 @@ class XtendStarterKit extends Command
 
                     $this->call('rest-presenter:make-resource', [
                         'kit_namespace' => $kitNamespace,
+                        'model' => config('rest-presenter.resources.user.model'),
                         'name' => Str::singular(basename($path)),
                         'type' => 'extend',
                     ]);

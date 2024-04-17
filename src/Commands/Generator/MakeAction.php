@@ -41,11 +41,10 @@ class MakeAction extends GeneratorCommand
     {
         $resourceName = type($this->argument('resource'))->asString();
         $resourceDirectory = Str::plural($resourceName);
-        $kitNamespace = type($this->argument('kit_namespace'))->asString();
         $namespace = type(config('rest-presenter.generator.namespace'))->asString();
 
-        if ($kitNamespace) {
-            return $namespace . '\\' . $kitNamespace . '\\Actions';
+        if ($this->argument('kit_namespace')) {
+            return $namespace . '\\' . type($this->argument('kit_namespace'))->asString() . '\\Actions';
         }
 
         return $namespace . '\\Resources\\' . $resourceDirectory . '\\Actions';

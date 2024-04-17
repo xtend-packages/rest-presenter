@@ -153,14 +153,13 @@ class MakeResource extends GeneratorCommand
      * @return array<string, string>
      */
     protected function buildResourceReplacements(): array
-    {
-        $kitNamespace = type($this->argument('kit_namespace'))->asString();
+    {;
         $modelName = type($this->argument('model'))->asString();
         $modelClass = Str::of(class_basename($modelName));
 
         return [
-            '{{ resourceNamespace }}' => $kitNamespace
-                ? 'XtendPackages\\RESTPresenter\\' . $kitNamespace . '\\' . $this->getNameInput()
+            '{{ resourceNamespace }}' => $this->argument('kit_namespace')
+                ? 'XtendPackages\\RESTPresenter\\' . type($this->argument('kit_namespace'))->asString() . '\\' . $this->getNameInput()
                 : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($modelName) . '\\' . $this->getNameInput(),
             '{{ aliasResource }}' => 'Xtend' . $this->getNameInput(),
             '{{ modelClassImport }}' => $modelName,

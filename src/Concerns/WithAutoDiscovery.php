@@ -64,7 +64,7 @@ trait WithAutoDiscovery
         /** @var ResourceController $resource */
         $resource = $this->getXtendResourceController($controller);
 
-        collect($resource->routeActions)
+        collect($resource->routeActions())
             ->each(function ($controller, $name) {
                 return Route::match($controller::$method, $name, $controller) // @phpstan-ignore-line
                     ->middleware($controller::$middleware ?? []) // @phpstan-ignore-line

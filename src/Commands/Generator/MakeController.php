@@ -58,12 +58,11 @@ class MakeController extends GeneratorCommand
      */
     protected function buildControllerReplacements(): array
     {
-        $kitNamespace = type($this->argument('kit_namespace'))->asString();
         $controllerName = type($this->argument('name'))->asString();
 
         return [
-            '{{ controllerNamespace }}' => $kitNamespace
-                ? 'XtendPackages\\RESTPresenter\\' . $kitNamespace . '\\' . $this->getNameInput()
+            '{{ controllerNamespace }}' => $this->argument('kit_namespace')
+                ? 'XtendPackages\\RESTPresenter\\' . type($this->argument('kit_namespace'))->asString() . '\\' . $this->getNameInput()
                 : 'XtendPackages\\RESTPresenter\\Controllers\\' . $controllerName . '\\' . $this->getNameInput(),
             '{{ aliasController }}' => 'Xtend' . $this->getNameInput(),
         ];

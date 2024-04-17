@@ -57,12 +57,11 @@ class MakeData extends GeneratorCommand
     {
         $resourceName = type($this->argument('resource'))->asString();
         $namespace = type(config('rest-presenter.generator.namespace'))->asString();
-        $kitNamespace = type($this->argument('kit_namespace'))->asString();
         $presenterName = type($this->argument('presenter'))->asString();
         $resourceDirectory = Str::plural($resourceName);
 
-        if ($kitNamespace) {
-            return $namespace . '\\' . $kitNamespace . '\\Presenters\\' . $presenterName . '\\Data';
+        if ($this->argument('kit_namespace')) {
+            return $namespace . '\\' . type($this->argument('kit_namespace'))->asString() . '\\Presenters\\' . $presenterName . '\\Data';
         }
 
         return $namespace . '\\Resources\\' . $resourceDirectory . '\\Presenters\\' . $presenterName . '\\Data';
@@ -88,13 +87,12 @@ class MakeData extends GeneratorCommand
     protected function buildResourceReplacements(): array
     {
         $resourceName = type($this->argument('name'))->asString();
-        $kitNamespace = type($this->argument('kit_namespace'))->asString();
         $model = type($this->argument('model'))->asString();
         $fields = type($this->argument('fields') ?? [])->asArray();
 
         return [
-            '{{ presenterNamespace }}' => $kitNamespace
-                ? 'XtendPackages\\RESTPresenter\\' . $kitNamespace . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
+            '{{ presenterNamespace }}' => $this->argument('kit_namespace')
+                ? 'XtendPackages\\RESTPresenter\\' . type($this->argument('kit_namespace'))->asString() . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
                 : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($resourceName) . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
             '{{ aliasPresenter }}' => 'Xtend' . $this->getNameInput() . 'Presenter',
             '{{ modelClassImport }}' => $model,

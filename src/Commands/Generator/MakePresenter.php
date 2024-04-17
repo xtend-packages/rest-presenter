@@ -104,11 +104,10 @@ class MakePresenter extends GeneratorCommand
     {
         $name = type($this->argument('name'))->asString();
         $model = type($this->argument('model'))->asString();
-        $kitNamespace = type($this->argument('kit_namespace'))->asString();
 
         return [
-            '{{ presenterNamespace }}' => $kitNamespace
-                ? 'XtendPackages\\RESTPresenter\\' . $kitNamespace . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
+            '{{ presenterNamespace }}' => $this->argument('kit_namespace')
+                ? 'XtendPackages\\RESTPresenter\\' . type($this->argument('kit_namespace'))->asString() . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
                 : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($name) . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
             '{{ aliasPresenter }}' => 'Xtend' . $this->getNameInput() . 'Presenter',
             '{{ modelClassImport }}' => $model,

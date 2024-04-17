@@ -2,15 +2,8 @@
 
 namespace XtendPackages\RESTPresenter\Concerns;
 
-use Illuminate\Support\Collection;
-
 trait WithResourceRouteActions
 {
-    /**
-     * @var Collection<string, string> $routeActions
-     */
-    public Collection $routeActions;
-
     public static bool $onlyRegisterActionRoutes = false;
 
     /**

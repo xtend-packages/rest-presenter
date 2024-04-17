@@ -49,10 +49,9 @@ class MakeFilter extends GeneratorCommand
         $resourceName = type($this->argument('resource'))->asString();
         $resourceDirectory = Str::plural($resourceName);
         $namespace = type(config('rest-presenter.generator.namespace'))->asString();
-        $kitNamespace = type($this->argument('kit_namespace'))->asString();
 
-        if ($kitNamespace) {
-            return $namespace . '\\' . $kitNamespace . '\\Filters';
+        if ($this->argument('kit_namespace')) {
+            return $namespace . '\\' . type($this->argument('kit_namespace'))->asString() . '\\Filters';
         }
 
         return $namespace . '\\Resources\\' . $resourceDirectory . '\\Filters';
@@ -78,11 +77,10 @@ class MakeFilter extends GeneratorCommand
     protected function buildResourceReplacements(): array
     {
         $resourceName = type($this->argument('name'))->asString();
-        $kitNamespace = type($this->argument('kit_namespace'))->asString();
 
         return [
-            '{{ filterNamespace }}' => $kitNamespace
-                ? 'XtendPackages\\RESTPresenter\\' . $kitNamespace . '\\Filters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
+            '{{ filterNamespace }}' => $this->argument('kit_namespace')
+                ? 'XtendPackages\\RESTPresenter\\' . type($this->argument('kit_namespace'))->asString() . '\\Filters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
                 : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($resourceName) . '\\Filters\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
             '{{ aliasFilter }}' => 'Xtend' . $this->getNameInput() . 'Filter',
             '{{ relationship }}' => strtolower($resourceName),
