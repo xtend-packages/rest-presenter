@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
 use Lunar\FieldTypes\Text;
 use Lunar\Models\Collection;
@@ -18,13 +20,13 @@ function mockCollection($id = null)
         ->forceFill([
             'id' => $id,
             'attribute_data' => collect([
-                'name' => new Text('Category ' . $id),
+                'name' => new Text('Category '.$id),
             ]),
             'children' => collect(),
         ]);
 }
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->request = mock(Request::class);
     $this->collectionGroup = mock(CollectionGroup::class)
         ->makePartial()
@@ -53,8 +55,8 @@ beforeEach(function () {
         ));
 });
 
-describe('CategoryTree Presenter', function () {
-    test('CategoryTree::transform returns the correct data', function () {
+describe('CategoryTree Presenter', function (): void {
+    test('CategoryTree::transform returns the correct data', function (): void {
 
         $result = $this->categoryTree->transform();
 
@@ -62,14 +64,14 @@ describe('CategoryTree Presenter', function () {
         expect($result)->toBeInstanceOf(TreeData::class)
             ->and($result->id)->toBe(1)
             ->and($result->name)->toBe('Test Name')
-            ->and($result->categories)->toBeInstanceOf(\Illuminate\Support\Collection::class)
+            ->and($result->categories)->toBeInstanceOf(Illuminate\Support\Collection::class)
             ->and($result->categories)->toHaveCount(5);
 
         // Test the categories within nested children
-        collect($result->categories)->each(function (CategoryData $category, $index) {
+        collect($result->categories)->each(function (CategoryData $category, $index): void {
             expect($category->id)->toBe($index + 1)
-                ->and($category->name)->toBe('Category ' . ($index + 1))
-                ->and($category->slug)->toBe(($index + 1) . '-category-' . ($index + 1))
+                ->and($category->name)->toBe('Category '.($index + 1))
+                ->and($category->slug)->toBe(($index + 1).'-category-'.($index + 1))
                 // @todo Add additional assertions for children later
                 ->and($category->children)->toBeArray()
                 ->and($category->children)->toHaveCount(0);

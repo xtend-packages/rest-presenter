@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Support;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,13 +10,14 @@ use XtendPackages\RESTPresenter\Concerns\InteractsWithPresenter;
 use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 
-class ResourceDefaultPresenter implements Presentable
+final readonly class ResourceDefaultPresenter implements Presentable
 {
     use InteractsWithPresenter;
 
     public function __construct(
-        private readonly ?Model $model,
-    ) {}
+        private ?Model $model,
+    ) {
+    }
 
     public function transform(): Data
     {

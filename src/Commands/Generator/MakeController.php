@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Commands\Generator;
 
 use Illuminate\Console\GeneratorCommand;
@@ -12,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use function Laravel\Prompts\select;
 
 #[AsCommand(name: 'rest-presenter:make-controller')]
-class MakeController extends GeneratorCommand
+final class MakeController extends GeneratorCommand
 {
     protected $name = 'rest-presenter:make-controller';
 
@@ -22,23 +24,26 @@ class MakeController extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/' . $this->argument('type') . '/controller.php.stub';
+        return __DIR__.'/stubs/'.type($this->argument('type'))->asString().'/controller.php.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        $controllerDirectory = Str::plural($this->argument('name'));
+        $controllerName = type($this->argument('name'))->asString();
+        $controllerDirectory = Str::plural($controllerName);
+        $namespace = type(config('rest-presenter.generator.namespace'))->asString();
+        $kitNamespace = type($this->argument('kit_namespace'))->asString();
 
-        if ($this->argument('kit_namespace')) {
-            return config('rest-presenter.generator.namespace') . '\\' . $this->argument('kit_namespace');
+        if ($kitNamespace !== '' && $kitNamespace !== '0') {
+            return $namespace.'\\'.$kitNamespace;
         }
 
-        return config('rest-presenter.generator.namespace') . '\\Controllers\\' . $controllerDirectory;
+        return $namespace.'\\Controllers\\'.$controllerDirectory;
     }
 
     protected function getNameInput(): string
     {
-        return trim($this->argument('name'));
+        return trim(type($this->argument('name'))->asString());
     }
 
     protected function buildClass($name): string
@@ -50,25 +55,21 @@ class MakeController extends GeneratorCommand
         );
     }
 
-    protected function buildControllerReplacements(): array
+    /**
+     * @return array<int, array<int, int|string>>
+     */
+    protected function getArguments(): array
     {
         return [
-            '{{ controllerNamespace }}' => $this->argument('kit_namespace')
-                ? 'XtendPackages\\RESTPresenter\\' . $this->argument('kit_namespace') . '\\' . $this->getNameInput()
-                : 'XtendPackages\\RESTPresenter\\Controllers\\' . Str::plural($this->argument('name')) . '\\' . $this->getNameInput(),
-            '{{ aliasController }}' => 'Xtend' . $this->getNameInput(),
+            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
+            ['type', InputArgument::REQUIRED, 'The type of the '.strtolower($this->type)],
+            ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the '.strtolower($this->type)],
         ];
     }
 
-    protected function getArguments()
-    {
-        return [
-            ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
-            ['type', InputArgument::OPTIONAL, 'The type of the ' . strtolower($this->type)],
-            ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the ' . strtolower($this->type)],
-        ];
-    }
-
+    /**
+     * @return array<string, array<int, string>>
+     */
     protected function promptForMissingArgumentsUsing(): array
     {
         return [
@@ -91,7 +92,22 @@ class MakeController extends GeneratorCommand
         ]);
 
         if ($type !== 'new') {
-            $input->setOption($type, true);
+            $input->setOption(type($type)->asString(), true);
         }
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function buildControllerReplacements(): array
+    {
+        $controllerName = type($this->argument('name'))->asString();
+
+        return [
+            '{{ controllerNamespace }}' => $this->argument('kit_namespace')
+                ? 'XtendPackages\\RESTPresenter\\'.type($this->argument('kit_namespace'))->asString().'\\'.$this->getNameInput()
+                : 'XtendPackages\\RESTPresenter\\Controllers\\'.$controllerName.'\\'.$this->getNameInput(),
+            '{{ aliasController }}' => 'Xtend'.$this->getNameInput(),
+        ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
 use Lunar\FieldTypes\Text;
 use Lunar\Models\Collection;
@@ -10,10 +12,9 @@ use Lunar\Models\Product;
 use Lunar\Models\Url;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\UrlData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\DetailData;
-use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\StyleData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Detail;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->request = mock(Request::class);
     $this->currency = mock(Currency::class);
     $this->language = mock(Language::class)
@@ -78,8 +79,8 @@ beforeEach(function () {
         ]));
 });
 
-describe('Detail Presenter', function () {
-    test('Detail::transform returns the correct data', function () {
+describe('Detail Presenter', function (): void {
+    test('Detail::transform returns the correct data', function (): void {
 
         $result = $this->detail->transform();
 
@@ -90,10 +91,10 @@ describe('Detail Presenter', function () {
             ->and($result->name)->toBe('Test Name')
             ->and($result->description)->toBe('Test Description')
             ->and($result->availability)->toBe('available')
-            ->and($result->variants)->toBeInstanceOf(\Illuminate\Support\Collection::class)
-            ->and($result->colors)->toBeInstanceOf(\Illuminate\Support\Collection::class)
-            ->and($result->sizes)->toBeInstanceOf(\Illuminate\Support\Collection::class)
-            ->and($result->prices)->toBeInstanceOf(\Illuminate\Support\Collection::class)
-            ->and($result->images)->toBeInstanceOf(\Illuminate\Support\Collection::class);
+            ->and($result->variants)->toBeInstanceOf(Illuminate\Support\Collection::class)
+            ->and($result->colors)->toBeInstanceOf(Illuminate\Support\Collection::class)
+            ->and($result->sizes)->toBeInstanceOf(Illuminate\Support\Collection::class)
+            ->and($result->prices)->toBeInstanceOf(Illuminate\Support\Collection::class)
+            ->and($result->images)->toBeInstanceOf(Illuminate\Support\Collection::class);
     });
 });

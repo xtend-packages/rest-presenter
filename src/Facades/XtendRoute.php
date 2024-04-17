@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Facades;
 
 use Illuminate\Support\Facades\Facade;
@@ -23,7 +25,7 @@ use Illuminate\Support\Facades\Facade;
  *
  * @see \XtendPackages\RESTPresenter\Support\XtendRouter
  */
-class XtendRoute extends Facade
+final class XtendRoute extends Facade
 {
     protected static function getFacadeAccessor(): string
     {

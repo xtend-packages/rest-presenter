@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Resources\Users\Presenters;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,8 +12,9 @@ use XtendPackages\RESTPresenter\Resources\Users\Data\Response\ProfileData;
 class Profile implements Presentable
 {
     public function __construct(
-        private ?Authenticatable $model,
-    ) {}
+        private readonly ?Authenticatable $model,
+    ) {
+    }
 
     public function transform(): Data
     {

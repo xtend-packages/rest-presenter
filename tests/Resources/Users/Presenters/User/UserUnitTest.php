@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\Resources\Users\Data\Response\UserData;
 use XtendPackages\RESTPresenter\Resources\Users\Presenters;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->request = mock(Request::class);
     $this->mockUser = mock(User::class)
         ->makePartial()
@@ -32,8 +34,8 @@ beforeEach(function () {
     $this->data = $this->response->toArray();
 });
 
-describe('User Presenter', function () {
-    test('User::transform returns the correct data', function () {
+describe('User Presenter', function (): void {
+    test('User::transform returns the correct data', function (): void {
         $this->response->validate($this->data);
 
         expect($this->response)->toBeInstanceOf(UserData::class)
@@ -48,7 +50,7 @@ describe('User Presenter', function () {
 
     });
 
-    test('User::transform data name validation fails', function () {
+    test('User::transform data name validation fails', function (): void {
         $this->data['name'] = 'ok';
         $rules = $this->response->getValidationRules($this->data);
 
@@ -60,7 +62,7 @@ describe('User Presenter', function () {
         $this->response->validate($this->data);
     });
 
-    test('User::transform data email validation fails', function () {
+    test('User::transform data email validation fails', function (): void {
         $this->data['email'] = 'invalid-email';
 
         $this->expectException(ValidationException::class);

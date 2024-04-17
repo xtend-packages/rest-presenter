@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Resources\Users\Data\Response;
 
 use Carbon\Carbon;
@@ -9,7 +11,7 @@ use Spatie\LaravelData\Attributes\WithCast;
 use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Data;
 
-class UserData extends Data
+final class UserData extends Data
 {
     public function __construct(
         public int $id,

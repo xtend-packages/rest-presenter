@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
 
-class Status
+final class Status
 {
     use InteractsWithRequest;
 

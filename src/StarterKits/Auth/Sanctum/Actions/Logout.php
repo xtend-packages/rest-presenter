@@ -1,16 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
 
 use Illuminate\Http\JsonResponse;
+use XtendPackages\RESTPresenter\Models\User;
 
-class Logout
+final class Logout
 {
     public static string $method = 'GET';
 
+    /**
+     * @var array<int, string>
+     */
     public static array $middleware = ['auth:sanctum'];
 
-    protected string $message = '';
+    private string $message = '';
 
     public function __invoke(): JsonResponse
     {
@@ -23,22 +29,28 @@ class Logout
         ]);
     }
 
-    protected function deleteAllTokens(): void
+    private function deleteAllTokens(): void
     {
-        /** @var \Illuminate\Database\Eloquent\Relations\MorphMany $tokens */
-        $tokens = auth()->user()->tokens();
+        /** @var User $user */
+        $user = type(auth()->user())->as(User::class);
+
+        /** @var \Illuminate\Database\Eloquent\Relations\MorphMany<\Laravel\Sanctum\PersonalAccessToken> $tokens */
+        $tokens = $user->tokens();
 
         $tokens->delete();
 
         $this->message = __('rest-presenter::auth.logout_message');
     }
 
-    protected function deleteCurrentToken(): void
+    private function deleteCurrentToken(): void
     {
-        /** @var \Laravel\Sanctum\Contracts\HasAbilities $currentAccessToken */
-        $currentAccessToken = auth()->user()->currentAccessToken();
+        /** @var User $user */
+        $user = type(auth()->user())->as(User::class);
 
-        $currentAccessToken->delete();
+        /** @var \Laravel\Sanctum\Contracts\HasAbilities $currentAccessToken */
+        $currentAccessToken = $user->currentAccessToken();
+
+        $currentAccessToken->delete(); // @phpstan-ignore-line
 
         $this->message = __('rest-presenter::auth.logout_device_message');
     }

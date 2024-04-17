@@ -1,15 +1,16 @@
 <?php
 
-namespace XtendPackages\RESTPresenter\Concerns;
+declare(strict_types=1);
 
-use Illuminate\Support\Collection;
+namespace XtendPackages\RESTPresenter\Concerns;
 
 trait WithResourceRouteActions
 {
-    public Collection $routeActions;
-
     public static bool $onlyRegisterActionRoutes = false;
 
+    /**
+     * @return array<string, string>
+     */
     protected function getRouteActions(): array
     {
         return method_exists($this, 'routeActions') ? $this->routeActions() : [];

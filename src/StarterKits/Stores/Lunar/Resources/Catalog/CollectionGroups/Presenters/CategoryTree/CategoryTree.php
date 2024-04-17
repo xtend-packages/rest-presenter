@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\Presenters\CategoryTree;
 
 use Illuminate\Http\Request;
@@ -10,7 +12,7 @@ use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\Presenters\CategoryTree\Concerns\WithGenerateCollectionsTree;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\Presenters\CategoryTree\Data\TreeData;
 
-class CategoryTree implements Presentable
+final class CategoryTree implements Presentable
 {
     use InteractsWithPresenter;
     use WithGenerateCollectionsTree;
@@ -18,9 +20,10 @@ class CategoryTree implements Presentable
     public function __construct(
         protected Request $request,
         protected ?CollectionGroup $model,
-    ) {}
+    ) {
+    }
 
-    public function transform(): TreeData | Data
+    public function transform(): TreeData|Data
     {
         $collections = $this->getCollections();
 
@@ -30,7 +33,7 @@ class CategoryTree implements Presentable
         );
     }
 
-    protected function getCollections(): \Illuminate\Support\Collection
+    private function getCollections(): \Illuminate\Support\Collection
     {
         return $this->model
             ->collections()

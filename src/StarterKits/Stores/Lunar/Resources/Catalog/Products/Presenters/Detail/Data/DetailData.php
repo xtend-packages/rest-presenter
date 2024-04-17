@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data;
 
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\UrlData;
 
-class DetailData extends Data
+final class DetailData extends Data
 {
     public function __construct(
         public int $id,

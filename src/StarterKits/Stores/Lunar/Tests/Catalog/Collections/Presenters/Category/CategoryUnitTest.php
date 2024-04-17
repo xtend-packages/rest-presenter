@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
 use Lunar\FieldTypes\Text;
 use Lunar\Models\Collection;
@@ -9,7 +11,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\MediaData
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Collections\Presenters\Category\Category;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Collections\Presenters\Category\Data\CategoryData;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->request = mock(Request::class);
     $this->language = mock(Language::class);
     $this->url = mock(Url::class);
@@ -44,8 +46,8 @@ beforeEach(function () {
         ]));
 });
 
-describe('Category Presenter', function () {
-    test('Category::transform returns the correct data', function () {
+describe('Category Presenter', function (): void {
+    test('Category::transform returns the correct data', function (): void {
 
         $result = $this->category->transform();
 

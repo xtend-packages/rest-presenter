@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Lunar\FieldTypes\Text;
@@ -15,7 +17,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Produ
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Item\Data\ItemData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Item\Item;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->request = mock(Request::class);
     $this->currency = mock(Currency::class)
         ->makePartial()
@@ -44,8 +46,8 @@ beforeEach(function () {
             'id' => 1,
             'customer_group_id' => 1,
             'currency_id' => 1,
-            'price' => new \Lunar\DataTypes\Price(100, $this->currency),
-            'compare_price' => new \Lunar\DataTypes\Price(0, $this->currency),
+            'price' => new Lunar\DataTypes\Price(100, $this->currency),
+            'compare_price' => new Lunar\DataTypes\Price(0, $this->currency),
             'tier' => 1,
         ]);
     $this->product = mock(Product::class)
@@ -85,8 +87,8 @@ beforeEach(function () {
         ]));
 });
 
-describe('Item Presenter', function () {
-    test('Item::transform returns the correct data', function () {
+describe('Item Presenter', function (): void {
+    test('Item::transform returns the correct data', function (): void {
 
         $result = $this->item->transform();
 

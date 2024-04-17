@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use Lunar\Models\Collection;
 use Lunar\Models\CollectionGroup;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\Presenters\CategoryTree\Data\TreeData;
 
 use function Pest\Laravel\getJson;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->collectionGroup = CollectionGroup::factory()
         ->state([
             'name' => 'Categories',
@@ -22,8 +24,8 @@ beforeEach(function () {
         ->create();
 });
 
-describe('CategoryTree Presenter', function () {
-    test('transforms collection using CategoryTree Presenter', function () {
+describe('CategoryTree Presenter', function (): void {
+    test('transforms collection using CategoryTree Presenter', function (): void {
         $response = getJson(
             uri: route('api.v1.catalog:collection-groups.show', $this->collectionGroup),
             headers: ['x-rest-presenter' => 'CategoryTree'],

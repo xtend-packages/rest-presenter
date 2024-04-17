@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Data\Request;
 
 use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Data;
 
-class ResetPasswordDataRequest extends Data
+final class ResetPasswordDataRequest extends Data
 {
     public function __construct(
         #[Email(Email::RfcValidation)]

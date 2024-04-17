@@ -1,14 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Concerns;
 
+use Illuminate\Config;
 use Illuminate\Support\Str;
 use XtendPackages\RESTPresenter\Commands\Generator\Writers\ModuleWriter;
 
 trait WithTypeScriptGenerator
 {
+    private Config\Repository $config;
+
     public function generateTypeScriptDeclarations(): void
     {
+        $this->config = $this->laravel->make('config');
+
         $this->ensureSpatieEnumTransformerIsRemoved();
         $this->useCustomModuleTypeScriptWriter();
         $this->disableAutoDiscovery();
@@ -22,8 +29,13 @@ trait WithTypeScriptGenerator
 
     protected function getDataPath(): string
     {
+        $config = [
+            'namespace' => type(config('rest-presenter.generator.namespace'))->asString(),
+            'path' => type(config('rest-presenter.generator.path'))->asString(),
+        ];
+
         return Str::of($this->getDefaultNamespace($this->rootNamespace()))
-            ->replace(config('rest-presenter.generator.namespace'), config('rest-presenter.generator.path'))
+            ->replace($config['namespace'], $config['path'])
             ->replace('app/', '')
             ->replace('\\', '/')
             ->value();
@@ -31,35 +43,35 @@ trait WithTypeScriptGenerator
 
     protected function getOutputPath(): string
     {
-        return Str::of($this->argument('name'))
+        return Str::of(type($this->argument('name'))->asString())
             ->kebab()
-            ->prepend(config('rest-presenter.generator.ts_types_path') . '/')
+            ->prepend(config('rest-presenter.generator.ts_types_path').'/')
             ->append('.d.ts')
             ->value();
     }
 
     protected function ensureSpatieEnumTransformerIsRemoved(): void
     {
-        $app = $this->laravel;
+        $transformersFromConfig = type($this->config['typescript-transformer'] ?? [])->asArray();
+        if (! $transformersFromConfig['transformers']) {
+            return;
+        }
 
-        $transformers = collect($app['config']['typescript-transformer']['transformers'])->reject(function ($transformer) {
-            return $transformer === 'Spatie\TypeScriptTransformer\Transformers\SpatieEnumTransformer';
-        })->values()->all();
+        /** @var array<int, string> $transformerArray */
+        $transformerArray = $transformersFromConfig['transformers'];
 
-        $app['config']->set('typescript-transformer.transformers', $transformers);
+        $transformers = collect($transformerArray)->reject(fn ($transformer): bool => $transformer === \Spatie\TypeScriptTransformer\Transformers\SpatieEnumTransformer::class)->values()->all();
+
+        $this->config->set('typescript-transformer.transformers', $transformers);
     }
 
     protected function useCustomModuleTypeScriptWriter(): void
     {
-        $app = $this->laravel;
-
-        $app['config']->set('typescript-transformer.writer', ModuleWriter::class);
+        $this->config->set('typescript-transformer.writer', ModuleWriter::class);
     }
 
     protected function disableAutoDiscovery(): void
     {
-        $app = $this->laravel;
-
-        $app['config']->set('typescript-transformer.auto_discover_types', []);
+        $this->config->set('typescript-transformer.auto_discover_types', []);
     }
 }

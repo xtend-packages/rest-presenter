@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Tests;
 
 use Cartalyst\Converter\Laravel\ConverterServiceProvider;
@@ -13,13 +15,13 @@ use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\LunarApiKitServiceProvider;
 use XtendPackages\RESTPresenter\Tests\TestCase;
 
-class LunarTestCase extends TestCase
+final class LunarTestCase extends TestCase
 {
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__ . '/../../../../../vendor/lunarphp/core/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../../../../../vendor/lunarphp/core/database/migrations');
     }
 
     protected function getEnvironmentSetUp($app): void
@@ -28,9 +30,7 @@ class LunarTestCase extends TestCase
 
         $this->registerBlueprintMacros();
 
-        app()->singleton(ModelManifestInterface::class, function ($app) {
-            return $app->make(ModelManifest::class);
-        });
+        app()->singleton(ModelManifestInterface::class, fn ($app) => $app->make(ModelManifest::class));
 
         $app['config']->set('lunar.database.connection', 'testbench');
         $app['config']->set('lunar.database.table_prefix', 'lunar_');
@@ -48,17 +48,16 @@ class LunarTestCase extends TestCase
         ]);
     }
 
-    protected function registerBlueprintMacros(): void
+    private function registerBlueprintMacros(): void
     {
-        Blueprint::macro('scheduling', function () {
+        Blueprint::macro('scheduling', function (): void {
             /** @var Blueprint $this */
             $this->boolean('enabled')->default(false)->index();
             $this->timestamp('starts_at')->nullable()->index();
             $this->timestamp('ends_at')->nullable()->index();
         });
 
-        Blueprint::macro('dimensions', function () {
-            /** @var Blueprint $this */
+        Blueprint::macro('dimensions', function (): void {
             $columns = ['length', 'width', 'height', 'weight', 'volume'];
             foreach ($columns as $column) {
                 $this->decimal("{$column}_value", 10, 4)->default(0)->nullable()->index();
@@ -66,26 +65,25 @@ class LunarTestCase extends TestCase
             }
         });
 
-        Blueprint::macro('userForeignKey', function ($field_name = 'user_id', $nullable = false) {
-            /** @var Blueprint $this */
+        Blueprint::macro('userForeignKey', function ($field_name = 'user_id', $nullable = false): void {
             $userModel = config('auth.providers.users.model');
 
             $type = config('lunar.database.users_id_type', 'bigint');
 
-            if ($type == 'uuid') {
+            if ($type === 'uuid') {
                 $this->foreignUuId($field_name)
                     ->nullable($nullable)
                     ->constrained(
-                        (new $userModel())->getTable()
+                        (new $userModel())->getTable() // @phpstan-ignore-line
                     );
-            } elseif ($type == 'int') {
+            } elseif ($type === 'int') {
                 $this->unsignedInteger($field_name)->nullable($nullable);
                 $this->foreign($field_name)->references('id')->on('users');
             } else {
                 $this->foreignId($field_name)
                     ->nullable($nullable)
                     ->constrained(
-                        (new $userModel())->getTable()
+                        (new $userModel())->getTable() // @phpstan-ignore-line
                     );
             }
         });
