@@ -63,10 +63,10 @@ trait InteractsWithPresenter
      */
     protected function getPresenterFromRequestHeader(): string
     {
-        $headerName = type(config('rest-presenter.generator.header'))->asString();
+        $headerName = type(config('rest-presenter.api.presenter_header'))->asString();
         $headerName = strtolower($headerName);
         if (! request()->headers->has($headerName)) {
-            return 'default';
+            return $this->getPresenters()['default'];
         }
 
         $presenter = type(request()->headers->get($headerName))->asString();

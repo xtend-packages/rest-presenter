@@ -9,10 +9,10 @@ use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\Resources\Users\Data\Response\ProfileData;
 
-final readonly class Profile implements Presentable
+class Profile implements Presentable
 {
     public function __construct(
-        private ?Authenticatable $model,
+        private readonly ?Authenticatable $model,
     ) {
     }
 

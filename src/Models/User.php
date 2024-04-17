@@ -17,7 +17,7 @@ use XtendPackages\RESTPresenter\Factories\UserFactory;
  *
  * @mixin \Illuminate\Database\Eloquent\Builder<User>
  */
-final class User extends Authenticatable
+class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
