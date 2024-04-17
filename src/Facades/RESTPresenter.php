@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Facades;
 
 use Illuminate\Contracts\Foundation\Application;
@@ -15,9 +17,9 @@ use XtendPackages\RESTPresenter\Base\RESTPresenter as BaseRESTPresenter;
  *
  * @method static self starterKits(array $starterKits)
  *
- * @see \XtendPackages\RESTPresenter\Base\RESTPresenter
+ * @see BaseRESTPresenter
  */
-class RESTPresenter extends Facade
+final class RESTPresenter extends Facade
 {
     protected static function getFacadeAccessor(): string
     {

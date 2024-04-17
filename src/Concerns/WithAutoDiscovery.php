@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Concerns;
 
 use Illuminate\Filesystem\Filesystem;
@@ -10,23 +12,24 @@ use XtendPackages\RESTPresenter\Resources\ResourceController;
 
 trait WithAutoDiscovery
 {
-    protected function autoDiscover(string $path, $isKit = false): void
+    protected function autoDiscover(string $path, bool $isKit = false): void
     {
         $fileSystem = app(Filesystem::class);
         if (! $fileSystem->isDirectory($path)) {
             return;
         }
 
+        $namespace = type(config('rest-presenter.generator.namespace'))->asString();
+
         collect($fileSystem->allFiles($path))
             ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getFilename(), 'ResourceController.php'))
-            ->mapWithKeys(function (SplFileInfo $file) {
+            ->mapWithKeys(function (SplFileInfo $file) use ($namespace): array {
                 $name = Str::of(basename($file->getRelativePath()))
                     ->replace('/', '.')
                     ->kebab()
                     ->value();
-
                 $controller = Str::of($file->getRealPath())
-                    ->replace(app()->path('Api'), config('rest-presenter.generator.namespace'))
+                    ->replace(app()->path('Api'), $namespace)
                     ->replace('/', '\\')
                     ->replace('.php', '')
                     ->value();
@@ -35,17 +38,22 @@ trait WithAutoDiscovery
                     $name => $controller,
                 ];
             })
-            ->each(function ($controller, $name) use ($isKit) {
+            ->each(function ($controller, $name) use ($isKit, $namespace) {
                 $kit = Str::of($controller)
-                    ->remove(config('rest-presenter.generator.namespace') . '\\StarterKits\\')
+                    ->remove($namespace.'\\StarterKits\\')
                     ->remove('Auth\\')
                     ->before('\\')
                     ->lower()
                     ->value();
 
-                return Route::name($isKit ? $kit . '.' : null)
-                    ->prefix($isKit ? $kit : null)
-                    ->group(function () use ($name, $controller) {
+                $routeName = $isKit ? $kit.'.' : null;
+                if (! $routeName) {
+                    return null;
+                }
+
+                return Route::name($routeName)
+                    ->prefix($kit)
+                    ->group(function () use ($name, $controller): void {
                         $this->isResourceOnlyActionRoutes($controller)
                             ? $this->registerActionRoutes($controller)
                             : $this->registerResourceRoutes($name, $controller);
@@ -55,14 +63,14 @@ trait WithAutoDiscovery
 
     private function registerActionRoutes(string $controller): void
     {
+        /** @var ResourceController $resource */
         $resource = $this->getXtendResourceController($controller);
 
+        // @phpstan-ignore-next-line
         collect($resource->routeActions())
-            ->each(function ($controller, $name) {
-                return Route::match($controller::$method, $name, $controller)
-                    ->middleware($controller::$middleware ?? [])
-                    ->name($name);
-            });
+            ->each(fn ($controller, $name) => Route::match($controller::$method, $name, $controller) // @phpstan-ignore-line
+                ->middleware($controller::$middleware ?? []) // @phpstan-ignore-line
+                ->name($name));
     }
 
     private function registerResourceRoutes(string $name, string $controller): void
@@ -77,16 +85,20 @@ trait WithAutoDiscovery
 
     private function getXtendResourceController(string $controller): ResourceController
     {
-        return resolve($this->getXtendResourceControllerClass($controller), [
+        $name = type($this->getXtendResourceControllerClass($controller))->asString();
+
+        return resolve($name, [
             'request' => request(),
             'init' => false,
         ]);
     }
 
-    private function getXtendResourceControllerClass(string $controller): string | ResourceController
+    private function getXtendResourceControllerClass(string $controller): string|ResourceController
     {
+        $namespace = type(config('rest-presenter.generator.namespace'))->asString();
+
         return Str::of($controller)
-            ->replace(config('rest-presenter.generator.namespace'), 'XtendPackages\\RESTPresenter')
+            ->replace($namespace, 'XtendPackages\\RESTPresenter')
             ->value();
     }
 }

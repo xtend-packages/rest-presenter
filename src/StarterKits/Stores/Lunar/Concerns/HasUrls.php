@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
@@ -19,7 +21,7 @@ trait HasUrls
         $urls = $model->urls ?? null;
 
         return $urls?->first(
-            fn (Url $url) => $url->language->code === app()->getLocale(),
+            fn (Url $url): bool => $url->language->code === app()->getLocale(),
         );
     }
 }

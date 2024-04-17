@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Concerns;
 
 use Illuminate\Support\Collection;
@@ -25,7 +27,7 @@ trait HasVariants
         /** @var Collection<int, ProductOptionValue> $values */
         $values = $this->getVariants()
             ->flatMap(fn (ProductVariant $variant) => collect($variant->values)->filter(
-                fn (ProductOptionValue $value) => $value->option->handle === $handle,
+                fn (ProductOptionValue $value): bool => $value->option->handle === $handle,
             )->values());
 
         return $values

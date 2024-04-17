@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Factories;
 
 use XtendPackages\RESTPresenter\Models\User;
 
-class UserFactory extends \Orchestra\Testbench\Factories\UserFactory
+final class UserFactory extends \Orchestra\Testbench\Factories\UserFactory
 {
     protected $model = User::class;
 }

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Collections\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
 
-class CollectionGroup
+final class CollectionGroup
 {
     use InteractsWithRequest;
 

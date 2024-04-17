@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Concerns;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -26,12 +29,13 @@ trait InteractsWithPresenter
 
     protected function getPresenterNamespace(string $fromRequest): string
     {
-        $namespace = config('rest-presenter.generator.namespace');
+        $namespace = type(config('rest-presenter.generator.namespace'))->asString();
         $xtendPresenter = Str::of($fromRequest)->replace('XtendPackages\RESTPresenter', $namespace)->value();
         $extendPresenterFile = Str::of($fromRequest)->replace('XtendPackages\RESTPresenter', '')
             ->replace('\\', '/')
             ->prepend(app()->path('Api'))
-            ->append('.php');
+            ->append('.php')
+            ->value();
 
         return file_exists($extendPresenterFile) ? $xtendPresenter : $fromRequest;
     }
@@ -44,20 +48,29 @@ trait InteractsWithPresenter
         )->transform();
     }
 
+    /**
+     * @return array<string, string>
+     */
     protected function getPresenters(): array
     {
         return array_merge([
             'default' => ResourceDefaultPresenter::class,
-        ], method_exists($this, 'presenters') ? $this->presenters() : []);
+        ], method_exists($this, 'presenters') ? $this->presenters() : []); // @phpstan-ignore-line
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getPresenterFromRequestHeader(): string
     {
-        $headerName = strtolower(config('rest-presenter.api.presenter_header', 'x-rest-presenter'));
-        $presenter = Str::kebab(request()->headers->get($headerName, 'default'));
+        $headerName = type(config('rest-presenter.api.presenter_header'))->asString();
+        $headerName = strtolower($headerName);
+        if (! request()->headers->has($headerName)) {
+            return $this->getPresenters()['default'];
+        }
+
+        $presenter = type(request()->headers->get($headerName))->asString();
+        $presenter = Str::kebab($presenter);
 
         if ($presenter && ! array_key_exists($presenter, $this->getPresenters())) {
             throw new PresenterNotFoundException($presenter);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Commands\Generator;
 
 use Illuminate\Console\GeneratorCommand;
@@ -23,7 +25,7 @@ use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 
 #[AsCommand(name: 'rest-presenter:make-resource')]
-class MakeResource extends GeneratorCommand
+final class MakeResource extends GeneratorCommand
 {
     use InteractsWithDbSchema;
 
@@ -33,29 +35,45 @@ class MakeResource extends GeneratorCommand
 
     protected $type = 'Resource';
 
-    protected Model $model;
+    private Model $model;
 
-    protected Collection $actions;
+    /**
+     * @var \Illuminate\Support\Collection<string, string>
+     */
+    private Collection $actions;
 
-    protected Collection $filters;
+    /**
+     * @var \Illuminate\Support\Collection<string, string>
+     */
+    private Collection $filters;
 
-    protected Collection $presenters;
+    /**
+     * @var \Illuminate\Support\Collection<string, mixed>
+     */
+    private Collection $presenters;
 
-    protected Collection $presentersArgument;
+    /**
+     * @var \Illuminate\Support\Collection<string, string>
+     */
+    private Collection $presentersArgument;
 
-    public function handle()
+    /**
+     * {@inheritdoc}
+     */
+    public function handle(): ?bool
     {
         $this->actions ??= collect();
         $this->filters ??= collect();
         $this->presenters ??= collect();
         $this->presentersArgument ??= collect();
+        $name = type($this->argument('name'))->asString();
 
         $this->actions->each(
             fn (string $action) => $this->call(
                 command: 'rest-presenter:make-action',
                 arguments: [
                     'name' => ucfirst($action),
-                    'resource' => Str::plural($this->argument('name')),
+                    'resource' => Str::plural($name),
                     'type' => 'new',
                 ],
             ),
@@ -66,7 +84,7 @@ class MakeResource extends GeneratorCommand
                 command: 'rest-presenter:make-filter',
                 arguments: [
                     'name' => ucfirst($filter),
-                    'resource' => Str::plural($this->argument('name')),
+                    'resource' => Str::plural($name),
                     'relation' => Str::of($relation)->after('=>')->value(),
                     'relation_search_key' => $this->guessRelationSearchKey($filter),
                     'type' => 'new',
@@ -75,52 +93,48 @@ class MakeResource extends GeneratorCommand
         );
 
         $this->presenters->each(
-            fn (array $fields, string $presenter) => $this->call(
+            fn (mixed $fields, string $presenter) => $this->call(
                 command: 'rest-presenter:make-presenter',
                 arguments: [
-                    'name' => $presenter . 'Presenter',
+                    'name' => $presenter.'Presenter',
                     'type' => 'new',
                     'model' => $this->argument('model'),
-                    'resource' => Str::plural($this->argument('name')),
-                    'fields' => $fields,
+                    'resource' => Str::plural($name),
+                    'fields' => type($fields)->asArray(),
                 ],
             ),
         );
 
         parent::handle();
-    }
 
-    protected function guessRelationSearchKey(string $filter): ?string
-    {
-        if (! $relationTable = $this->findTableByName(table: $filter, exactMatch: false)) {
-            return null;
-        }
-
-        return $this->getTableColumnsForRelation(
-            table: $relationTable,
-            exclude: ['id', 'created_at', 'updated_at'],
-        )->first();
+        return null;
     }
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/' . $this->argument('type') . '/resource.controller.php.stub';
+        return __DIR__.'/stubs/'.type($this->argument('type'))->asString().'/resource.controller.php.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        $resourceDirectory = Str::plural($this->argument('name'));
+        $name = type($this->argument('name'))->asString();
+        $resourceDirectory = Str::plural($name);
 
         if ($this->argument('kit_namespace')) {
-            return config('rest-presenter.generator.namespace') . '\\' . $this->argument('kit_namespace');
+            $namespace = type(config('rest-presenter.generator.namespace'))->asString();
+            $kitNamespace = type($this->argument('kit_namespace'))->asString();
+
+            return $namespace.'\\'.$kitNamespace;
         }
 
-        return config('rest-presenter.generator.namespace') . '\\Resources\\' . $resourceDirectory;
+        return config('rest-presenter.generator.namespace').'\\Resources\\'.$resourceDirectory;
     }
 
     protected function getNameInput(): string
     {
-        return trim($this->argument('name')) . 'ResourceController';
+        $name = type($this->argument('name'))->asString();
+
+        return trim($name).'ResourceController';
     }
 
     protected function buildClass($name): string
@@ -132,92 +146,24 @@ class MakeResource extends GeneratorCommand
         );
     }
 
-    protected function buildResourceReplacements(): array
-    {
-        $modelClass = Str::of(class_basename($this->argument('model')));
-
-        return [
-            '{{ resourceNamespace }}' => $this->argument('kit_namespace')
-                ? 'XtendPackages\\RESTPresenter\\' . $this->argument('kit_namespace') . '\\' . $this->getNameInput()
-                : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($this->argument('name')) . '\\' . $this->getNameInput(),
-            '{{ aliasResource }}' => 'Xtend' . $this->getNameInput(),
-            '{{ modelClassImport }}' => $this->argument('model'),
-            '{{ modelClassName }}' => $modelClass->value(),
-            '{{ $modelVarSingular }}' => $modelClass->lcfirst(),
-            '{{ $modelVarPlural }}' => $modelClass->plural()->lcfirst(),
-            '{{ actions }}' => $this->transformActions(),
-            '{{ filters }}' => $this->transformFilters(),
-            '{{ presenters }}' => $this->transformPresenters(),
-        ];
-    }
-
-    protected function transformActions(): string
-    {
-        if ($this->actions->isEmpty()) {
-            return '';
-        }
-
-        return $this->actions->map(
-            fn ($action) => "'$action' => Actions\\" . ucfirst($action) . '::class',
-        )->implode(",\n\t\t\t") . ',';
-    }
-
-    protected function transformFilters(): string
-    {
-        if ($this->filters->isEmpty()) {
-            return '';
-        }
-
-        return $this->filters->map(
-            fn ($filter) => "'$filter' => Filters\\" . ucfirst($filter) . '::class',
-        )->implode(",\n\t\t\t") . ',';
-    }
-
-    protected function transformPresenters(): string
-    {
-        if (! $this->hasPresenters()) {
-            return '';
-        }
-
-        return $this->getPresenters()->map(
-            function ($presenter, $presenterKey) {
-                $presenterNamespace = Str::of($presenterKey)
-                    ->replace('Presenter', '')
-                    ->studly()
-                    ->plural()
-                    ->value();
-
-                return "'$presenterKey' => Presenters\\" . $presenterNamespace . '\\' . $presenter;
-            },
-        )->implode(",\n\t\t\t") . ',';
-    }
-
-    protected function hasPresenters(): bool
-    {
-        return $this->getPresenters()->isNotEmpty();
-    }
-
-    protected function getPresenters(): Collection
-    {
-        if ($this->argument('presenters') && is_array($this->argument('presenters'))) {
-            return collect($this->argument('presenters'));
-        }
-
-        return $this->presentersArgument;
-    }
-
-    protected function getArguments()
+    /**
+     * @return array<int, array<int, int|string>>
+     */
+    protected function getArguments(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
-            ['type', InputArgument::OPTIONAL, 'The type of resource to create'],
+            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
+            ['type', InputArgument::REQUIRED, 'The type of resource to create'],
             ['model', InputArgument::OPTIONAL, 'The model that the resource references'],
             ['filters', InputArgument::OPTIONAL, 'The filters to include in the resource'],
             ['presenters', InputArgument::OPTIONAL, 'The presenters to include in the resource'],
-            ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the ' . strtolower($this->type)],
+            ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the '.strtolower($this->type)],
         ];
     }
 
+    /**
+     * @return array<string, array<int, string>>
+     */
     protected function promptForMissingArgumentsUsing(): array
     {
         return [
@@ -240,7 +186,103 @@ class MakeResource extends GeneratorCommand
         $this->promptForPresenters($input);
     }
 
-    protected function promptForResourceType(InputInterface $input): void
+    private function guessRelationSearchKey(string $filter): ?string
+    {
+        if (! $relationTable = $this->findTableByName(table: $filter, exactMatch: false)) {
+            return null;
+        }
+
+        /** @var string $columns */
+        $columns = $this->getTableColumnsForRelation(
+            table: type($relationTable)->asString(),
+            exclude: ['id', 'created_at', 'updated_at'],
+        )->first();
+
+        return $columns;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function buildResourceReplacements(): array
+    {
+        $modelName = type($this->argument('model'))->asString();
+        $modelClass = Str::of(class_basename($modelName));
+
+        return [
+            '{{ resourceNamespace }}' => $this->argument('kit_namespace')
+                ? 'XtendPackages\\RESTPresenter\\'.type($this->argument('kit_namespace'))->asString().'\\'.$this->getNameInput()
+                : 'XtendPackages\\RESTPresenter\\Resources\\'.Str::plural($modelName).'\\'.$this->getNameInput(),
+            '{{ aliasResource }}' => 'Xtend'.$this->getNameInput(),
+            '{{ modelClassImport }}' => $modelName,
+            '{{ modelClassName }}' => $modelClass->value(),
+            '{{ $modelVarSingular }}' => $modelClass->lcfirst()->value(),
+            '{{ $modelVarPlural }}' => $modelClass->plural()->lcfirst()->value(),
+            '{{ actions }}' => $this->transformActions(),
+            '{{ filters }}' => $this->transformFilters(),
+            '{{ presenters }}' => $this->transformPresenters(),
+        ];
+    }
+
+    private function transformActions(): string
+    {
+        if ($this->actions->isEmpty()) {
+            return '';
+        }
+
+        return $this->actions->map(
+            fn ($action): string => "'$action' => Actions\\".ucfirst($action).'::class',
+        )->implode(",\n\t\t\t").',';
+    }
+
+    private function transformFilters(): string
+    {
+        if ($this->filters->isEmpty()) {
+            return '';
+        }
+
+        return $this->filters->map(
+            fn ($filter): string => "'$filter' => Filters\\".ucfirst($filter).'::class',
+        )->implode(",\n\t\t\t").',';
+    }
+
+    private function transformPresenters(): string
+    {
+        if (! $this->hasPresenters()) {
+            return '';
+        }
+
+        return $this->getPresenters()->map(
+            function (string $presenter, $presenterKey): string {
+                $presenterNamespace = Str::of($presenterKey)
+                    ->replace('Presenter', '')
+                    ->studly()
+                    ->plural()
+                    ->value();
+
+                return "'$presenterKey' => Presenters\\".$presenterNamespace.'\\'.$presenter;
+            },
+        )->implode(",\n\t\t\t").',';
+    }
+
+    private function hasPresenters(): bool
+    {
+        return $this->getPresenters()->isNotEmpty();
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection<string, string>
+     */
+    private function getPresenters(): Collection
+    {
+        if ($this->argument('presenters') && is_array($this->argument('presenters'))) {
+            return collect($this->argument('presenters'));
+        }
+
+        return $this->presentersArgument;
+    }
+
+    private function promptForResourceType(InputInterface $input): void
     {
         $type = select('Which type of resource would you like to create?', [
             'new' => 'New resource',
@@ -250,29 +292,31 @@ class MakeResource extends GeneratorCommand
         $input->setArgument('type', $type);
     }
 
-    protected function promptForModel(InputInterface $input): void
+    private function promptForModel(InputInterface $input): void
     {
         $model = search(
             label: 'Which model should the resource use?',
-            options: fn () => $this->scanModels(),
+            options: fn (): array => $this->scanModels(), // @phpstan-ignore-line
             placeholder: 'Search for a model...',
             hint: 'Press <comment>Enter</> to select the model.'
         );
 
+        $model = type($model)->asString();
         $this->setModel($model);
 
         $input->setArgument('model', $model);
     }
 
-    protected function promptForFilters(InputInterface $input): void
+    private function promptForFilters(InputInterface $input): void
     {
         $suggestFilters = $this->generateFilterSuggestions();
 
         if ($suggestFilters->isNotEmpty()) {
+            /** @var array<string> $selectedFilters */
             $selectedFilters = multiselect(
                 label: 'Here are some suggested filters to add to your resource:',
-                options: $suggestFilters,
-                default: $suggestFilters->keys(),
+                options: $suggestFilters, // @phpstan-ignore-line
+                default: $suggestFilters->keys(), // @phpstan-ignore-line
                 hint: 'Press <comment>Enter</> to select the filters.'
             );
 
@@ -290,7 +334,7 @@ class MakeResource extends GeneratorCommand
         }
     }
 
-    protected function promptForCustomFilters(InputInterface $input): void
+    private function promptForCustomFilters(InputInterface $input): void
     {
         $customFilter = text(
             label: 'Enter the custom filter you would like to add to your resource:',
@@ -311,7 +355,7 @@ class MakeResource extends GeneratorCommand
         }
     }
 
-    protected function promptForPresenters(InputInterface $input, $init = true): void
+    private function promptForPresenters(InputInterface $input, bool $init = true): void
     {
         $setupPresenters = select(
             label: 'Would you like to setup presenters for this resource?',
@@ -323,18 +367,19 @@ class MakeResource extends GeneratorCommand
             return;
         }
 
+        $model = type($this->argument('model'))->asString();
         $presenterName = text(
             label: 'Enter the name of the presenter you would like to add to your resource:',
             placeholder: 'e.g. Article, FeaturedPost',
-            default: $init ? class_basename($this->argument('model')) : '',
+            default: $init ? class_basename($model) : '',
             hint: 'Press <comment>Enter</> to confirm the presenter name.'
         );
 
-        if ($presenterName) {
+        if ($presenterName !== '' && $presenterName !== '0') {
             $fields = $this->generateModelFields()->keyBy('name');
             $selectedFields = multiselect(
                 label: 'Select the fields you would like to include in the presenter:',
-                options: $fields->keys()->toArray(),
+                options: $fields->keys()->toArray(), // @phpstan-ignore-line
                 default: $fields->keys(),
                 hint: 'Press <comment>Enter</> to select the fields.'
             );
@@ -350,7 +395,7 @@ class MakeResource extends GeneratorCommand
             ->kebab()
             ->value();
 
-        $this->presentersArgument->put($presenterKey, $presenterName . 'Presenter::class');
+        $this->presentersArgument->put($presenterKey, $presenterName.'Presenter::class');
 
         $addAnother = select(
             label: 'Add another custom presenter?',
@@ -363,7 +408,10 @@ class MakeResource extends GeneratorCommand
         }
     }
 
-    protected function generateModelFields(): Collection
+    /**
+     * @return \Illuminate\Support\Collection<int|string, array<string, mixed>>
+     */
+    private function generateModelFields(): Collection
     {
         $table = $this->model->getTable();
 
@@ -373,38 +421,46 @@ class MakeResource extends GeneratorCommand
         );
     }
 
-    protected function setModel(string $model): void
+    private function setModel(string $model): void
     {
         $this->model = resolve($model);
     }
 
-    protected function generateFilterSuggestions(): Collection
+    /**
+     * @return \Illuminate\Support\Collection<string, string>
+     */
+    private function generateFilterSuggestions(): Collection
     {
         $reflect = new ReflectionClass($this->model);
 
         return collect($reflect->getMethods(ReflectionMethod::IS_PUBLIC))
-            ->filter(function (ReflectionMethod $method) {
-                $returnNamedType = $method->getReturnType() instanceof ReflectionNamedType ? $method->getReturnType()->getName() : null;
+            ->filter(function (ReflectionMethod $method): bool {
+                $returnNamedType = $method->getReturnType() instanceof ReflectionNamedType ? $method->getReturnType()->getName() : '';
 
-                return is_subclass_of($returnNamedType, Relation::class);
+                return $returnNamedType && is_subclass_of($returnNamedType, Relation::class);
             })
-            ->mapWithKeys(function (ReflectionMethod $method) {
-                $returnNamedType = $method->getReturnType() instanceof ReflectionNamedType ? $method->getReturnType()->getName() : null;
+            ->mapWithKeys(function (ReflectionMethod $method): array {
+                $returnNamedType = $method->getReturnType() instanceof ReflectionNamedType ? $method->getReturnType()->getName() : '';
 
                 return [
-                    $method->getName() . '=>' . class_basename($returnNamedType) => $method->getName(),
+                    $method->getName().'=>'.class_basename($returnNamedType) => $method->getName(),
                 ];
             });
     }
 
-    protected function scanModels(): array
+    /**
+     * @return array<string, mixed>
+     */
+    private function scanModels(): array
     {
         return collect(app('files')->allFiles(app_path()))
             ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getFilename(), '.php'))
-            ->map(fn (SplFileInfo $file) => $file->getRelativePathname())
-            ->map(fn (string $file) => new ReflectionClass('App\\' . str_replace(['/', '.php'], ['\\', ''], $file)))
+            ->map(fn (SplFileInfo $file): string => $file->getRelativePathname())
+            ->map(fn (string $file) => 'App\\'.str_replace(['/', '.php'], ['\\', ''], $file))
+            ->filter(fn (string $class): bool => class_exists($class))
+            ->map(fn (string $class): ReflectionClass => new ReflectionClass($class))
             ->filter(fn (ReflectionClass $class) => $class->isSubclassOf(Model::class))
-            ->mapWithKeys(fn (ReflectionClass $class) => [$class->getName() => $class->getShortName()])
+            ->mapWithKeys(fn (ReflectionClass $class): array => [$class->getName() => $class->getShortName()])
             ->toArray();
     }
 }

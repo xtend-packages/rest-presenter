@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups;
 
 use Illuminate\Http\Request;
@@ -9,7 +11,7 @@ use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Resources\ResourceController;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\Presenters\CategoryTree\CategoryTree;
 
-class CollectionGroupResourceController extends ResourceController
+final class CollectionGroupResourceController extends ResourceController
 {
     protected static string $model = CollectionGroup::class;
 
@@ -18,7 +20,7 @@ class CollectionGroupResourceController extends ResourceController
         $collectionGroups = $this->getModelQueryInstance()->get();
 
         return $collectionGroups->map(
-            fn ($collectionGroup) => $this->present($request, $collectionGroup),
+            fn ($collectionGroup): \Spatie\LaravelData\Data => $this->present($request, $collectionGroup),
         );
     }
 

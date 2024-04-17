@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Exceptions;
 
 use Exception;
 
-class PresenterNotFoundException extends Exception
+final class PresenterNotFoundException extends Exception
 {
     public function __construct(string $presenter)
     {

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\Variant;
 
 use Lunar\Models\ProductOptionValue;
 use Spatie\LaravelData\Data;
 
-class ColorData extends Data
+final class ColorData extends Data
 {
     public function __construct(
         public int $id,

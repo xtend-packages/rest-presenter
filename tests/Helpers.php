@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\Sanctum;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use XtendPackages\RESTPresenter\Models\User;
 
-function authenticateApiUser(?User $user = null): User | HasApiTokens
+function authenticateApiUser(?User $user = null): User|HasApiTokens
 {
     return Sanctum::actingAs(
         user: $user ?? User::factory()->create(),
@@ -20,7 +22,7 @@ function fixture(string $name): array
         filename: base_path("tests/Api/Fixtures/$name.json"),
     );
 
-    if (! $file) {
+    if ($file === '' || $file === '0' || $file === false) {
         throw new InvalidArgumentException(
             message: "Cannot find fixture: [$name] at tests/Api/Fixtures/$name.json",
         );
@@ -34,7 +36,7 @@ function fixture(string $name): array
 
 function getApiHeaderPresenterName(): string
 {
-    return strtolower(config('rest-presenter.api.presenter_header'));
+    return strtolower((string) config('rest-presenter.api.presenter_header'));
 }
 
 function invokeNonPublicMethod(object $object, string $methodName, array $parameters = []): mixed
@@ -51,7 +53,7 @@ function getValidationRule(string $field, string $key, array $rules): mixed
         ->mapWithKeys(
             fn ($rule, $field) => [
                 $field => collect($rule)->mapWithKeys(
-                    fn ($value) => formatRule($value)
+                    fn ($value): array => formatRule($value)
                 ),
             ],
         )
@@ -72,14 +74,14 @@ function fakeMediaItem(int $id): Media
         ->forceFill([
             'id' => $id,
             'uuid' => Str::uuid(),
-            'name' => 'Name ' . $id,
+            'name' => 'Name '.$id,
             'custom_properties' => ['custom' => 'properties'],
             'order_column' => $id,
         ]);
 
     $media
         ->shouldReceive('getUrl')
-        ->andReturn('http://example.com/' . $id);
+        ->andReturn('http://example.com/'.$id);
 
     return $media;
 }

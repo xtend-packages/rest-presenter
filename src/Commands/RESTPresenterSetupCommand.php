@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Commands;
 
 use Illuminate\Console\Command;
@@ -13,7 +15,7 @@ use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\multiselect;
 
 #[AsCommand(name: 'rest-presenter:setup')]
-class RESTPresenterSetupCommand extends Command
+final class RESTPresenterSetupCommand extends Command
 {
     protected $signature = 'rest-presenter:setup';
 
@@ -36,7 +38,7 @@ class RESTPresenterSetupCommand extends Command
         return self::SUCCESS;
     }
 
-    protected function initialSetup(): void
+    private function initialSetup(): void
     {
         $this->components->info('Welcome to REST Presenter setup wizard');
 
@@ -51,7 +53,7 @@ class RESTPresenterSetupCommand extends Command
         $this->publishStarterKits();
     }
 
-    protected function starGitHubRepo(): void
+    private function starGitHubRepo(): void
     {
         if (confirm('Please star this project on GitHub 🤩')) {
             $repoUrl = 'https://github.com/xtend-packages/rest-presenter';
@@ -67,7 +69,7 @@ class RESTPresenterSetupCommand extends Command
         }
     }
 
-    protected function sponsorThisProject(): void
+    private function sponsorThisProject(): void
     {
         if (confirm('Show your support 💙 for Adam Lee and sponsor this project')) {
             $authorUrl = 'https://github.com/sponsors/adam-code-labx';
@@ -83,12 +85,12 @@ class RESTPresenterSetupCommand extends Command
         }
     }
 
-    protected function publishingConfig(): void
+    private function publishingConfig(): void
     {
         $this->call('vendor:publish', ['--tag' => 'rest-presenter-config']);
     }
 
-    protected function publishingServiceProvider(): void
+    private function publishingServiceProvider(): void
     {
         $this->call('vendor:publish', ['--tag' => 'rest-presenter-provider']);
 
@@ -98,35 +100,33 @@ class RESTPresenterSetupCommand extends Command
         }
 
         $callable = [ServiceProvider::class, 'addProviderToBootstrapFile'];
-        if (is_callable($callable)) {
-            call_user_func($callable, 'App\\Providers\\RESTPresenterServiceProvider', $providersPath);
-        }
+        call_user_func($callable, 'App\\Providers\\RESTPresenterServiceProvider', $providersPath);
     }
 
-    protected function publishingDefaultResources(): void
+    private function publishingDefaultResources(): void
     {
-        collect($this->filesystem->directories(__DIR__ . '/../Resources'))
-            ->map(fn ($resource) => Str::singular(basename($resource)))
+        collect($this->filesystem->directories(__DIR__.'/../Resources'))
+            ->map(fn ($resource) => Str::singular(basename((string) $resource)))
             ->each(fn ($resource) => $this->call('rest-presenter:make-resource', [
-                'model' => 'App\\Models\\' . Str::singular($resource),
+                'model' => 'App\\Models\\'.Str::singular($resource),
                 'name' => $resource,
                 'type' => 'new',
             ]));
     }
 
-    protected function publishStarterKits(): void
+    private function publishStarterKits(): void
     {
-        $starterKitsDirectory = __DIR__ . '/../StarterKits';
-        $generatedKitsDirectory = config('rest-presenter.generator.path') . '/StarterKits';
+        $starterKitsDirectory = __DIR__.'/../StarterKits';
+        $generatedKitsDirectory = config('rest-presenter.generator.path').'/StarterKits';
         $this->filesystem->ensureDirectoryExists($generatedKitsDirectory);
 
-        /** @var \Illuminate\Support\Collection $unpublishedStarterKits */
+        /** @var \Illuminate\Support\Collection<string, string> $unpublishedStarterKits */
         $unpublishedStarterKits = collect($this->filesystem->allFiles($starterKitsDirectory))
-            ->map(fn ($file) => $file->getRelativePathname())
-            ->filter(fn ($file) => ! $this->filesystem->exists($generatedKitsDirectory . '/' . $file))
-            ->filter(fn ($file) => str_ends_with($file, 'ApiKitServiceProvider.php'))
-            ->map(fn ($file) => str_replace('ApiKitServiceProvider.php', '', basename($file)))
-            ->map(fn ($kit) => $kit)
+            ->map(fn ($file): string => $file->getRelativePathname())
+            ->filter(fn ($file): bool => ! $this->filesystem->exists($generatedKitsDirectory.'/'.$file))
+            ->filter(fn ($file): bool => str_ends_with($file, 'ApiKitServiceProvider.php'))
+            ->map(fn ($file): string => str_replace('ApiKitServiceProvider.php', '', basename($file)))
+            ->map(fn ($kit): string => $kit)
             ->values();
 
         if ($unpublishedStarterKits->isEmpty()) {
@@ -137,11 +137,11 @@ class RESTPresenterSetupCommand extends Command
 
         $starterKits = multiselect(
             label: 'Would you like to install any of these starter kits?',
-            options: $unpublishedStarterKits->toArray(),
+            options: $unpublishedStarterKits->toArray(), // @phpstan-ignore-line
             hint: 'You can re-run this command to install more starter kits later',
         );
 
-        if (! $starterKits) {
+        if ($starterKits === []) {
             return;
         }
 
@@ -150,12 +150,14 @@ class RESTPresenterSetupCommand extends Command
         }
     }
 
-    protected function firstTimeSetup(): bool
+    private function firstTimeSetup(): bool
     {
-        return ! $this->filesystem->exists(config('rest-presenter.generator.path'));
+        return ! $this->filesystem->exists(
+            path: type(config('rest-presenter.generator.path'))->asString(),
+        );
     }
 
-    protected function checkForUpdates(): void
+    private function checkForUpdates(): void
     {
         $this->components->info('Checking for updates...');
     }

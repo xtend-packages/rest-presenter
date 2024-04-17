@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
 use Lunar\Models\Collection;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithModel;
 use XtendPackages\RESTPresenter\Concerns\WithResourceFiltering;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Collections\Filters;
 
-beforeEach(function () {
-    $this->resourceController = new class() {
+beforeEach(function (): void {
+    $this->resourceController = new class()
+    {
         use InteractsWithModel;
         use WithResourceFiltering;
 
         public function __construct()
         {
-            static::$model = Collection::class;
+            self::$model = Collection::class;
         }
 
         public function filters(): array
@@ -25,9 +28,9 @@ beforeEach(function () {
     };
 });
 
-describe('CollectionGroup Filter', function () {
+describe('CollectionGroup Filter', function (): void {
     test('CollectionGroup::handle modifies the query if collection_group_id filter is present in the request',
-        function () {
+        function (): void {
             $request = new Request();
             $request->merge(['filters' => ['collection_group_id' => 1]]);
             app()->instance('request', $request);
@@ -40,7 +43,7 @@ describe('CollectionGroup Filter', function () {
         });
 
     test('CollectionGroup::handle does not modify the query if collection_group_id filter is not present in the request',
-        function () {
+        function (): void {
             $request = new Request();
             app()->instance('request', $request);
 

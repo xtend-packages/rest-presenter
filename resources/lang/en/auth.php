@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'logout_device_message' => 'You have been logged out from this device.',
     'logout_message' => 'You have been logged out from all devices.',

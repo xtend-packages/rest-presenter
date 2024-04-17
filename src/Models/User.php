@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +15,7 @@ use XtendPackages\RESTPresenter\Factories\UserFactory;
  * @property string $email
  * @property string $password
  *
- * @mixin \Illuminate\Database\Eloquent\Builder
+ * @mixin \Illuminate\Database\Eloquent\Builder<User>
  */
 class User extends Authenticatable
 {
@@ -42,17 +44,20 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
     protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
+    }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+        ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -9,28 +11,42 @@ trait InteractsWithModel
 {
     protected static string $model = Model::class;
 
+    /**
+     * @var Builder<Model>
+     */
     protected static Builder $modelQuery;
 
-    protected function setModel(string $model): void
+    protected function setModel(string $modelClass): void
     {
-        static::$model = $model;
+        static::$model = $modelClass;
     }
 
     protected function getModel(): Model
     {
-        return new static::$model;
+        $modelClass = static::$model;
+
+        return type(new $modelClass)->as(Model::class);
     }
 
+    /**
+     * @return Builder<Model>
+     */
     protected function getModelQuery(): Builder
     {
         return $this->getModel()->query();
     }
 
+    /**
+     * @param  Builder<Model>  $query
+     */
     protected function setModelQuery(Builder $query): void
     {
         static::$modelQuery = $query;
     }
 
+    /**
+     * @return Builder<Model>
+     */
     protected function getModelQueryInstance(): Builder
     {
         return static::$modelQuery;

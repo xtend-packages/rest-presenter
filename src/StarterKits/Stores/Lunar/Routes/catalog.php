@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use XtendPackages\RESTPresenter\Facades\XtendRoute;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Brands\BrandResourceController;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\CollectionGroupResourceController;

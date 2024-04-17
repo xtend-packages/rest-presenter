@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Resources;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -19,6 +22,9 @@ abstract class ResourceController extends Controller
     use WithResourceFiltering;
     use WithResourceRouteActions;
 
+    /**
+     * @var array<int, string>
+     */
     public array $sorts;
 
     public function __construct(Request $request, bool $init = true)
@@ -28,27 +34,28 @@ abstract class ResourceController extends Controller
         }
     }
 
-    protected function init(Request $request)
+    protected function init(Request $request): void
     {
         $this->setModelForResource();
 
         $query = $this->getModelQuery();
 
-        $this->sorts = $request->sorts ?? [];
+        $this->sorts = type($request->sorts ?? [])->asArray();
         $this->applyFilters($query);
 
         $this->setModelQuery($query);
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function setModelForResource(): void
     {
         if (static::$model === Model::class) {
+            $userModelFromConfig = type(config('rest-presenter.resources.user.model'))->asString();
             match (class_basename(static::class)) {
-                'AuthResourceController', 'UserResourceController' => $this->setModel(config('rest-presenter.resources.user.model')),
-                default => throw new \Exception('Model not found for resource controller'),
+                'AuthResourceController', 'UserResourceController' => $this->setModel($userModelFromConfig),
+                default => throw new Exception('Model not found for resource controller'),
             };
         }
     }

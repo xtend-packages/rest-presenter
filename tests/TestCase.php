@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Tests;
 
 use Laravel\Sanctum\SanctumServiceProvider;
@@ -17,7 +19,7 @@ class TestCase extends Orchestra
         $this->loadLaravelMigrations(['--database' => 'testbench']);
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [

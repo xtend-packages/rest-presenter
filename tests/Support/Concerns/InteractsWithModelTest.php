@@ -1,23 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithModel;
 
-test('should return correct model modified query instance', function () {
-    $mock = new class {
+test('should return correct model modified query instance', function (): void {
+    $mock = new class
+    {
         use InteractsWithModel;
 
         public function __construct()
         {
-            static::$model = get_class(new class extends Model{});
+            self::$model = (new class extends Model
+            {
+            })::class;
         }
     };
 
     $query = invokeNonPublicMethod($mock, 'getModelQuery');
     expect($query)->toBeInstanceOf(Builder::class);
 
-    /** @var Builder $instance */
     $queryModified = $query->where('column', 'value');
     invokeNonPublicMethod($mock, 'setModelQuery', [$queryModified]);
 

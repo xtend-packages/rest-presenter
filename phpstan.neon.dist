@@ -1,17 +1,16 @@
 includes:
-    - phpstan-baseline.neon
-
+    - vendor/larastan/larastan/extension.neon
 parameters:
-    level: 5
     paths:
         - src
         - config
         - database
+    level: max
     tmpDir: build/phpstan
-    checkOctaneCompatibility: true
-    checkModelProperties: true
-    checkMissingIterableValueType: false
+    checkMissingIterableValueType: true
     scanFiles:
-      - tests/Helpers.php
+         - tests/Helpers.php
     ignoreErrors:
         - '#Undefined variable: \$this#'
+    excludePaths:
+        - src/StarterKits/Stores/Lunar

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail;
 
 use Illuminate\Http\Request;
@@ -16,12 +18,11 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\MediaData
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\PriceData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\UrlData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\DetailData;
-use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\StyleData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\Variant\ColorData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\Variant\SizeData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\VariantData;
 
-class Detail implements Presentable
+final class Detail implements Presentable
 {
     use HasAvailability;
     use HasPrices;
@@ -33,9 +34,10 @@ class Detail implements Presentable
     public function __construct(
         protected Request $request,
         protected ?Product $model,
-    ) {}
+    ) {
+    }
 
-    public function transform(): DetailData | Data
+    public function transform(): DetailData|Data
     {
         return DetailData::from([
             'id' => $this->model->id,

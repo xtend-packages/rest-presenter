@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Item;
 
 use Illuminate\Http\Request;
@@ -16,7 +18,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\UrlData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\Variant\ColorData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Item\Data\ItemData;
 
-class Item implements Presentable
+final class Item implements Presentable
 {
     use HasAvailability;
     use HasPrices;
@@ -26,9 +28,10 @@ class Item implements Presentable
     public function __construct(
         protected Request $request,
         protected ?Product $model,
-    ) {}
+    ) {
+    }
 
-    public function transform(): ItemData | Data
+    public function transform(): ItemData|Data
     {
         return ItemData::from([
             'id' => $this->model->id,

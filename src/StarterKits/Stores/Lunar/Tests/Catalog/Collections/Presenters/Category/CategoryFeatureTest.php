@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Lunar\Models\Collection;
 use Lunar\Models\CollectionGroup;
 use Lunar\Models\Language;
@@ -8,7 +10,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Colle
 
 use function Pest\Laravel\getJson;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Language::factory()->create(['code' => 'en']);
     $this->collectionGroup = CollectionGroup::factory()
         ->state([
@@ -23,8 +25,8 @@ beforeEach(function () {
         ->create();
 });
 
-describe('Category Presenter', function () {
-    test('transforms collection using Category Presenter', function () {
+describe('Category Presenter', function (): void {
+    test('transforms collection using Category Presenter', function (): void {
         $response = getJson(
             uri: route('api.v1.catalog:collections.show', ['collection' => 1]),
             headers: ['x-rest-presenter' => 'Category'],

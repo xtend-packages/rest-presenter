@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Commands\Generator;
 
 use Illuminate\Console\GeneratorCommand;
@@ -8,7 +10,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
 #[AsCommand(name: 'rest-presenter:make-filter')]
-class MakeFilter extends GeneratorCommand
+final class MakeFilter extends GeneratorCommand
 {
     protected $name = 'rest-presenter:make-filter';
 
@@ -29,7 +31,7 @@ class MakeFilter extends GeneratorCommand
             return $name;
         }
 
-        return $this->getDefaultNamespace($rootNamespace) . '\\' . $name;
+        return $this->getDefaultNamespace($rootNamespace).'\\'.$name;
     }
 
     protected function getStub(): string
@@ -41,23 +43,25 @@ class MakeFilter extends GeneratorCommand
             default => 'attribute',
         };
 
-        return __DIR__ . '/stubs/' . $this->argument('type') . '/filter/' . $filterStub . '.php.stub';
+        return __DIR__.'/stubs/'.type($this->argument('type'))->asString().'/filter/'.$filterStub.'.php.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        $resourceDirectory = Str::plural($this->argument('resource'));
+        $resourceName = type($this->argument('resource'))->asString();
+        $resourceDirectory = Str::plural($resourceName);
+        $namespace = type(config('rest-presenter.generator.namespace'))->asString();
 
         if ($this->argument('kit_namespace')) {
-            return config('rest-presenter.generator.namespace') . '\\' . $this->argument('kit_namespace') . '\\Filters';
+            return $namespace.'\\'.type($this->argument('kit_namespace'))->asString().'\\Filters';
         }
 
-        return config('rest-presenter.generator.namespace') . '\\Resources\\' . $resourceDirectory . '\\Filters';
+        return $namespace.'\\Resources\\'.$resourceDirectory.'\\Filters';
     }
 
     protected function getNameInput(): string
     {
-        return $this->argument('name');
+        return type($this->argument('name'))->asString();
     }
 
     protected function buildClass($name): string
@@ -69,27 +73,35 @@ class MakeFilter extends GeneratorCommand
         );
     }
 
-    protected function buildResourceReplacements(): array
+    /**
+     * @return array<int, array<int, int|string>>
+     */
+    protected function getArguments(): array
     {
         return [
-            '{{ filterNamespace }}' => $this->argument('kit_namespace')
-                ? 'XtendPackages\\RESTPresenter\\' . $this->argument('kit_namespace') . '\\Filters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
-                : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($this->argument('name')) . '\\Filters\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
-            '{{ aliasFilter }}' => 'Xtend' . $this->getNameInput() . 'Filter',
-            '{{ relationship }}' => strtolower($this->argument('name')),
-            '{{ relationship_search_key }}' => $this->argument('relation_search_key'),
+            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
+            ['resource', InputArgument::REQUIRED, 'The resource of the '.strtolower($this->type)],
+            ['type', InputArgument::OPTIONAL, 'The type of filter to create'],
+            ['relation', InputArgument::OPTIONAL, 'The relation of the '.strtolower($this->type)],
+            ['relation_search_key', InputArgument::OPTIONAL, 'The search key of the '.strtolower($this->type)],
+            ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the '.strtolower($this->type)],
         ];
     }
 
-    protected function getArguments()
+    /**
+     * @return array<string, string>
+     */
+    private function buildResourceReplacements(): array
     {
+        $resourceName = type($this->argument('name'))->asString();
+
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
-            ['resource', InputArgument::REQUIRED, 'The resource of the ' . strtolower($this->type)],
-            ['type', InputArgument::OPTIONAL, 'The type of filter to create'],
-            ['relation', InputArgument::OPTIONAL, 'The relation of the ' . strtolower($this->type)],
-            ['relation_search_key', InputArgument::OPTIONAL, 'The search key of the ' . strtolower($this->type)],
-            ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the ' . strtolower($this->type)],
+            '{{ filterNamespace }}' => $this->argument('kit_namespace')
+                ? 'XtendPackages\\RESTPresenter\\'.type($this->argument('kit_namespace'))->asString().'\\Filters\\'.$this->getNameInput().'\\'.$this->getNameInput()
+                : 'XtendPackages\\RESTPresenter\\Resources\\'.Str::plural($resourceName).'\\Filters\\'.$this->getNameInput().'\\'.$this->getNameInput(),
+            '{{ aliasFilter }}' => 'Xtend'.$this->getNameInput().'Filter',
+            '{{ relationship }}' => strtolower($resourceName),
+            '{{ relationship_search_key }}' => type($this->argument('relation_search_key') ?? '')->asString(),
         ];
     }
 }
