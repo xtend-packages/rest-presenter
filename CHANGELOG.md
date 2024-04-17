@@ -1,5 +1,22 @@
 # Changelog for RESTPresenter
 
+## [0.7.0](https://github.com/xtend-packages/rest-presenter/compare/0.6.1...0.7.0) (2024-04-17)
+
+
+### Features
+
+* phpstan max level + type-guard ([a779bec](https://github.com/xtend-packages/rest-presenter/commit/a779becf8dc39cc61b45c9eeff7a98b2e513df5f))
+
+
+### Bug Fixes
+
+* If we have not filters return empty array ([66db589](https://github.com/xtend-packages/rest-presenter/commit/66db5899cc975706d4b1d6c49195521666548a6f))
+* Install & configure rector for laravel + apply fixes ([e305e0c](https://github.com/xtend-packages/rest-presenter/commit/e305e0c589507aaf9e5a4dfa5fdfcca4b82e11e3))
+* Resolve issues raised by phpstan ([9f30742](https://github.com/xtend-packages/rest-presenter/commit/9f3074204648c583b4efc0403206bf658152d58b))
+* Resolve TypeError when passing optional arguments ([af19de1](https://github.com/xtend-packages/rest-presenter/commit/af19de10b1ec820cda0be6f70fd7a889f5855010))
+* Setup strict pint rules + apply fixes ([a607023](https://github.com/xtend-packages/rest-presenter/commit/a6070230915f1c04450318eed2fb293b5d15222e))
+* Tests now run but some fail after refactor ([1f4f75d](https://github.com/xtend-packages/rest-presenter/commit/1f4f75d91bfb78ed393318017b71bee2a85b29a7))
+
 ## [0.6.1](https://github.com/xtend-packages/rest-presenter/compare/0.6.0...0.6.1) (2024-04-14)
 
 
