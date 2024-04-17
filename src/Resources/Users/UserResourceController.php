@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Resources\Users;
 
 use Illuminate\Http\Request;
@@ -8,7 +10,7 @@ use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\Resources\ResourceController;
 
-class UserResourceController extends ResourceController
+final class UserResourceController extends ResourceController
 {
     public function __construct(Request $request)
     {

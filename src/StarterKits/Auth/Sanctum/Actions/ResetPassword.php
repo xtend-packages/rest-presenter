@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
 
 use Illuminate\Foundation\Auth\User;
@@ -8,11 +10,11 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Data\Request\ResetPasswordDataRequest;
 
-class ResetPassword
+final class ResetPassword
 {
     public static string $method = 'POST';
 
-    protected string $message = '';
+    private string $message = '';
 
     public function __invoke(ResetPasswordDataRequest $request): JsonResponse
     {
@@ -23,7 +25,12 @@ class ResetPassword
         ]);
     }
 
-    protected function sendResetLink(string $email): void
+    public static function generateTemporaryPassword(User $user, string $token): string
+    {
+        return 'temp-'.Str::take($token, 5).'-'.Str::padLeft((string) $user->id, 4, '0');
+    }
+
+    private function sendResetLink(string $email): void
     {
         $status = Password::sendResetLink(
             credentials: ['email' => $email],
@@ -33,7 +40,7 @@ class ResetPassword
             },
         );
 
-        if ($status != Password::RESET_LINK_SENT) {
+        if ($status !== Password::RESET_LINK_SENT) {
             $this->message = __($status);
 
             return;
@@ -42,14 +49,9 @@ class ResetPassword
         $this->message = __('rest-presenter::auth.reset_password_message');
     }
 
-    protected function setTemporaryPassword(User $user, string $token): void
+    private function setTemporaryPassword(User $user, string $token): void
     {
         $user->password = bcrypt(self::generateTemporaryPassword($user, $token)); // @phpstan-ignore-line
         $user->save();
-    }
-
-    public static function generateTemporaryPassword(User $user, string $token): string
-    {
-        return 'temp-' . Str::take($token, 5) . '-' . Str::padLeft((string)$user->id, 4, '0');
     }
 }

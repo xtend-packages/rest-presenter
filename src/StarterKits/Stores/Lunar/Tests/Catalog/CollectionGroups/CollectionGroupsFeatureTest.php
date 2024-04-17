@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Lunar\Models\CollectionGroup;
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 

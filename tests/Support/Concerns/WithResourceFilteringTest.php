@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithModel;
 use XtendPackages\RESTPresenter\Concerns\WithResourceFiltering;
@@ -7,13 +9,14 @@ use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\Resources\Users\Filters\UserEmailVerified;
 
 beforeEach(function (): void {
-    $this->resourceController = new class() {
+    $this->resourceController = new class()
+    {
         use InteractsWithModel;
         use WithResourceFiltering;
 
         public function __construct()
         {
-            static::$model = User::class;
+            self::$model = User::class;
         }
 
         public function filters(): array

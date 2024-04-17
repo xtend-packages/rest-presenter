@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use XtendPackages\RESTPresenter\Models\User;

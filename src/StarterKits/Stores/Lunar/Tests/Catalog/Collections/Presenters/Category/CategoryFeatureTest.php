@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Lunar\Models\Collection;
 use Lunar\Models\CollectionGroup;
 use Lunar\Models\Language;

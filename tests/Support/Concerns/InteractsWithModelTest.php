@@ -1,16 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithModel;
 
 test('should return correct model modified query instance', function (): void {
-    $mock = new class {
+    $mock = new class
+    {
         use InteractsWithModel;
 
         public function __construct()
         {
-            static::$model = (new class extends Model{})::class;
+            self::$model = (new class extends Model
+            {
+            })::class;
         }
     };
 

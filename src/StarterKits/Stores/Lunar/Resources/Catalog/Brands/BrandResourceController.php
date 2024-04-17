@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Brands;
 
 use Illuminate\Http\Request;
@@ -9,7 +11,7 @@ use Spatie\LaravelData\Data;
 use XtendPackages\RESTPresenter\Resources\ResourceController;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Brands\Presenters\Brand\Brand as BrandPresenter;
 
-class BrandResourceController extends ResourceController
+final class BrandResourceController extends ResourceController
 {
     protected static string $model = Brand::class;
 

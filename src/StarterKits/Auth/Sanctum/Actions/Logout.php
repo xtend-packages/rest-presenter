@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
 
 use Illuminate\Http\JsonResponse;
 use XtendPackages\RESTPresenter\Models\User;
 
-class Logout
+final class Logout
 {
     public static string $method = 'GET';
 
@@ -14,7 +16,7 @@ class Logout
      */
     public static array $middleware = ['auth:sanctum'];
 
-    protected string $message = '';
+    private string $message = '';
 
     public function __invoke(): JsonResponse
     {
@@ -27,7 +29,7 @@ class Logout
         ]);
     }
 
-    protected function deleteAllTokens(): void
+    private function deleteAllTokens(): void
     {
         /** @var User $user */
         $user = type(auth()->user())->as(User::class);
@@ -40,7 +42,7 @@ class Logout
         $this->message = __('rest-presenter::auth.logout_message');
     }
 
-    protected function deleteCurrentToken(): void
+    private function deleteCurrentToken(): void
     {
         /** @var User $user */
         $user = type(auth()->user())->as(User::class);

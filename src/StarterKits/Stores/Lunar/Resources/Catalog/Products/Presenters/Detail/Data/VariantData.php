@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data;
 
 use Illuminate\Support\Collection;
 use Lunar\Models\ProductVariant;
 use Spatie\LaravelData\Data;
 
-class VariantData extends Data
+final class VariantData extends Data
 {
     public function __construct(
         public int $id,
-        public Collection | array | null $attributeData,
+        public Collection|array|null $attributeData,
         public string $sku,
         public float $weightValue,
         public int $stock,

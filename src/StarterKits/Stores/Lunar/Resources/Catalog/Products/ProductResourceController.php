@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products;
 
 use Illuminate\Http\Request;
@@ -12,7 +14,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Produ
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Detail;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Item\Item;
 
-class ProductResourceController extends ResourceController
+final class ProductResourceController extends ResourceController
 {
     protected static string $model = Product::class;
 

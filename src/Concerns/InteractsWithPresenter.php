@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Concerns;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -31,7 +34,8 @@ trait InteractsWithPresenter
         $extendPresenterFile = Str::of($fromRequest)->replace('XtendPackages\RESTPresenter', '')
             ->replace('\\', '/')
             ->prepend(app()->path('Api'))
-            ->append('.php');
+            ->append('.php')
+            ->value();
 
         return file_exists($extendPresenterFile) ? $xtendPresenter : $fromRequest;
     }
@@ -51,11 +55,11 @@ trait InteractsWithPresenter
     {
         return array_merge([
             'default' => ResourceDefaultPresenter::class,
-        ], method_exists($this, 'presenters') ? $this->presenters() : []);
+        ], method_exists($this, 'presenters') ? $this->presenters() : []); // @phpstan-ignore-line
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getPresenterFromRequestHeader(): string
     {

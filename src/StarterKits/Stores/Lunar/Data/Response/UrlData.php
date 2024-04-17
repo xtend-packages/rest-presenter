@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response;
 
 use Lunar\Models\Url;
 use Spatie\LaravelData\Data;
 
-class UrlData extends Data
+final class UrlData extends Data
 {
     public function __construct(
         public int $id,

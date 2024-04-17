@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response;
 
 use Spatie\LaravelData\Data;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class MediaData extends Data
+final class MediaData extends Data
 {
-    protected static Media $media;
+    private static Media $media;
 
     public function __construct(
         public int $id,

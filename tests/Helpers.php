@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Sanctum\Sanctum;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use XtendPackages\RESTPresenter\Models\User;
 
-function authenticateApiUser(?User $user = null): User | HasApiTokens
+function authenticateApiUser(?User $user = null): User|HasApiTokens
 {
     return Sanctum::actingAs(
         user: $user ?? User::factory()->create(),
@@ -72,14 +74,14 @@ function fakeMediaItem(int $id): Media
         ->forceFill([
             'id' => $id,
             'uuid' => Str::uuid(),
-            'name' => 'Name ' . $id,
+            'name' => 'Name '.$id,
             'custom_properties' => ['custom' => 'properties'],
             'order_column' => $id,
         ]);
 
     $media
         ->shouldReceive('getUrl')
-        ->andReturn('http://example.com/' . $id);
+        ->andReturn('http://example.com/'.$id);
 
     return $media;
 }

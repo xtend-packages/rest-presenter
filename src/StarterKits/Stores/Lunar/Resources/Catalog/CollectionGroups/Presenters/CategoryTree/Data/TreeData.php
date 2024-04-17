@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\Presenters\CategoryTree\Data;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
 
-class TreeData extends Data
+final class TreeData extends Data
 {
     public function __construct(
         public int $id,

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Commands\Generator;
 
 use Illuminate\Console\GeneratorCommand;
@@ -14,7 +16,7 @@ use XtendPackages\RESTPresenter\Concerns\WithTypeScriptGenerator;
 use function Laravel\Prompts\select;
 
 #[AsCommand(name: 'rest-presenter:make-data')]
-class MakeData extends GeneratorCommand
+final class MakeData extends GeneratorCommand
 {
     use InteractsWithDbSchema;
     use WithTypeScriptGenerator;
@@ -25,11 +27,16 @@ class MakeData extends GeneratorCommand
 
     protected $type = 'Data';
 
-    public function handle(): void
+    /**
+     * {@inheritDoc}
+     */
+    public function handle(): ?bool
     {
         parent::handle();
 
         $this->generateTypeScriptDeclarations();
+
+        return null;
     }
 
     protected function qualifyClass($name)
@@ -45,12 +52,12 @@ class MakeData extends GeneratorCommand
             return $name;
         }
 
-        return $this->getDefaultNamespace($rootNamespace) . '\\' . $name;
+        return $this->getDefaultNamespace($rootNamespace).'\\'.$name;
     }
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/' . type($this->argument('type'))->asString() . '/data.php.stub';
+        return __DIR__.'/stubs/'.type($this->argument('type'))->asString().'/data.php.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
@@ -61,10 +68,10 @@ class MakeData extends GeneratorCommand
         $resourceDirectory = Str::plural($resourceName);
 
         if ($this->argument('kit_namespace')) {
-            return $namespace . '\\' . type($this->argument('kit_namespace'))->asString() . '\\Presenters\\' . $presenterName . '\\Data';
+            return $namespace.'\\'.type($this->argument('kit_namespace'))->asString().'\\Presenters\\'.$presenterName.'\\Data';
         }
 
-        return $namespace . '\\Resources\\' . $resourceDirectory . '\\Presenters\\' . $presenterName . '\\Data';
+        return $namespace.'\\Resources\\'.$resourceDirectory.'\\Presenters\\'.$presenterName.'\\Data';
     }
 
     protected function getNameInput(): string
@@ -82,66 +89,18 @@ class MakeData extends GeneratorCommand
     }
 
     /**
-     * @return array<string, string>
-     */
-    protected function buildResourceReplacements(): array
-    {
-        $resourceName = type($this->argument('name'))->asString();
-        $model = type($this->argument('model'))->asString();
-        $fields = type($this->argument('fields') ?? [])->asArray();
-
-        return [
-            '{{ presenterNamespace }}' => $this->argument('kit_namespace')
-                ? 'XtendPackages\\RESTPresenter\\' . type($this->argument('kit_namespace'))->asString() . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput()
-                : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($resourceName) . '\\Presenters\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
-            '{{ aliasPresenter }}' => 'Xtend' . $this->getNameInput() . 'Presenter',
-            '{{ modelClassImport }}' => $model,
-            '{{ modelClassName }}' => class_basename($model),
-            '{{ $modelVarSingular }}' => strtolower(class_basename($model)),
-            '{{ $modelVarPlural }}' => strtolower(Str::plural(class_basename($model))),
-            '{{ properties }}' => $this->transformFieldProperties($fields),
-        ];
-    }
-
-    /**
-     * @param array<string, array<string, mixed>> $fields
-     */
-    protected function transformFieldProperties(array $fields): string
-    {
-        return collect($fields)->map(function (array $fieldProperties, string $field): string {
-            $fieldType = strtolower(type($fieldProperties['type'])->asString());
-            $propertyType = match ($fieldType) {
-                'int', 'integer', 'bigint' => 'int',
-                'tinyint' => 'bool',
-                'timestamp', 'datetime' => 'Carbon',
-                'json' => 'array',
-                default => 'string',
-            };
-
-            $nullable = $this->isFieldNullable($fieldProperties);
-
-            if ($nullable) {
-                $propertyType = '?' . $propertyType;
-            }
-            $tsOptional = $nullable ? "#[TypeScriptOptional]\n\t\t" : '';
-
-            return $tsOptional . "public {$propertyType} \${$field}";
-        })->implode(",\n\t\t");
-    }
-
-    /**
      * @return array<int, array<int, int|string>>
      */
     protected function getArguments(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
-            ['resource', InputArgument::REQUIRED, 'The resource of the ' . strtolower($this->type)],
+            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
+            ['resource', InputArgument::REQUIRED, 'The resource of the '.strtolower($this->type)],
             ['type', InputArgument::REQUIRED, 'The type of filter to create'],
             ['model', InputArgument::OPTIONAL, 'The model class to use'],
             ['presenter', InputArgument::OPTIONAL, 'The presenter class to use'],
             ['fields', InputArgument::OPTIONAL, 'The fields to include in the presenter'],
-            ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the ' . strtolower($this->type)],
+            ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the '.strtolower($this->type)],
         ];
     }
 
@@ -172,5 +131,53 @@ class MakeData extends GeneratorCommand
         if ($type !== 'new') {
             $input->setOption(type($type)->asString(), true);
         }
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function buildResourceReplacements(): array
+    {
+        $resourceName = type($this->argument('name'))->asString();
+        $model = type($this->argument('model'))->asString();
+        $fields = type($this->argument('fields') ?? [])->asArray();
+
+        return [
+            '{{ presenterNamespace }}' => $this->argument('kit_namespace')
+                ? 'XtendPackages\\RESTPresenter\\'.type($this->argument('kit_namespace'))->asString().'\\Presenters\\'.$this->getNameInput().'\\'.$this->getNameInput()
+                : 'XtendPackages\\RESTPresenter\\Resources\\'.Str::plural($resourceName).'\\Presenters\\'.$this->getNameInput().'\\'.$this->getNameInput(),
+            '{{ aliasPresenter }}' => 'Xtend'.$this->getNameInput().'Presenter',
+            '{{ modelClassImport }}' => $model,
+            '{{ modelClassName }}' => class_basename($model),
+            '{{ $modelVarSingular }}' => strtolower(class_basename($model)),
+            '{{ $modelVarPlural }}' => strtolower(Str::plural(class_basename($model))),
+            '{{ properties }}' => $this->transformFieldProperties($fields),
+        ];
+    }
+
+    /**
+     * @param  array<string, array<string, mixed>>  $fields
+     */
+    private function transformFieldProperties(array $fields): string
+    {
+        return collect($fields)->map(function (array $fieldProperties, string $field): string {
+            $fieldType = strtolower(type($fieldProperties['type'])->asString());
+            $propertyType = match ($fieldType) {
+                'int', 'integer', 'bigint' => 'int',
+                'tinyint' => 'bool',
+                'timestamp', 'datetime' => 'Carbon',
+                'json' => 'array',
+                default => 'string',
+            };
+
+            $nullable = $this->isFieldNullable($fieldProperties);
+
+            if ($nullable) {
+                $propertyType = '?'.$propertyType;
+            }
+            $tsOptional = $nullable ? "#[TypeScriptOptional]\n\t\t" : '';
+
+            return $tsOptional."public {$propertyType} \${$field}";
+        })->implode(",\n\t\t");
     }
 }

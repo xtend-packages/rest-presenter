@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Filament;
 
-use XtendPackages\RESTPresenter\StarterKits\StarterKitsServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
-class FilamentApiKitServiceProvider extends StarterKitsServiceProvider
+final class FilamentApiKitServiceProvider extends ServiceProvider
 {
     public function register(): void
     {

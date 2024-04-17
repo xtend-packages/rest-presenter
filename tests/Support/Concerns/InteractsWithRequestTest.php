@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
 
@@ -8,7 +10,8 @@ beforeEach(function (): void {
     $request->merge(['filters' => ['filterKey' => 'filterValue']]);
     app()->instance('request', $request);
 
-    $this->resourceController = new class {
+    $this->resourceController = new class
+    {
         use InteractsWithRequest;
 
         public function filters(): array

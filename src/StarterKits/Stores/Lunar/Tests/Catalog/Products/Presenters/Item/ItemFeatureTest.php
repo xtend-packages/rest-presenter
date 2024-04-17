@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Lunar\Models\Language;
 use Lunar\Models\Price;
 use Lunar\Models\Product;

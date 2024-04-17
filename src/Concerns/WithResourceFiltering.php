@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -15,6 +17,7 @@ trait WithResourceFiltering
 
     /**
      * @template TModelClass of \Illuminate\Database\Eloquent\Model
+     *
      * @param  Builder<TModelClass>  $query
      */
     protected function applyFilters(Builder $query): mixed

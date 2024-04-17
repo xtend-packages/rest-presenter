@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Resources\Users\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
 
-class UserEmailVerified
+final class UserEmailVerified
 {
     use InteractsWithRequest;
 

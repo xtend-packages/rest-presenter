@@ -1,16 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum;
 
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Schema;
-use XtendPackages\RESTPresenter\StarterKits\StarterKitsServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
-class SanctumApiKitServiceProvider extends StarterKitsServiceProvider
+final class SanctumApiKitServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
@@ -20,7 +21,7 @@ class SanctumApiKitServiceProvider extends StarterKitsServiceProvider
     public function boot(): void
     {
         // @todo: Move this to mailable class and support translations
-        ResetPassword::toMailUsing(static fn($notifiable, string $token) => (new MailMessage)
+        ResetPassword::toMailUsing(static fn ($notifiable, string $token) => (new MailMessage)
             ->subject(Lang::get('Reset Password Notification')) // @phpstan-ignore-line
             ->line(Lang::get('You are receiving this email because we received a password reset request for your account.'))
             ->action(Lang::get('Login'), url(config('app.frontend_url'))) // @phpstan-ignore-line
@@ -30,9 +31,9 @@ class SanctumApiKitServiceProvider extends StarterKitsServiceProvider
             ->line(Lang::get('If you did not request a password reset, no further action is required.')));
     }
 
-    protected function ensurePersonalAccessTokensHasExpiresAtColumn(): void
+    private function ensurePersonalAccessTokensHasExpiresAtColumn(): void
     {
-        if (!Schema::hasTable('personal_access_tokens')) {
+        if (! Schema::hasTable('personal_access_tokens')) {
             return;
         }
         if (Schema::hasColumn('personal_access_tokens', 'expires_at')) {

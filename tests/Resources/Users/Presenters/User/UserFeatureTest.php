@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use XtendPackages\RESTPresenter\Resources\Users\Data\Response\UserData;
 
 use function Pest\Laravel\getJson;

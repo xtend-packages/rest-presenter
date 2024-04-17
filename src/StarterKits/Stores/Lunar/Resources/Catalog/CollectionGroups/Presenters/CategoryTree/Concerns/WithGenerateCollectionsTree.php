@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\Presenters\CategoryTree\Concerns;
 
 use Illuminate\Support\Str;
@@ -9,7 +11,7 @@ trait WithGenerateCollectionsTree
 {
     public function generateTree(\Illuminate\Support\Collection $collections): array
     {
-        return $collections->map(fn(Collection $collection): array => [
+        return $collections->map(fn (Collection $collection): array => [
             'id' => $collection->id,
             'name' => $collection->translateAttribute('name'),
             'slug' => $this->generateSlugComputed($collection),
@@ -19,6 +21,6 @@ trait WithGenerateCollectionsTree
 
     protected function generateSlugComputed(Collection $collection): string
     {
-        return $collection->id . '-' . Str::slug($collection->translateAttribute('name'));
+        return $collection->id.'-'.Str::slug($collection->translateAttribute('name'));
     }
 }

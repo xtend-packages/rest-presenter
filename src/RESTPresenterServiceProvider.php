@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter;
 
 use Illuminate\Foundation\Application;
@@ -15,7 +17,7 @@ use XtendPackages\RESTPresenter\Commands\RESTPresenterSetupCommand;
 use XtendPackages\RESTPresenter\Commands\XtendStarterKit;
 use XtendPackages\RESTPresenter\Facades\XtendRoute;
 
-class RESTPresenterServiceProvider extends PackageServiceProvider
+final class RESTPresenterServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -38,9 +40,9 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->app->singleton('rest-presenter', fn(): \XtendPackages\RESTPresenter\Base\RESTPresenter => new RESTPresenter());
+        $this->app->singleton('rest-presenter', fn (): \XtendPackages\RESTPresenter\Base\RESTPresenter => new RESTPresenter());
 
-        $this->app->bind('xtend-router', fn(Application $app): \XtendPackages\RESTPresenter\Support\XtendRouter => new Support\XtendRouter($app['events'], $app));
+        $this->app->bind('xtend-router', fn (Application $app): \XtendPackages\RESTPresenter\Support\XtendRouter => new Support\XtendRouter($app['events'], $app));
 
         XtendRoute::register();
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use XtendPackages\RESTPresenter\Models\User;
 
 test('users can authenticate using the login screen', function (): void {

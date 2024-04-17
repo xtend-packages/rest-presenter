@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Resources\Users\Data\Response;
 
 use Illuminate\Database\Eloquent\Model;
@@ -21,7 +23,8 @@ final class ProfileData extends Data
 
     /**
      * @template TModel of \XtendPackages\RESTPresenter\Models\User
-     * @param TModel $model
+     *
+     * @param  TModel  $model
      */
     public static function fromModel(Model $model): ProfileData
     {

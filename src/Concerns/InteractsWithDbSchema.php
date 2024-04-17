@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Concerns;
 
 use Illuminate\Support\Collection;
@@ -18,13 +20,14 @@ trait InteractsWithDbSchema
     }
 
     /**
-     * @return \Illuminate\Support\Collection<string, string>
+     * @return \Illuminate\Support\Collection<int|string, array<string, mixed>>
      */
     protected function getTableColumns(string $table, bool $withProperties = false): Collection
     {
         if (DB::connection()->getDriverName() === 'sqlite' && $withProperties) {
             return $this->replaceJsonColumnsSqliteWorkaround($table);
         }
+
         return collect($withProperties
             ? Schema::getColumns($table)
             : Schema::getColumnListing($table),
@@ -33,12 +36,12 @@ trait InteractsWithDbSchema
 
     /**
      * @param  array<string>  $exclude
-     * @return \Illuminate\Support\Collection<string, string>
+     * @return \Illuminate\Support\Collection<int|string, array<string, mixed>>
      */
     protected function getTableColumnsForRelation(string $table, array $exclude = []): Collection
     {
         return $this->getTableColumns($table)->filter(
-            fn (string $column): bool => ! in_array($column, $exclude),
+            fn (string $column): bool => ! in_array($column, $exclude), // @phpstan-ignore-line
         );
     }
 

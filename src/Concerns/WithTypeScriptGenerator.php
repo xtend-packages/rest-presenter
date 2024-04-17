@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Concerns;
 
 use Illuminate\Config;
@@ -43,7 +45,7 @@ trait WithTypeScriptGenerator
     {
         return Str::of(type($this->argument('name'))->asString())
             ->kebab()
-            ->prepend(config('rest-presenter.generator.ts_types_path') . '/')
+            ->prepend(config('rest-presenter.generator.ts_types_path').'/')
             ->append('.d.ts')
             ->value();
     }
@@ -58,7 +60,7 @@ trait WithTypeScriptGenerator
         /** @var array<int, string> $transformerArray */
         $transformerArray = $transformersFromConfig['transformers'];
 
-        $transformers = collect($transformerArray)->reject(fn($transformer): bool => $transformer === \Spatie\TypeScriptTransformer\Transformers\SpatieEnumTransformer::class)->values()->all();
+        $transformers = collect($transformerArray)->reject(fn ($transformer): bool => $transformer === \Spatie\TypeScriptTransformer\Transformers\SpatieEnumTransformer::class)->values()->all();
 
         $this->config->set('typescript-transformer.transformers', $transformers);
     }

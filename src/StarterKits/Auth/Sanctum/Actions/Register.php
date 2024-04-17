@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
 
 use Illuminate\Auth\Events\Registered;
@@ -8,7 +10,7 @@ use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Data\Request\RegisterDataRequest;
 
-class Register
+final class Register
 {
     public static string $method = 'POST';
 

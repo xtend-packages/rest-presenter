@@ -1,7 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
-use Lunar\FieldTypes\Text;
 use Lunar\Models\Brand;
 use Lunar\Models\Language;
 use Lunar\Models\Url;

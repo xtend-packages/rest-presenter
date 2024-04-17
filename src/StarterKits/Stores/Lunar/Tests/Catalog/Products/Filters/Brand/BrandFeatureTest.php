@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Lunar\Models\Brand;
 use Lunar\Models\Product;
 use Lunar\Models\Url;

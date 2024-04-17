@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
 
 use Illuminate\Http\JsonResponse;
@@ -11,7 +13,7 @@ use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Concerns\WithSanctumRateLimit;
 use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Data\Request\LoginDataRequest;
 
-class Login
+final class Login
 {
     use WithSanctumRateLimit;
 
@@ -36,7 +38,7 @@ class Login
         ]);
     }
 
-    protected function authenticate(LoginDataRequest $request): void
+    private function authenticate(LoginDataRequest $request): void
     {
         $this->ensureIsNotRateLimited($request);
 

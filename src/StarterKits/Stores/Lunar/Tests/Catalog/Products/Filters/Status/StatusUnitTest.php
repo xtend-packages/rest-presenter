@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
 use Lunar\Models\Product;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithModel;
@@ -7,13 +9,14 @@ use XtendPackages\RESTPresenter\Concerns\WithResourceFiltering;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Filters;
 
 beforeEach(function (): void {
-    $this->resourceController = new class() {
+    $this->resourceController = new class()
+    {
         use InteractsWithModel;
         use WithResourceFiltering;
 
         public function __construct()
         {
-            static::$model = Product::class;
+            self::$model = Product::class;
         }
 
         public function filters(): array

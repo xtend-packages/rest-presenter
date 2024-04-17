@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Brands\Presenters\Brand;
 
 use Illuminate\Http\Request;
@@ -11,16 +13,17 @@ use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\MediaData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Brands\Presenters\Brand\Data\BrandData;
 
-class Brand implements Presentable
+final class Brand implements Presentable
 {
     use InteractsWithPresenter;
 
     public function __construct(
         protected Request $request,
         protected ?BrandModel $model,
-    ) {}
+    ) {
+    }
 
-    public function transform(): BrandData | Data
+    public function transform(): BrandData|Data
     {
         return BrandData::from([
             'id' => $this->model->id,
@@ -30,7 +33,7 @@ class Brand implements Presentable
         ]);
     }
 
-    protected function getBrandSlug(): string
+    private function getBrandSlug(): string
     {
         return $this->model->urls->first(function (Url $url): bool {
             $matchesLocale = $url->language->code === app()->getLocale();
@@ -39,10 +42,10 @@ class Brand implements Presentable
         })?->slug;
     }
 
-    protected function getImage(): ?MediaData
+    private function getImage(): ?MediaData
     {
         $mediaItem = $this->model->getFirstMedia('images');
-        if (!$mediaItem instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
+        if (! $mediaItem instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
             return null;
         }
 

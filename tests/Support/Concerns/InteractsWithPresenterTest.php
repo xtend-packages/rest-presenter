@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Spatie\LaravelData\Data;
@@ -9,7 +11,8 @@ use XtendPackages\RESTPresenter\Resources\Users\Presenters;
 use XtendPackages\RESTPresenter\Support\ResourceDefaultPresenter;
 
 beforeEach(function (): void {
-    $this->resourceController = new class {
+    $this->resourceController = new class
+    {
         use InteractsWithPresenter;
 
         public function presenters(): array

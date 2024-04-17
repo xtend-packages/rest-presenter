@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Data\Response;
 
 use Carbon\Carbon;
@@ -7,16 +9,16 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
 
-class DefaultResponse extends Data
+final class DefaultResponse extends Data
 {
     /**
      * @param  array<string, mixed>|null  $attributes
      */
     public function __construct(
         public mixed $id,
-        public Optional | string | null $name,
-        public Carbon | Optional | null $createdAt,
-        public Carbon | Optional | null $updatedAt,
+        public Optional|string|null $name,
+        public Carbon|Optional|null $createdAt,
+        public Carbon|Optional|null $updatedAt,
         public ?array $attributes,
     ) {
     }

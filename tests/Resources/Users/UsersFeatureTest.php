@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\Resources\Users\Data\Response\UserData;
 

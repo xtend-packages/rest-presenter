@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Filament\Base;
 
 use Filament\Resources\Pages\ListRecords;
@@ -10,14 +12,14 @@ use Symfony\Component\Finder\SplFileInfo;
 use XtendPackages\RESTPresenter\Base\StarterKit;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithDbSchema;
 
-class FilamentStarterKit extends StarterKit
+final class FilamentStarterKit extends StarterKit
 {
     use InteractsWithDbSchema;
 
     /**
      * @var array<string, array<string, mixed>>
      */
-    protected array $resources = [];
+    private array $resources = [];
 
     /**
      * @return array<string, array<string, mixed>>
@@ -29,7 +31,7 @@ class FilamentStarterKit extends StarterKit
         return $this->resources;
     }
 
-    protected function autoDiscoverResources(): void
+    private function autoDiscoverResources(): void
     {
         if (! $this->filesystem->isDirectory(app_path('Filament/Resources'))) {
             return;
@@ -38,10 +40,10 @@ class FilamentStarterKit extends StarterKit
         collect($this->filesystem->allFiles(app_path('Filament/Resources')))
             ->filter(fn (SplFileInfo $file): bool => basename($file->getRelativePath()) === 'Pages')
             ->map(fn (SplFileInfo $file): string => $file->getRelativePathname())
-            ->map(fn (string $file) => resolve('App\\Filament\\Resources\\' . str_replace(['/', '.php'], ['\\', ''], $file)))
+            ->map(fn (string $file) => resolve('App\\Filament\\Resources\\'.str_replace(['/', '.php'], ['\\', ''], $file)))
             ->filter(fn ($class): bool => is_subclass_of($class, ListRecords::class))
             ->each(function ($page): void {
-                /** @var \Filament\Resources\Pages\ListRecords $page */
+                /** @var ListRecords $page */
                 $page = type($page)->as(ListRecords::class);
                 /** @var \Filament\Tables\Table $table */
                 $table = $page->table(
@@ -75,9 +77,9 @@ class FilamentStarterKit extends StarterKit
     }
 
     /**
-     * @return \Illuminate\Support\Collection<string, string>
+     * @return \Illuminate\Support\Collection<int|string, array<string, mixed>>
      */
-    protected function generateModelFields(Model $model): Collection
+    private function generateModelFields(Model $model): Collection
     {
         $table = $model->getTable();
 

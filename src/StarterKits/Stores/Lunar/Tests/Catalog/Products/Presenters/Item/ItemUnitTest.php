@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Lunar\FieldTypes\Text;
@@ -44,8 +46,8 @@ beforeEach(function (): void {
             'id' => 1,
             'customer_group_id' => 1,
             'currency_id' => 1,
-            'price' => new \Lunar\DataTypes\Price(100, $this->currency),
-            'compare_price' => new \Lunar\DataTypes\Price(0, $this->currency),
+            'price' => new Lunar\DataTypes\Price(100, $this->currency),
+            'compare_price' => new Lunar\DataTypes\Price(0, $this->currency),
             'tier' => 1,
         ]);
     $this->product = mock(Product::class)

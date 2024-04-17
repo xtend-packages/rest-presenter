@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Commands\Generator;
 
 use Illuminate\Console\GeneratorCommand;
@@ -8,7 +10,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 
 #[AsCommand(name: 'rest-presenter:make-action')]
-class MakeAction extends GeneratorCommand
+final class MakeAction extends GeneratorCommand
 {
     protected $name = 'rest-presenter:make-action';
 
@@ -29,12 +31,12 @@ class MakeAction extends GeneratorCommand
             return $name;
         }
 
-        return $this->getDefaultNamespace($rootNamespace) . '\\' . $name;
+        return $this->getDefaultNamespace($rootNamespace).'\\'.$name;
     }
 
     protected function getStub(): string
     {
-        return __DIR__ . '/stubs/' . type($this->argument('type'))->asString() . '/action.php.stub';
+        return __DIR__.'/stubs/'.type($this->argument('type'))->asString().'/action.php.stub';
     }
 
     protected function getDefaultNamespace($rootNamespace): string
@@ -44,10 +46,10 @@ class MakeAction extends GeneratorCommand
         $namespace = type(config('rest-presenter.generator.namespace'))->asString();
 
         if ($this->argument('kit_namespace')) {
-            return $namespace . '\\' . type($this->argument('kit_namespace'))->asString() . '\\Actions';
+            return $namespace.'\\'.type($this->argument('kit_namespace'))->asString().'\\Actions';
         }
 
-        return $namespace . '\\Resources\\' . $resourceDirectory . '\\Actions';
+        return $namespace.'\\Resources\\'.$resourceDirectory.'\\Actions';
     }
 
     protected function getNameInput(): string
@@ -65,35 +67,35 @@ class MakeAction extends GeneratorCommand
     }
 
     /**
+     * @return array<int, array<int, int|string>>
+     */
+    protected function getArguments(): array
+    {
+        return [
+            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
+            ['resource', InputArgument::REQUIRED, 'The resource of the '.strtolower($this->type)],
+            ['type', InputArgument::REQUIRED, 'The type of action to create'],
+            ['relation', InputArgument::OPTIONAL, 'The relation of the '.strtolower($this->type)],
+            ['relation_search_key', InputArgument::OPTIONAL, 'The search key of the '.strtolower($this->type)],
+            ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the '.strtolower($this->type)],
+        ];
+    }
+
+    /**
      * @return array<string, string>
      */
-    protected function buildResourceReplacements(): array
+    private function buildResourceReplacements(): array
     {
         $kitNamespace = type($this->argument('kit_namespace'))->asString();
         $resourceName = type($this->argument('name'))->asString();
 
         return [
             '{{ actionNamespace }}' => $kitNamespace !== '' && $kitNamespace !== '0'
-                ? 'XtendPackages\\RESTPresenter\\' . $kitNamespace . '\\Actions\\' . $this->getNameInput() . '\\' . $this->getNameInput()
-                : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($resourceName) . '\\Actions\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
-            '{{ aliasAction }}' => 'Xtend' . $this->getNameInput() . 'Action',
+                ? 'XtendPackages\\RESTPresenter\\'.$kitNamespace.'\\Actions\\'.$this->getNameInput().'\\'.$this->getNameInput()
+                : 'XtendPackages\\RESTPresenter\\Resources\\'.Str::plural($resourceName).'\\Actions\\'.$this->getNameInput().'\\'.$this->getNameInput(),
+            '{{ aliasAction }}' => 'Xtend'.$this->getNameInput().'Action',
             '{{ relationship }}' => strtolower($resourceName),
             '{{ relationship_search_key }}' => type($this->argument('relation_search_key') ?? '')->asString(),
-        ];
-    }
-
-    /**
-     * @return array<int, array<int, int|string>>
-     */
-    protected function getArguments(): array
-    {
-        return [
-            ['name', InputArgument::REQUIRED, 'The name of the ' . strtolower($this->type)],
-            ['resource', InputArgument::REQUIRED, 'The resource of the ' . strtolower($this->type)],
-            ['type', InputArgument::REQUIRED, 'The type of action to create'],
-            ['relation', InputArgument::OPTIONAL, 'The relation of the ' . strtolower($this->type)],
-            ['relation_search_key', InputArgument::OPTIONAL, 'The search key of the ' . strtolower($this->type)],
-            ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the ' . strtolower($this->type)],
         ];
     }
 }

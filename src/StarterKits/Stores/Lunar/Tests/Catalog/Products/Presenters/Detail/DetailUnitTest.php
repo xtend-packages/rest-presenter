@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Http\Request;
 use Lunar\FieldTypes\Text;
 use Lunar\Models\Collection;
@@ -10,7 +12,6 @@ use Lunar\Models\Product;
 use Lunar\Models\Url;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\UrlData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\DetailData;
-use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\StyleData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Detail;
 
 beforeEach(function (): void {
@@ -90,10 +91,10 @@ describe('Detail Presenter', function (): void {
             ->and($result->name)->toBe('Test Name')
             ->and($result->description)->toBe('Test Description')
             ->and($result->availability)->toBe('available')
-            ->and($result->variants)->toBeInstanceOf(\Illuminate\Support\Collection::class)
-            ->and($result->colors)->toBeInstanceOf(\Illuminate\Support\Collection::class)
-            ->and($result->sizes)->toBeInstanceOf(\Illuminate\Support\Collection::class)
-            ->and($result->prices)->toBeInstanceOf(\Illuminate\Support\Collection::class)
-            ->and($result->images)->toBeInstanceOf(\Illuminate\Support\Collection::class);
+            ->and($result->variants)->toBeInstanceOf(Illuminate\Support\Collection::class)
+            ->and($result->colors)->toBeInstanceOf(Illuminate\Support\Collection::class)
+            ->and($result->sizes)->toBeInstanceOf(Illuminate\Support\Collection::class)
+            ->and($result->prices)->toBeInstanceOf(Illuminate\Support\Collection::class)
+            ->and($result->images)->toBeInstanceOf(Illuminate\Support\Collection::class);
     });
 });

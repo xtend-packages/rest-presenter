@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +17,7 @@ use XtendPackages\RESTPresenter\Factories\UserFactory;
  *
  * @mixin \Illuminate\Database\Eloquent\Builder<User>
  */
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
@@ -46,6 +48,7 @@ class User extends Authenticatable
     {
         return UserFactory::new();
     }
+
     /**
      * The attributes that should be cast.
      *

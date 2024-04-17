@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Collections\Presenters\Category;
 
 use Illuminate\Http\Request;
@@ -11,16 +13,17 @@ use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\MediaData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Collections\Presenters\Category\Data\CategoryData;
 
-class Category implements Presentable
+final class Category implements Presentable
 {
     use InteractsWithPresenter;
 
     public function __construct(
         protected Request $request,
         protected ?Collection $model,
-    ) {}
+    ) {
+    }
 
-    public function transform(): CategoryData | Data
+    public function transform(): CategoryData|Data
     {
         return CategoryData::from([
             'id' => $this->model->id,
@@ -31,7 +34,7 @@ class Category implements Presentable
         ]);
     }
 
-    protected function getStyleSlug(): string
+    private function getStyleSlug(): string
     {
         return $this->model->urls->first(function (Url $url): bool {
             $matchesLocale = $url->language->code === app()->getLocale();
@@ -40,10 +43,10 @@ class Category implements Presentable
         })?->slug;
     }
 
-    protected function getBanner(): ?MediaData
+    private function getBanner(): ?MediaData
     {
         $mediaItem = $this->model->getFirstMedia('images');
-        if (!$mediaItem instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
+        if (! $mediaItem instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
             return null;
         }
 

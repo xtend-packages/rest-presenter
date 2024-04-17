@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response;
 
-use Lunar\Base\Casts\Price as CastsPrice;
 use Lunar\Models\Price;
 use Spatie\LaravelData\Data;
 
-class PriceData extends Data
+final class PriceData extends Data
 {
     public function __construct(
         public int $id,

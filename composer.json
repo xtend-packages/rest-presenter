@@ -60,14 +60,19 @@
     },
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
-        "analyse": "vendor/bin/phpstan",
-        "test": "vendor/bin/pest --testsuite=RESTPresenter",
-        "test-coverage": "vendor/bin/pest --testsuite=RESTPresenter --coverage",
-        "test-starter-kit:lunar": "vendor/bin/pest --testsuite=starter-kit:lunar",
+        "pest": "vendor/bin/pest --testsuite=RESTPresenter",
+        "pest-coverage": "vendor/bin/pest --testsuite=RESTPresenter --coverage",
+        "pest-starter-kit:lunar": "vendor/bin/pest --testsuite=starter-kit:lunar",
         "test:format": "pint --test",
         "test:refactor": "rector --dry-run",
+        "test:types": "phpstan analyse",
         "format": "vendor/bin/pint",
-        "refactor": "rector"
+        "refactor": "rector",
+        "test": [
+            "@test:format",
+            "@test:refactor",
+            "@test:types"
+        ]
     },
     "config": {
         "sort-packages": true,
