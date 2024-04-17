@@ -36,6 +36,10 @@ trait InteractsWithRequest
             $filters = json_encode($filters);
         }
 
+        if (! $filters) {
+            return [];
+        }
+
         $filters = type($filters)->asString();
         if (json_decode($filters) !== null) {
             $filters = json_decode($filters, true);
