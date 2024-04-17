@@ -28,6 +28,7 @@
         "spatie/laravel-typescript-transformer": "^2.4"
     },
     "require-dev": {
+        "driftingly/rector-laravel": "^1.1",
         "fakerphp/faker": "^1.23",
         "filament/filament": "^3.2",
         "larastan/larastan": "^v2.9",
@@ -41,6 +42,7 @@
         "pestphp/pest-plugin-laravel": "^2.3",
         "pestphp/pest-plugin-livewire": "^2.1",
         "phpunit/phpunit": "^10",
+        "rector/rector": "^1.0.4",
         "spatie/invade": "^1.1",
         "spatie/pest-plugin-snapshots": "^2.1"
     },
@@ -62,7 +64,10 @@
         "test": "vendor/bin/pest --testsuite=RESTPresenter",
         "test-coverage": "vendor/bin/pest --testsuite=RESTPresenter --coverage",
         "test-starter-kit:lunar": "vendor/bin/pest --testsuite=starter-kit:lunar",
-        "format": "vendor/bin/pint"
+        "test:format": "pint --test",
+        "test:refactor": "rector --dry-run",
+        "format": "vendor/bin/pint",
+        "refactor": "rector"
     },
     "config": {
         "sort-packages": true,

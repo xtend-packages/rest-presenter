@@ -8,7 +8,7 @@ use XtendPackages\RESTPresenter\Exceptions\PresenterNotFoundException;
 use XtendPackages\RESTPresenter\Resources\Users\Presenters;
 use XtendPackages\RESTPresenter\Support\ResourceDefaultPresenter;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->resourceController = new class {
         use InteractsWithPresenter;
 
@@ -22,8 +22,8 @@ beforeEach(function () {
     };
 });
 
-describe('InteractsWithPresenter', function () {
-    test('makePresenter returns Presentable', function () {
+describe('InteractsWithPresenter', function (): void {
+    test('makePresenter returns Presentable', function (): void {
         $request = mock(Request::class);
         $model = mock(Model::class);
 
@@ -36,7 +36,7 @@ describe('InteractsWithPresenter', function () {
         expect($presenter)->toBeInstanceOf(ResourceDefaultPresenter::class);
     });
 
-    test('present returns correct format', function () {
+    test('present returns correct format', function (): void {
         $request = mock(Request::class);
         $model = Mockery::spy(Model::class);
         $model->shouldReceive('toArray');
@@ -81,7 +81,7 @@ describe('InteractsWithPresenter', function () {
         expect($result)->toBeInstanceOf(Data::class);
     });
 
-    test('getPresenters merges default and resource presenters', function () {
+    test('getPresenters merges default and resource presenters', function (): void {
         $presenters = invokeNonPublicMethod(
             object: $this->resourceController,
             methodName: 'getPresenters',
@@ -92,7 +92,7 @@ describe('InteractsWithPresenter', function () {
             ->toBe(ResourceDefaultPresenter::class);
     });
 
-    test('getPresenterFromRequestHeader returns correct presenter from user request header is set', function () {
+    test('getPresenterFromRequestHeader returns correct presenter from user request header is set', function (): void {
         request()->headers->set(getApiHeaderPresenterName(), 'user');
 
         $presenter = invokeNonPublicMethod(
@@ -103,7 +103,7 @@ describe('InteractsWithPresenter', function () {
         expect($presenter)->toBe(Presenters\User::class);
     });
 
-    test('getPresenterFromRequestHeader throws PresenterNotFoundException when presenter key is not found', function () {
+    test('getPresenterFromRequestHeader throws PresenterNotFoundException when presenter key is not found', function (): void {
         request()->headers->set(getApiHeaderPresenterName(), 'NonExistentPresenter');
 
         $this->expectException(PresenterNotFoundException::class);
@@ -114,7 +114,7 @@ describe('InteractsWithPresenter', function () {
         );
     });
 
-    test('getPresenterFromRequestHeader returns default presenter when request header is not set', function () {
+    test('getPresenterFromRequestHeader returns default presenter when request header is not set', function (): void {
         request()->headers->remove(getApiHeaderPresenterName());
 
         $presenter = invokeNonPublicMethod(

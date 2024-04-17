@@ -6,7 +6,7 @@ use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 
 use function Pest\Laravel\getJson;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Collection::factory()->count(20)->create();
     $this->collectionGroup = CollectionGroup::factory()
         ->state([
@@ -19,8 +19,8 @@ beforeEach(function () {
     $this->collections = $this->collectionGroup->collections;
 });
 
-describe('CollectionGroup Filter', function () {
-    test('can list all collections for a specific collection group', function () {
+describe('CollectionGroup Filter', function (): void {
+    test('can list all collections for a specific collection group', function (): void {
         $filters = [
             'collection_group_id' => $this->collectionGroup->id,
         ];

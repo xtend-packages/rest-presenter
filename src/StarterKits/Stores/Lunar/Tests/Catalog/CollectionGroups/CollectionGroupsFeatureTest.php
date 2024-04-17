@@ -5,7 +5,7 @@ use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 
 use function Pest\Laravel\getJson;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->collectionGroups = CollectionGroup::factory()->count(5)->create();
 });
 
@@ -15,8 +15,8 @@ dataset('collectionGroups', function () {
     }
 });
 
-describe('CollectionGroups', function () {
-    test('can show a collection', function (CollectionGroup $collectionGroup) {
+describe('CollectionGroups', function (): void {
+    test('can show a collection', function (CollectionGroup $collectionGroup): void {
         $response = getJson(
             uri: route('api.v1.catalog:collection-groups.show', $collectionGroup),
         )->assertOk()->json();
@@ -28,7 +28,7 @@ describe('CollectionGroups', function () {
             );
     })->with('collectionGroups');
 
-    test('can list all collectionGroups', function () {
+    test('can list all collectionGroups', function (): void {
         $response = getJson(
             uri: route('api.v1.catalog:collection-groups.index'),
         )->assertOk()->json();

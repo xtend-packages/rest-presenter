@@ -18,7 +18,7 @@ class CollectionResourceController extends ResourceController
         $collections = $this->getModelQueryInstance()->get();
 
         return $collections->map(
-            fn ($collection) => $this->present($request, $collection),
+            fn ($collection): \Spatie\LaravelData\Data => $this->present($request, $collection),
         );
     }
 

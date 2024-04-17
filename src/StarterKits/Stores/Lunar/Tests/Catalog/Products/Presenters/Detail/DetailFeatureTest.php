@@ -9,7 +9,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Produ
 
 use function Pest\Laravel\getJson;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Language::factory()->create(['code' => 'en']);
     $product = Product::factory()
         ->has(Url::factory()->state(['language_id' => 1]))
@@ -29,8 +29,8 @@ beforeEach(function () {
     $this->product = $product;
 });
 
-describe('Detail Presenter', function () {
-    test('transforms collection using Detail Presenter', function () {
+describe('Detail Presenter', function (): void {
+    test('transforms collection using Detail Presenter', function (): void {
         $response = getJson(
             uri: route('api.v1.catalog:products.show', ['product' => 1]),
             headers: ['x-rest-presenter' => 'Detail'],

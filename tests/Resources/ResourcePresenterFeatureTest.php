@@ -5,12 +5,12 @@ use XtendPackages\RESTPresenter\Models\User;
 
 use function Pest\Laravel\getJson;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->user = User::factory()->create();
 });
 
-describe('ResourcePresenter', function () {
-    test('can transform user resource returning default presenter', function () {
+describe('ResourcePresenter', function (): void {
+    test('can transform user resource returning default presenter', function (): void {
         authenticateApiUser($this->user);
         $response = getJson(
             uri: route('api.v1.users.show', $this->user),
@@ -23,7 +23,7 @@ describe('ResourcePresenter', function () {
             );
     });
 
-    test('If not authenticated return unauthorized', function () {
+    test('If not authenticated return unauthorized', function (): void {
         getJson(
             uri: route('api.v1.users.show', $this->user),
         )->assertUnauthorized();

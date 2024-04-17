@@ -9,7 +9,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\MediaData
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Brands\Presenters\Brand\Brand as BrandPresenter;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Brands\Presenters\Brand\Data\BrandData;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->request = mock(Request::class);
     $this->language = mock(Language::class);
     $this->url = mock(Url::class);
@@ -39,8 +39,8 @@ beforeEach(function () {
         ]));
 });
 
-describe('Brand Presenter', function () {
-    test('Brand::transform returns the correct data', function () {
+describe('Brand Presenter', function (): void {
+    test('Brand::transform returns the correct data', function (): void {
 
         $result = $this->brand->transform();
 

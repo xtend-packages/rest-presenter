@@ -19,7 +19,7 @@ trait HasUrls
         $urls = $model->urls ?? null;
 
         return $urls?->first(
-            fn (Url $url) => $url->language->code === app()->getLocale(),
+            fn (Url $url): bool => $url->language->code === app()->getLocale(),
         );
     }
 }

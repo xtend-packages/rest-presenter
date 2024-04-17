@@ -58,9 +58,7 @@ trait WithTypeScriptGenerator
         /** @var array<int, string> $transformerArray */
         $transformerArray = $transformersFromConfig['transformers'];
 
-        $transformers = collect($transformerArray)->reject(function ($transformer) {
-            return $transformer === 'Spatie\TypeScriptTransformer\Transformers\SpatieEnumTransformer';
-        })->values()->all();
+        $transformers = collect($transformerArray)->reject(fn($transformer): bool => $transformer === \Spatie\TypeScriptTransformer\Transformers\SpatieEnumTransformer::class)->values()->all();
 
         $this->config->set('typescript-transformer.transformers', $transformers);
     }

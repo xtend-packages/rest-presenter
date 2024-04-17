@@ -25,7 +25,7 @@ trait HasVariants
         /** @var Collection<int, ProductOptionValue> $values */
         $values = $this->getVariants()
             ->flatMap(fn (ProductVariant $variant) => collect($variant->values)->filter(
-                fn (ProductOptionValue $value) => $value->option->handle === $handle,
+                fn (ProductOptionValue $value): bool => $value->option->handle === $handle,
             )->values());
 
         return $values

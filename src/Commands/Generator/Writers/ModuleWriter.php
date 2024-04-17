@@ -18,9 +18,7 @@ class ModuleWriter implements Writer
         /** @var \ArrayIterator<int, \Spatie\TypeScriptTransformer\Structures\TransformedType> $iterator */
         $iterator = $collection->getIterator();
 
-        $iterator->uasort(function (TransformedType $a, TransformedType $b) {
-            return strcmp(type($a->name)->asString(), type($b->name)->asString());
-        });
+        $iterator->uasort(fn(TransformedType $a, TransformedType $b): int => strcmp(type($a->name)->asString(), type($b->name)->asString()));
 
         foreach ($iterator as $type) {
             /** @var TransformedType $type */

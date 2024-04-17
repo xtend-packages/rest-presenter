@@ -73,7 +73,7 @@ class MakeAction extends GeneratorCommand
         $resourceName = type($this->argument('name'))->asString();
 
         return [
-            '{{ actionNamespace }}' => $kitNamespace
+            '{{ actionNamespace }}' => $kitNamespace !== '' && $kitNamespace !== '0'
                 ? 'XtendPackages\\RESTPresenter\\' . $kitNamespace . '\\Actions\\' . $this->getNameInput() . '\\' . $this->getNameInput()
                 : 'XtendPackages\\RESTPresenter\\Resources\\' . Str::plural($resourceName) . '\\Actions\\' . $this->getNameInput() . '\\' . $this->getNameInput(),
             '{{ aliasAction }}' => 'Xtend' . $this->getNameInput() . 'Action',

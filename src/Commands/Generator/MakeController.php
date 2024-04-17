@@ -32,7 +32,7 @@ class MakeController extends GeneratorCommand
         $namespace = type(config('rest-presenter.generator.namespace'))->asString();
         $kitNamespace = type($this->argument('kit_namespace'))->asString();
 
-        if ($kitNamespace) {
+        if ($kitNamespace !== '' && $kitNamespace !== '0') {
             return $namespace . '\\' . $kitNamespace;
         }
 

@@ -6,7 +6,7 @@ use XtendPackages\RESTPresenter\Concerns\InteractsWithModel;
 use XtendPackages\RESTPresenter\Concerns\WithResourceFiltering;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Filters;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->resourceController = new class() {
         use InteractsWithModel;
         use WithResourceFiltering;
@@ -25,9 +25,9 @@ beforeEach(function () {
     };
 });
 
-describe('Brand Filter', function () {
+describe('Brand Filter', function (): void {
     test('Brand::handle modifies the query to filter by brand_id',
-        function () {
+        function (): void {
             $request = new Request();
             $request->merge(['filters' => ['brand_id' => 1]]);
             app()->instance('request', $request);
@@ -40,7 +40,7 @@ describe('Brand Filter', function () {
         });
 
     test('Brand::handle does not modify the query if brand_id is not present in the request',
-        function () {
+        function (): void {
             $request = new Request();
             app()->instance('request', $request);
 

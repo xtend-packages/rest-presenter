@@ -27,7 +27,7 @@ class ResetPassword
     {
         $status = Password::sendResetLink(
             credentials: ['email' => $email],
-            callback: function (User $user, $token) {
+            callback: function (User $user, $token): void {
                 $this->setTemporaryPassword($user, $token);
                 $user->sendPasswordResetNotification($token);
             },

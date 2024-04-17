@@ -98,15 +98,13 @@ class RESTPresenterSetupCommand extends Command
         }
 
         $callable = [ServiceProvider::class, 'addProviderToBootstrapFile'];
-        if (is_callable($callable)) {
-            call_user_func($callable, 'App\\Providers\\RESTPresenterServiceProvider', $providersPath);
-        }
+        call_user_func($callable, 'App\\Providers\\RESTPresenterServiceProvider', $providersPath);
     }
 
     protected function publishingDefaultResources(): void
     {
         collect($this->filesystem->directories(__DIR__ . '/../Resources'))
-            ->map(fn ($resource) => Str::singular(basename($resource)))
+            ->map(fn ($resource) => Str::singular(basename((string) $resource)))
             ->each(fn ($resource) => $this->call('rest-presenter:make-resource', [
                 'model' => 'App\\Models\\' . Str::singular($resource),
                 'name' => $resource,
@@ -122,11 +120,11 @@ class RESTPresenterSetupCommand extends Command
 
         /** @var \Illuminate\Support\Collection<string, string> $unpublishedStarterKits */
         $unpublishedStarterKits = collect($this->filesystem->allFiles($starterKitsDirectory))
-            ->map(fn ($file) => $file->getRelativePathname())
-            ->filter(fn ($file) => ! $this->filesystem->exists($generatedKitsDirectory . '/' . $file))
-            ->filter(fn ($file) => str_ends_with($file, 'ApiKitServiceProvider.php'))
-            ->map(fn ($file) => str_replace('ApiKitServiceProvider.php', '', basename($file)))
-            ->map(fn ($kit) => $kit)
+            ->map(fn ($file): string => $file->getRelativePathname())
+            ->filter(fn ($file): bool => ! $this->filesystem->exists($generatedKitsDirectory . '/' . $file))
+            ->filter(fn ($file): bool => str_ends_with($file, 'ApiKitServiceProvider.php'))
+            ->map(fn ($file): string|array => str_replace('ApiKitServiceProvider.php', '', basename($file)))
+            ->map(fn ($kit): string => $kit)
             ->values();
 
         if ($unpublishedStarterKits->isEmpty()) {
@@ -141,7 +139,7 @@ class RESTPresenterSetupCommand extends Command
             hint: 'You can re-run this command to install more starter kits later',
         );
 
-        if (! $starterKits) {
+        if ($starterKits === []) {
             return;
         }
 

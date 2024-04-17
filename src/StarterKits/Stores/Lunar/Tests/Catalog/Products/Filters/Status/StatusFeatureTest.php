@@ -5,7 +5,7 @@ use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 
 use function Pest\Laravel\getJson;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->publishedProducts = Product::factory()
         ->state(['status' => 'published'])
         ->count(10)
@@ -16,8 +16,8 @@ beforeEach(function () {
         ->create();
 });
 
-describe('Status Filter', function () {
-    test('can list all products with published status', function () {
+describe('Status Filter', function (): void {
+    test('can list all products with published status', function (): void {
         $filters = [
             'status' => 'published',
         ];
@@ -38,7 +38,7 @@ describe('Status Filter', function () {
             );
     });
 
-    test('can list all products with draft status', function () {
+    test('can list all products with draft status', function (): void {
         $filters = [
             'status' => 'draft',
         ];

@@ -25,7 +25,7 @@ class MakeData extends GeneratorCommand
 
     protected $type = 'Data';
 
-    public function handle()
+    public function handle(): void
     {
         parent::handle();
 
@@ -108,7 +108,7 @@ class MakeData extends GeneratorCommand
      */
     protected function transformFieldProperties(array $fields): string
     {
-        return collect($fields)->map(function (array $fieldProperties, string $field) {
+        return collect($fields)->map(function (array $fieldProperties, string $field): string {
             $fieldType = strtolower(type($fieldProperties['type'])->asString());
             $propertyType = match ($fieldType) {
                 'int', 'integer', 'bigint' => 'int',

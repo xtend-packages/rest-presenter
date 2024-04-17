@@ -6,7 +6,7 @@ use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\Resources\Users\Data\Response\ProfileData;
 use XtendPackages\RESTPresenter\Resources\Users\Presenters;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->request = mock(Request::class);
     $this->mockUser = mock(User::class)
         ->makePartial()
@@ -32,8 +32,8 @@ beforeEach(function () {
     $this->data = $this->response->toArray();
 });
 
-describe('Profile Presenter', function () {
-    test('Profile::transform returns the correct data', function () {
+describe('Profile Presenter', function (): void {
+    test('Profile::transform returns the correct data', function (): void {
         $this->response->validate($this->data);
 
         expect($this->response)->toBeInstanceOf(ProfileData::class)
@@ -46,7 +46,7 @@ describe('Profile Presenter', function () {
 
     });
 
-    test('Profile::transform data name validation fails', function () {
+    test('Profile::transform data name validation fails', function (): void {
         $this->data['firstName'] = 'ok';
         $rules = $this->response->getValidationRules($this->data);
 
@@ -58,7 +58,7 @@ describe('Profile Presenter', function () {
         $this->response->validate($this->data);
     });
 
-    test('Profile::transform data email validation fails', function () {
+    test('Profile::transform data email validation fails', function (): void {
         $this->data['email'] = 'invalid-email';
 
         $this->expectException(ValidationException::class);

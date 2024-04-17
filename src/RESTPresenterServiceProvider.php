@@ -38,13 +38,9 @@ class RESTPresenterServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->app->singleton('rest-presenter', function () {
-            return new RESTPresenter();
-        });
+        $this->app->singleton('rest-presenter', fn(): \XtendPackages\RESTPresenter\Base\RESTPresenter => new RESTPresenter());
 
-        $this->app->bind('xtend-router', function (Application $app) {
-            return new Support\XtendRouter($app['events'], $app);
-        });
+        $this->app->bind('xtend-router', fn(Application $app): \XtendPackages\RESTPresenter\Support\XtendRouter => new Support\XtendRouter($app['events'], $app));
 
         XtendRoute::register();
     }

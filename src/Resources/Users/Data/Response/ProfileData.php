@@ -27,8 +27,8 @@ final class ProfileData extends Data
     {
         return new ProfileData(
             id: $model->getKey(),
-            firstName: static::firstName($model->name),
-            lastName: static::lastName($model->name),
+            firstName: self::firstName($model->name),
+            lastName: self::lastName($model->name),
             email: $model->email,
         );
     }

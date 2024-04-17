@@ -21,7 +21,7 @@ trait WithAutoDiscovery
 
         collect($fileSystem->allFiles($path))
             ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getFilename(), 'ResourceController.php'))
-            ->mapWithKeys(function (SplFileInfo $file) use ($namespace) {
+            ->mapWithKeys(function (SplFileInfo $file) use ($namespace): array {
                 $name = Str::of(basename($file->getRelativePath()))
                     ->replace('/', '.')
                     ->kebab()
@@ -45,13 +45,13 @@ trait WithAutoDiscovery
                     ->value();
 
                 $routeName = $isKit ? $kit . '.' : null;
-                if (! $routeName) {
+                if ($routeName === null || $routeName === '' || $routeName === '0') {
                     return null;
                 }
 
                 return Route::name($routeName)
                     ->prefix($kit)
-                    ->group(function () use ($name, $controller) {
+                    ->group(function () use ($name, $controller): void {
                         $this->isResourceOnlyActionRoutes($controller)
                             ? $this->registerActionRoutes($controller)
                             : $this->registerResourceRoutes($name, $controller);
@@ -65,11 +65,9 @@ trait WithAutoDiscovery
         $resource = $this->getXtendResourceController($controller);
 
         collect($resource->routeActions())
-            ->each(function ($controller, $name) {
-                return Route::match($controller::$method, $name, $controller) // @phpstan-ignore-line
-                    ->middleware($controller::$middleware ?? []) // @phpstan-ignore-line
-                    ->name($name);
-            });
+            ->each(fn($controller, $name) => Route::match($controller::$method, $name, $controller) // @phpstan-ignore-line
+                ->middleware($controller::$middleware ?? []) // @phpstan-ignore-line
+                ->name($name));
     }
 
     private function registerResourceRoutes(string $name, string $controller): void

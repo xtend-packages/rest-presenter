@@ -15,7 +15,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Produ
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Item\Data\ItemData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Item\Item;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->request = mock(Request::class);
     $this->currency = mock(Currency::class)
         ->makePartial()
@@ -85,8 +85,8 @@ beforeEach(function () {
         ]));
 });
 
-describe('Item Presenter', function () {
-    test('Item::transform returns the correct data', function () {
+describe('Item Presenter', function (): void {
+    test('Item::transform returns the correct data', function (): void {
 
         $result = $this->item->transform();
 

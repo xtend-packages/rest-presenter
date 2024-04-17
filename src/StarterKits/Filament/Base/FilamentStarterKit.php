@@ -36,19 +36,19 @@ class FilamentStarterKit extends StarterKit
         }
 
         collect($this->filesystem->allFiles(app_path('Filament/Resources')))
-            ->filter(fn (SplFileInfo $file) => basename($file->getRelativePath()) === 'Pages')
-            ->map(fn (SplFileInfo $file) => $file->getRelativePathname())
+            ->filter(fn (SplFileInfo $file): bool => basename($file->getRelativePath()) === 'Pages')
+            ->map(fn (SplFileInfo $file): string => $file->getRelativePathname())
             ->map(fn (string $file) => resolve('App\\Filament\\Resources\\' . str_replace(['/', '.php'], ['\\', ''], $file)))
-            ->filter(fn ($class) => is_subclass_of($class, ListRecords::class))
-            ->each(function ($page) {
+            ->filter(fn ($class): bool => is_subclass_of($class, ListRecords::class))
+            ->each(function ($page): void {
                 /** @var \Filament\Resources\Pages\ListRecords $page */
                 $page = type($page)->as(ListRecords::class);
                 /** @var \Filament\Tables\Table $table */
                 $table = $page->table(
-                    table: mock('Filament\Tables\Table')->makePartial(),
+                    table: mock(\Filament\Tables\Table::class)->makePartial(),
                 );
 
-                $resourceNamespace = Str::of(get_class($page))
+                $resourceNamespace = Str::of($page::class)
                     ->replace('App\\Filament\\', '')
                     ->before('\\Pages')
                     ->replaceLast('Resource', '')
@@ -63,7 +63,7 @@ class FilamentStarterKit extends StarterKit
                 $modelFields = $this->generateModelFields(resolve($page->getModel()))->keyBy('name');
                 $tableColumns = collect(['id' => 'integer'])->merge(collect($table->getColumns()))->keys()->values();
                 $fields = $tableColumns->intersect($modelFields->keys())->mapWithKeys(
-                    fn ($column) => [$column => $modelFields[$column]],
+                    fn ($column): array => [$column => $modelFields[$column]],
                 )->merge($modelFields);
 
                 $this->resources[$resourceNamespace] = [

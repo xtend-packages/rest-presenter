@@ -7,7 +7,7 @@ use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 
 use function Pest\Laravel\getJson;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->collectionGroup = CollectionGroup::factory()
         ->state([
             'name' => 'Styles',
@@ -18,13 +18,13 @@ beforeEach(function () {
 
     $this->collections = $this->collectionGroup->collections;
 
-    $this->collections->each(function (Collection $collection) {
+    $this->collections->each(function (Collection $collection): void {
         $collection->products()->saveMany(
             Product::factory()
                 ->state([
                     'status' => 'published',
                 ])
-                ->count(rand(1, 5))
+                ->count(random_int(1, 5))
                 ->create()
         );
     });
@@ -49,8 +49,8 @@ dataset('collections', function () {
     }
 });
 
-describe('Products', function () {
-    test('can show a product', function (Product $product) {
+describe('Products', function (): void {
+    test('can show a product', function (Product $product): void {
         $response = getJson(
             uri: route('api.v1.catalog:products.show', $product),
         )->assertOk()->json();
@@ -62,7 +62,7 @@ describe('Products', function () {
             );
     })->with('products');
 
-    test('can list all products', function () {
+    test('can list all products', function (): void {
         $response = getJson(
             uri: route('api.v1.catalog:products.index'),
         )->assertOk()->json();
@@ -75,7 +75,7 @@ describe('Products', function () {
             ->toHaveCount($this->products->count());
     });
 
-    test('can list all products with published status', function () {
+    test('can list all products with published status', function (): void {
         $filters = [
             'status' => 'published',
         ];
@@ -98,7 +98,7 @@ describe('Products', function () {
             );
     });
 
-    test('can list all products with draft status', function () {
+    test('can list all products with draft status', function (): void {
         $filters = [
             'status' => 'draft',
         ];

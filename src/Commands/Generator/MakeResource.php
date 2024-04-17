@@ -55,7 +55,7 @@ class MakeResource extends GeneratorCommand
      */
     protected Collection $presentersArgument;
 
-    public function handle()
+    public function handle(): void
     {
         $this->actions ??= collect();
         $this->filters ??= collect();
@@ -179,7 +179,7 @@ class MakeResource extends GeneratorCommand
         }
 
         return $this->actions->map(
-            fn ($action) => "'$action' => Actions\\" . ucfirst($action) . '::class',
+            fn ($action): string => "'$action' => Actions\\" . ucfirst($action) . '::class',
         )->implode(",\n\t\t\t") . ',';
     }
 
@@ -190,7 +190,7 @@ class MakeResource extends GeneratorCommand
         }
 
         return $this->filters->map(
-            fn ($filter) => "'$filter' => Filters\\" . ucfirst($filter) . '::class',
+            fn ($filter): string => "'$filter' => Filters\\" . ucfirst($filter) . '::class',
         )->implode(",\n\t\t\t") . ',';
     }
 
@@ -201,7 +201,7 @@ class MakeResource extends GeneratorCommand
         }
 
         return $this->getPresenters()->map(
-            function ($presenter, $presenterKey) {
+            function (string $presenter, $presenterKey): string {
                 $presenterNamespace = Str::of($presenterKey)
                     ->replace('Presenter', '')
                     ->studly()
@@ -284,7 +284,7 @@ class MakeResource extends GeneratorCommand
     {
         $model = search(
             label: 'Which model should the resource use?',
-            options: fn () => $this->scanModels(), // @phpstan-ignore-line
+            options: fn (): array => $this->scanModels(), // @phpstan-ignore-line
             placeholder: 'Search for a model...',
             hint: 'Press <comment>Enter</> to select the model.'
         );
@@ -363,7 +363,7 @@ class MakeResource extends GeneratorCommand
             hint: 'Press <comment>Enter</> to confirm the presenter name.'
         );
 
-        if ($presenterName) {
+        if ($presenterName !== '' && $presenterName !== '0') {
             $fields = $this->generateModelFields()->keyBy('name');
             $selectedFields = multiselect(
                 label: 'Select the fields you would like to include in the presenter:',
@@ -422,12 +422,12 @@ class MakeResource extends GeneratorCommand
         $reflect = new ReflectionClass($this->model);
 
         return collect($reflect->getMethods(ReflectionMethod::IS_PUBLIC))
-            ->filter(function (ReflectionMethod $method) {
+            ->filter(function (ReflectionMethod $method): bool {
                 $returnNamedType = $method->getReturnType() instanceof ReflectionNamedType ? $method->getReturnType()->getName() : '';
 
                 return $returnNamedType && is_subclass_of($returnNamedType, Relation::class);
             })
-            ->mapWithKeys(function (ReflectionMethod $method) {
+            ->mapWithKeys(function (ReflectionMethod $method): array {
                 $returnNamedType = $method->getReturnType() instanceof ReflectionNamedType ? $method->getReturnType()->getName() : '';
 
                 return [
@@ -443,12 +443,12 @@ class MakeResource extends GeneratorCommand
     {
         return collect(app('files')->allFiles(app_path()))
             ->filter(fn (SplFileInfo $file) => Str::endsWith($file->getFilename(), '.php'))
-            ->map(fn (SplFileInfo $file) => $file->getRelativePathname())
+            ->map(fn (SplFileInfo $file): string => $file->getRelativePathname())
             ->map(fn (string $file) => 'App\\' . str_replace(['/', '.php'], ['\\', ''], $file))
-            ->filter(fn (string $class) => class_exists($class))
-            ->map(fn (string $class) => new ReflectionClass($class))
+            ->filter(fn (string $class): bool => class_exists($class))
+            ->map(fn (string $class): \ReflectionClass => new ReflectionClass($class))
             ->filter(fn (ReflectionClass $class) => $class->isSubclassOf(Model::class))
-            ->mapWithKeys(fn (ReflectionClass $class) => [$class->getName() => $class->getShortName()])
+            ->mapWithKeys(fn (ReflectionClass $class): array => [$class->getName() => $class->getShortName()])
             ->toArray();
     }
 }

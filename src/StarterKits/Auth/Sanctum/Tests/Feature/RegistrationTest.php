@@ -1,6 +1,6 @@
 <?php
 
-test('new users can register', function () {
+test('new users can register', function (): void {
     $response = $this->post('/register', [
         'name' => 'Test User',
         'email' => 'test@example.com',

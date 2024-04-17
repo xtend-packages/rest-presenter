@@ -13,7 +13,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Produ
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\StyleData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Detail;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->request = mock(Request::class);
     $this->currency = mock(Currency::class);
     $this->language = mock(Language::class)
@@ -78,8 +78,8 @@ beforeEach(function () {
         ]));
 });
 
-describe('Detail Presenter', function () {
-    test('Detail::transform returns the correct data', function () {
+describe('Detail Presenter', function (): void {
+    test('Detail::transform returns the correct data', function (): void {
 
         $result = $this->detail->transform();
 

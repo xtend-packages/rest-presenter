@@ -33,7 +33,7 @@ class Category implements Presentable
 
     protected function getStyleSlug(): string
     {
-        return $this->model->urls->first(function (Url $url) {
+        return $this->model->urls->first(function (Url $url): bool {
             $matchesLocale = $url->language->code === app()->getLocale();
 
             return $matchesLocale || $url->language->code === config('app.fallback_locale');
@@ -43,7 +43,7 @@ class Category implements Presentable
     protected function getBanner(): ?MediaData
     {
         $mediaItem = $this->model->getFirstMedia('images');
-        if (! $mediaItem) {
+        if (!$mediaItem instanceof \Spatie\MediaLibrary\MediaCollections\Models\Media) {
             return null;
         }
 

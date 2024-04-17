@@ -7,7 +7,7 @@ use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 use function Pest\Laravel\getJson;
 
 $collectionsNb = 10;
-beforeEach(function () use ($collectionsNb) {
+beforeEach(function () use ($collectionsNb): void {
     $this->collectionGroup = CollectionGroup::factory()
         ->state([
             'name' => 'Categories',
@@ -26,8 +26,8 @@ dataset('collections', function () use ($collectionsNb) {
     }
 });
 
-describe('Collections', function () {
-    test('can show a collection', function (Collection $collection) {
+describe('Collections', function (): void {
+    test('can show a collection', function (Collection $collection): void {
         $response = getJson(
             uri: route('api.v1.catalog:collections.show', $collection),
         )->assertOk()->json();
@@ -39,7 +39,7 @@ describe('Collections', function () {
             );
     })->with('collections');
 
-    test('can list all collections for a specific collection group', function () {
+    test('can list all collections for a specific collection group', function (): void {
         $filters = [
             'collection_group_id' => $this->collectionGroup->id,
         ];
@@ -56,7 +56,7 @@ describe('Collections', function () {
             ->toHaveCount($this->collections->count());
     });
 
-    test('can list all collections', function () {
+    test('can list all collections', function (): void {
         $response = getJson(
             uri: route('api.v1.catalog:collections.index'),
         )->assertOk()->json();

@@ -28,9 +28,7 @@ class LunarTestCase extends TestCase
 
         $this->registerBlueprintMacros();
 
-        app()->singleton(ModelManifestInterface::class, function ($app) {
-            return $app->make(ModelManifest::class);
-        });
+        app()->singleton(ModelManifestInterface::class, fn($app) => $app->make(ModelManifest::class));
 
         $app['config']->set('lunar.database.connection', 'testbench');
         $app['config']->set('lunar.database.table_prefix', 'lunar_');
@@ -50,15 +48,14 @@ class LunarTestCase extends TestCase
 
     protected function registerBlueprintMacros(): void
     {
-        Blueprint::macro('scheduling', function () {
+        Blueprint::macro('scheduling', function (): void {
             /** @var Blueprint $this */
             $this->boolean('enabled')->default(false)->index();
             $this->timestamp('starts_at')->nullable()->index();
             $this->timestamp('ends_at')->nullable()->index();
         });
 
-        Blueprint::macro('dimensions', function () {
-            /** @var Blueprint $this */
+        Blueprint::macro('dimensions', function (): void {
             $columns = ['length', 'width', 'height', 'weight', 'volume'];
             foreach ($columns as $column) {
                 $this->decimal("{$column}_value", 10, 4)->default(0)->nullable()->index();
@@ -66,8 +63,7 @@ class LunarTestCase extends TestCase
             }
         });
 
-        Blueprint::macro('userForeignKey', function ($field_name = 'user_id', $nullable = false) {
-            /** @var Blueprint $this */
+        Blueprint::macro('userForeignKey', function ($field_name = 'user_id', $nullable = false): void {
             $userModel = config('auth.providers.users.model');
 
             $type = config('lunar.database.users_id_type', 'bigint');

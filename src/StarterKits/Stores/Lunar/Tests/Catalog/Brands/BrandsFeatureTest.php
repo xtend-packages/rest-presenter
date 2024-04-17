@@ -6,7 +6,7 @@ use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 use function Pest\Laravel\getJson;
 
 $brandsNb = 10;
-beforeEach(function () use ($brandsNb) {
+beforeEach(function () use ($brandsNb): void {
     $this->brands = Brand::factory()->count($brandsNb)->create();
 });
 
@@ -16,8 +16,8 @@ dataset('brands', function () use ($brandsNb) {
     }
 });
 
-describe('Brands', function () {
-    test('can show a brand', function (Brand $brand) {
+describe('Brands', function (): void {
+    test('can show a brand', function (Brand $brand): void {
         $response = getJson(
             uri: route('api.v1.catalog:brands.show', $brand),
         )->assertOk()->json();
@@ -32,7 +32,7 @@ describe('Brands', function () {
             );
     })->with('brands');
 
-    test('can list all brands', function () {
+    test('can list all brands', function (): void {
         $response = getJson(
             uri: route('api.v1.catalog:brands.index'),
         )->assertOk()->json();

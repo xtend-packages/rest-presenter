@@ -31,7 +31,7 @@ class XtendRouter extends Router
             /** @var \Illuminate\Routing\Route[] $routes */
             $routes = Route::getRoutes();
 
-            return collect($routes)->map(fn (\Illuminate\Routing\Route $route) => [
+            return collect($routes)->map(fn (\Illuminate\Routing\Route $route): array => [
                 'uri' => $route->uri,
                 'methods' => $route->methods,
                 'name' => $route->action['as'] ?? null,
@@ -78,8 +78,6 @@ class XtendRouter extends Router
      * @param $name
      * @param $controller
      * @param  array<string>  $options
-     *
-     * @return \Illuminate\Routing\PendingResourceRegistration
      */
     public function resource($name, $controller, array $options = []): PendingResourceRegistration
     {
@@ -97,10 +95,6 @@ class XtendRouter extends Router
     }
 
     /**
-     * @param  string  $httpVerb
-     * @param  string  $uri
-     * @param  string  $controller
-     * @param  string  $name
      * @param  array<string>|null  $middleware
      */
     public function auth(string $httpVerb, string $uri, string $controller, string $name, ?array $middleware = null): void

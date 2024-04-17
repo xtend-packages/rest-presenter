@@ -9,14 +9,12 @@ trait WithGenerateCollectionsTree
 {
     public function generateTree(\Illuminate\Support\Collection $collections): array
     {
-        return $collections->map(function (Collection $collection) {
-            return [
-                'id' => $collection->id,
-                'name' => $collection->translateAttribute('name'),
-                'slug' => $this->generateSlugComputed($collection),
-                'children' => $this->generateTree($collection->children),
-            ];
-        })->toArray();
+        return $collections->map(fn(Collection $collection): array => [
+            'id' => $collection->id,
+            'name' => $collection->translateAttribute('name'),
+            'slug' => $this->generateSlugComputed($collection),
+            'children' => $this->generateTree($collection->children),
+        ])->toArray();
     }
 
     protected function generateSlugComputed(Collection $collection): string

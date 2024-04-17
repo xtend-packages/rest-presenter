@@ -22,28 +22,23 @@ trait InteractsWithDbSchema
      */
     protected function getTableColumns(string $table, bool $withProperties = false): Collection
     {
-        $columns = collect(! $withProperties
-            ? Schema::getColumnListing($table)
-            : Schema::getColumns($table),
-        );
-
         if (DB::connection()->getDriverName() === 'sqlite' && $withProperties) {
-            $columns = $this->replaceJsonColumnsSqliteWorkaround($table);
+            return $this->replaceJsonColumnsSqliteWorkaround($table);
         }
-
-        return $columns;
+        return collect($withProperties
+            ? Schema::getColumns($table)
+            : Schema::getColumnListing($table),
+        );
     }
 
     /**
-     * @param  string  $table
      * @param  array<string>  $exclude
-     *
      * @return \Illuminate\Support\Collection<string, string>
      */
     protected function getTableColumnsForRelation(string $table, array $exclude = []): Collection
     {
         return $this->getTableColumns($table)->filter(
-            fn (string $column) => ! in_array($column, $exclude),
+            fn (string $column): bool => ! in_array($column, $exclude),
         );
     }
 
@@ -51,9 +46,9 @@ trait InteractsWithDbSchema
     {
         return $this->getAllTableNames()
             ->first(
-                fn ($tableName) => ! $exactMatch
-                    ? Str::endsWith(type($tableName)->asString(), $table)
-                    : $tableName === $table,
+                fn ($tableName) => $exactMatch
+                    ? $tableName === $table
+                    : Str::endsWith(type($tableName)->asString(), $table),
             );
     }
 

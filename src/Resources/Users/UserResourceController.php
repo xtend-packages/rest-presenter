@@ -26,7 +26,7 @@ class UserResourceController extends ResourceController
         $users = $this->getModelQueryInstance()->get();
 
         return $users->map(
-            fn ($user) => $this->present($request, $user),
+            fn ($user): \Spatie\LaravelData\Data => $this->present($request, $user),
         );
     }
 

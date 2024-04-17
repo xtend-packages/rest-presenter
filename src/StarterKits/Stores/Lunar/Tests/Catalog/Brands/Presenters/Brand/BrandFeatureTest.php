@@ -7,7 +7,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Brand
 
 use function Pest\Laravel\getJson;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Language::factory()->create(['code' => 'en']);
     $this->brand = Brand::factory()
         ->state(['name' => 'New Brand'])
@@ -15,8 +15,8 @@ beforeEach(function () {
         ->create();
 });
 
-describe('Brand Presenter', function () {
-    test('transforms brand using Brand Presenter', function () {
+describe('Brand Presenter', function (): void {
+    test('transforms brand using Brand Presenter', function (): void {
         $response = getJson(
             uri: route('api.v1.catalog:brands.show', $this->brand),
             headers: ['x-rest-presenter' => 'Brand'],

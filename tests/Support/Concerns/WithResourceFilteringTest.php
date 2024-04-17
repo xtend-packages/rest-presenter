@@ -6,7 +6,7 @@ use XtendPackages\RESTPresenter\Concerns\WithResourceFiltering;
 use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\Resources\Users\Filters\UserEmailVerified;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->resourceController = new class() {
         use InteractsWithModel;
         use WithResourceFiltering;
@@ -25,8 +25,8 @@ beforeEach(function () {
     };
 });
 
-describe('WithResourceFiltering', function () {
-    test('applyFilters correctly modifies the query', function () {
+describe('WithResourceFiltering', function (): void {
+    test('applyFilters correctly modifies the query', function (): void {
         $request = new Request();
         $request->merge(['filters' => ['email_verified_at' => now()]]);
         app()->instance('request', $request);
@@ -38,7 +38,7 @@ describe('WithResourceFiltering', function () {
             ->and($newQuery->toSql())->not()->toBe($originalQuery->toSql());
     });
 
-    test('getFilters returns resource filters', function () {
+    test('getFilters returns resource filters', function (): void {
         $filters = invokeNonPublicMethod($this->resourceController, 'getFilters');
 
         expect($filters)->toBeArray()

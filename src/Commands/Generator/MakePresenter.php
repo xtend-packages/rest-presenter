@@ -20,7 +20,7 @@ class MakePresenter extends GeneratorCommand
 
     protected $type = 'Presenter';
 
-    public function handle()
+    public function handle(): void
     {
         if ($this->hasArgument('fields') && is_array($this->argument('fields'))) {
             $name = type($this->argument('name'))->asString();
@@ -75,9 +75,7 @@ class MakePresenter extends GeneratorCommand
             ->plural()
             ->value();
 
-        $resourceNamespace = $this->argument('kit_namespace')
-            ? $this->argument('kit_namespace')
-            : $resourceDirectory;
+        $resourceNamespace = $this->argument('kit_namespace') ?: $resourceDirectory;
 
         $resourceNamespace = type($resourceNamespace)->asString();
         return $resourceNamespace . '\\Presenters\\' . $presenterNamespace;

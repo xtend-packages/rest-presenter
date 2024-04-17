@@ -22,7 +22,7 @@ class TreeData extends Data
             id: $model->getKey(),
             name: $model->name ?? '',
             categories: collect($categories)->map(
-                fn (array $category) => CategoryData::from($category)
+                fn (array $category): \XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\Presenters\CategoryTree\Data\CategoryData => CategoryData::from($category)
             ),
         );
     }

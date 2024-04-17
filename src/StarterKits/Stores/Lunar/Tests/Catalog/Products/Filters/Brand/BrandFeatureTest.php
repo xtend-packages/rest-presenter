@@ -7,7 +7,7 @@ use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 
 use function Pest\Laravel\getJson;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Product::factory()->count(10)->create();
 
     $this->brand = Brand::factory()
@@ -23,8 +23,8 @@ beforeEach(function () {
         ->create();
 });
 
-describe('Brand Filter', function () {
-    test('can list all products by brand', function () {
+describe('Brand Filter', function (): void {
+    test('can list all products by brand', function (): void {
         $filters = [
             'brand_id' => $this->brand->id,
         ];

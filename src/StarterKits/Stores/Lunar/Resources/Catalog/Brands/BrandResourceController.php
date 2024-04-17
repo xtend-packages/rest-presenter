@@ -18,7 +18,7 @@ class BrandResourceController extends ResourceController
         $brands = $this->getModelQueryInstance()->get();
 
         return $brands->map(
-            fn ($brand) => $this->present($request, $brand),
+            fn ($brand): \Spatie\LaravelData\Data => $this->present($request, $brand),
         );
     }
 

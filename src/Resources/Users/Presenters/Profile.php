@@ -10,7 +10,7 @@ use XtendPackages\RESTPresenter\Resources\Users\Data\Response\ProfileData;
 class Profile implements Presentable
 {
     public function __construct(
-        private ?Authenticatable $model,
+        private readonly ?Authenticatable $model,
     ) {}
 
     public function transform(): Data
