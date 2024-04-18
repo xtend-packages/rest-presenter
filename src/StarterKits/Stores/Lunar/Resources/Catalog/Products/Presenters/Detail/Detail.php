@@ -22,7 +22,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Produ
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\Variant\SizeData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\VariantData;
 
-final class Detail implements Presentable
+class Detail implements Presentable
 {
     use HasAvailability;
     use HasPrices;

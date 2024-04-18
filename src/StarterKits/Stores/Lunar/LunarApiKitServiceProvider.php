@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace XtendPackages\RESTPresenter\StarterKits\Stores\Lunar;
 
-use XtendPackages\RESTPresenter\StarterKits\StarterKitsServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
-final class LunarApiKitServiceProvider extends StarterKitsServiceProvider
+final class LunarApiKitServiceProvider extends ServiceProvider
 {
     public function register(): void
     {

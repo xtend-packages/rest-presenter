@@ -18,7 +18,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\UrlData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\Variant\ColorData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Item\Data\ItemData;
 
-final class Item implements Presentable
+class Item implements Presentable
 {
     use HasAvailability;
     use HasPrices;

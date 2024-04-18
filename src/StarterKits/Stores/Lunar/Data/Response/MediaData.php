@@ -25,7 +25,7 @@ final class MediaData extends Data
     {
         return new self(
             id: $media->id,
-            uuid: $media->uuid,
+            uuid: (string) $media->uuid,
             name: $media->name,
             customProperties: $media->custom_properties,
             orderColumn: $media->order_column,
