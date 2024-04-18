@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.7.1](https://github.com/xtend-packages/rest-presenter/compare/0.7.0...0.7.1) (2024-04-18)
+
+
+### Bug Fixes
+
+* Make sure lunar tests all pass ([1ce9a47](https://github.com/xtend-packages/rest-presenter/commit/1ce9a470e2026847baaa76ae730f3465559e1ef8))
+
 ## [0.7.0](https://github.com/xtend-packages/rest-presenter/compare/0.6.1...0.7.0) (2024-04-17)
 
 
