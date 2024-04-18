@@ -13,7 +13,7 @@ use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\MediaData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Collections\Presenters\Category\Data\CategoryData;
 
-final class Category implements Presentable
+class Category implements Presentable
 {
     use InteractsWithPresenter;
 

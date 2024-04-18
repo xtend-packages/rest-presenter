@@ -15,7 +15,7 @@ use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\LunarApiKitServiceProvider;
 use XtendPackages\RESTPresenter\Tests\TestCase;
 
-final class LunarTestCase extends TestCase
+class LunarTestCase extends TestCase
 {
     protected function setUp(): void
     {

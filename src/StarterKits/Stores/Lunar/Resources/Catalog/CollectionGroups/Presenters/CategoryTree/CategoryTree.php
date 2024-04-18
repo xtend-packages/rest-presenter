@@ -12,7 +12,7 @@ use XtendPackages\RESTPresenter\Contracts\Presentable;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\Presenters\CategoryTree\Concerns\WithGenerateCollectionsTree;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\CollectionGroups\Presenters\CategoryTree\Data\TreeData;
 
-final class CategoryTree implements Presentable
+class CategoryTree implements Presentable
 {
     use InteractsWithPresenter;
     use WithGenerateCollectionsTree;

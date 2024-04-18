@@ -11,7 +11,7 @@ use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\PriceData
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Data\Response\UrlData;
 use XtendPackages\RESTPresenter\StarterKits\Stores\Lunar\Resources\Catalog\Products\Presenters\Detail\Data\Variant\ColorData;
 
-final class ItemData extends Data
+class ItemData extends Data
 {
     public function __construct(
         public int $id,
