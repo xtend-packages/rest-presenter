@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.7.2](https://github.com/xtend-packages/rest-presenter/compare/0.7.1...0.7.2) (2024-04-26)
+
+
+### Bug Fixes
+
+* Include TypeGuard directly remove dep until package is released ([42196d6](https://github.com/xtend-packages/rest-presenter/commit/42196d664003f6eb5908f918b60099f5706206d9))
+
 ## [0.7.1](https://github.com/xtend-packages/rest-presenter/compare/0.7.0...0.7.1) (2024-04-18)
 
 
