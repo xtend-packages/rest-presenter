@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.7.3](https://github.com/xtend-packages/rest-presenter/compare/0.7.2...0.7.3) (2024-04-27)
+
+
+### Code Refactoring
+
+* Filament scan for app class definitions + check if installed ([a3e55cd](https://github.com/xtend-packages/rest-presenter/commit/a3e55cd0a48613cd549456d0cc3b6e935e90fa8e))
+
 ## [0.7.2](https://github.com/xtend-packages/rest-presenter/compare/0.7.1...0.7.2) (2024-04-26)
 
 
