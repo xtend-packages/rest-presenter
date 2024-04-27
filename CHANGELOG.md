@@ -1,5 +1,33 @@
 # Changelog for RESTPresenter
 
+## [0.7.4](https://github.com/xtend-packages/rest-presenter/compare/0.7.3...0.7.4) (2024-04-27)
+
+
+### Bug Fixes
+
+* Update provider stub replace breeze with sanctum kit ([899fa3a](https://github.com/xtend-packages/rest-presenter/commit/899fa3aaa4b42ba509da1e805473c62e4e6c9d32))
+
+## [0.7.3](https://github.com/xtend-packages/rest-presenter/compare/0.7.2...0.7.3) (2024-04-27)
+
+
+### Code Refactoring
+
+* Filament scan for app class definitions + check if installed ([a3e55cd](https://github.com/xtend-packages/rest-presenter/commit/a3e55cd0a48613cd549456d0cc3b6e935e90fa8e))
+
+## [0.7.2](https://github.com/xtend-packages/rest-presenter/compare/0.7.1...0.7.2) (2024-04-26)
+
+
+### Bug Fixes
+
+* Include TypeGuard directly remove dep until package is released ([42196d6](https://github.com/xtend-packages/rest-presenter/commit/42196d664003f6eb5908f918b60099f5706206d9))
+
+## [0.7.1](https://github.com/xtend-packages/rest-presenter/compare/0.7.0...0.7.1) (2024-04-18)
+
+
+### Bug Fixes
+
+* Make sure lunar tests all pass ([1ce9a47](https://github.com/xtend-packages/rest-presenter/commit/1ce9a470e2026847baaa76ae730f3465559e1ef8))
+
 ## [0.7.0](https://github.com/xtend-packages/rest-presenter/compare/0.6.1...0.7.0) (2024-04-17)
 
 
