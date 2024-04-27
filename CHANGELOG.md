@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.7.4](https://github.com/xtend-packages/rest-presenter/compare/0.7.3...0.7.4) (2024-04-27)
+
+
+### Bug Fixes
+
+* Update provider stub replace breeze with sanctum kit ([899fa3a](https://github.com/xtend-packages/rest-presenter/commit/899fa3aaa4b42ba509da1e805473c62e4e6c9d32))
+
 ## [0.7.3](https://github.com/xtend-packages/rest-presenter/compare/0.7.2...0.7.3) (2024-04-27)
 
 
