@@ -10,13 +10,10 @@ abstract class BaseExporter
 {
     use InteractsWithPipeline;
 
-    /**
-     * @var string Filename to save the output
-     */
     protected string $filename;
 
     /**
-     * @var array<string, mixed> Output of the schema
+     * @var array<string, array<mixed>>
      */
     protected array $schema;
 
@@ -34,6 +31,8 @@ abstract class BaseExporter
 
     public function export(): void
     {
-        $this->schema();
+        if (method_exists($this, 'schema')) {
+            $this->schema();
+        }
     }
 }

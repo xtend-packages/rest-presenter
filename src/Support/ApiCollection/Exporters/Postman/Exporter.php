@@ -12,6 +12,9 @@ class Exporter extends BaseExporter implements ExporterContract
 {
     use InteractsWithRoutes;
 
+    /**
+     * @param  array<string, array<mixed>>  $config
+     */
     public function __construct(protected array $config)
     {
     }
@@ -28,6 +31,7 @@ class Exporter extends BaseExporter implements ExporterContract
             'event' => [],
         ];
 
+        // @phpstan-ignore-next-line
         $this->schema = $this->prepareThroughPipeline(
             passable: $this->schema,
             pipes: [

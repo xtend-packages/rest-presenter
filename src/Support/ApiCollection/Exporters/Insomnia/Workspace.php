@@ -6,6 +6,10 @@ namespace XtendPackages\RESTPresenter\Support\ApiCollection\Exporters\Insomnia;
 
 class Workspace
 {
+    /**
+     * @param  array<string, array<string, string>>  $schema
+     * @return array<string, array<string, string>>
+     */
     public function handle(array $schema, callable $next): array
     {
         $schema['resources'][] = [

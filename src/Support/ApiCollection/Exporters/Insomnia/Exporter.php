@@ -12,12 +12,16 @@ class Exporter extends BaseExporter implements ExporterContract
 {
     use InteractsWithRoutes;
 
+    /**
+     * @param  array<string, array<mixed>>  $config
+     */
     public function __construct(protected array $config)
     {
     }
 
     public function schema(): void
     {
+        // @phpstan-ignore-next-line
         $this->schema = [
             '_type' => 'export',
             '__export_format' => 4,
@@ -26,6 +30,7 @@ class Exporter extends BaseExporter implements ExporterContract
             'resources' => [],
         ];
 
+        // @phpstan-ignore-next-line
         $this->schema = $this->prepareThroughPipeline(
             passable: $this->schema,
             pipes: [

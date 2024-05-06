@@ -6,11 +6,17 @@ namespace XtendPackages\RESTPresenter\Support\ApiCollection\Exporters\Insomnia;
 
 class Environments
 {
+    /**
+     * @param  array<string, array<(int|string), mixed>>  $schema
+     * @return array<string, array<(int|string), mixed>>
+     */
     public function handle(array $schema, callable $next): array
     {
+        $workspace = type($schema['resources'][0])->asArray();
+
         $schema['resources'][] = [
             '_id' => 'env_'.uniqid(),
-            'parentId' => $schema['resources'][0]['_id'],
+            'parentId' => $workspace['_id'],
             'modified' => now()->toIso8601String(),
             'created' => now()->toIso8601String(),
             'name' => config('rest-presenter.exporters.insomnia.environment.name'),

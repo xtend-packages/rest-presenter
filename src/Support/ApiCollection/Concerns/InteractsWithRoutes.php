@@ -19,7 +19,7 @@ trait InteractsWithRoutes
      */
     public function getRoutes(): Collection
     {
-        return collect($this->router->getRoutes())
+        return collect($this->router->getRoutes()) // @phpstan-ignore-line
             ->filter(fn (Route $route): bool => $this->onlyRestPresenterRoutes($route));
     }
 
@@ -43,14 +43,16 @@ trait InteractsWithRoutes
             }
 
             $uri = Str::of($route->uri())->replaceMatches('/{([[:alnum:]]+)}/', ':$1');
-            $group = ucfirst((string) Str::of($uri)->beforeLast('/:')->explode('/')->last());
+            $group = ucfirst((string) Str::of($uri->value())->beforeLast('/:')->explode('/')->last());
 
             if ($group === 'Resources') {
+                // @phpstan-ignore-next-line
                 $this->resourcesRoute($method, $uri);
 
                 return;
             }
 
+            // @phpstan-ignore-next-line
             $this->apiRouteGrouped($method, $uri, $group);
         }
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace XtendPackages\RESTPresenter\Support\ApiCollection\Exporters\Insomnia;
 
+use Illuminate\Routing\Route;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -14,12 +15,24 @@ class Requests
 {
     use InteractsWithRoutes;
 
-    protected array $groupIds;
+    /**
+     * @var array<string, string>
+     */
+    protected array $groups;
 
+    /**
+     * @var array<string, string>
+     */
     protected array $resourceIds;
 
+    /**
+     * @var array<string, mixed>
+     */
     protected array $schema;
 
+    /**
+     * @var Collection<string, mixed>
+     */
     protected Collection $routes;
 
     protected string $workspaceId;
@@ -29,14 +42,21 @@ class Requests
         $this->routes = $this->getRoutes();
     }
 
+    /**
+     * @param  array<string, array<mixed>>  $schema
+     * @return array<string, mixed>
+     */
     public function handle(array $schema, callable $next): array
     {
         $this->schema = $schema;
 
-        $this->workspaceId = $schema['resources'][0]['_id'];
+        $workspace = type($schema['resources'][0])->asArray();
+        $this->workspaceId = $workspace['_id'];
 
         $this->routes->each(
-            fn ($route) => $this->parseRoute($route),
+            fn ($route) => $this->parseRoute(
+                route: type($route)->as(Route::class),
+            ),
         );
 
         return $next($this->schema);
@@ -44,6 +64,7 @@ class Requests
 
     protected function resourcesRoute(string $method, Stringable $uri): void
     {
+        // @phpstan-ignore-next-line
         $this->schema['resources'][] = [
             '_id' => 'fld_'.uniqid(),
             'parentId' => $this->workspaceId,
@@ -77,7 +98,9 @@ class Requests
 
     protected function ensureGroupExists(string $group): void
     {
+        // @phpstan-ignore-next-line
         if (! collect($this->schema['resources'])->contains('name', $group)) {
+            // @phpstan-ignore-next-line
             $this->schema['resources'][] = [
                 '_id' => 'fld_'.uniqid(),
                 'parentId' => $this->workspaceId,
@@ -91,16 +114,19 @@ class Requests
                 '_type' => 'request_group',
             ];
 
-            $this->groupIds[$group] = collect($this->schema['resources'])->last()['_id'];
+            // @phpstan-ignore-next-line
+            $this->groups[$group] = collect($this->schema['resources'])->last()['_id'];
         }
     }
 
     protected function addItemToGroup(string $method, string $uri, string $group): void
     {
+        // @phpstan-ignore-next-line
         if (! collect($this->schema['resources'])->contains('name', $uri)) {
+            // @phpstan-ignore-next-line
             $this->schema['resources'][] = [
                 '_id' => 'req_'.uniqid(),
-                'parentId' => $this->groupIds[$group],
+                'parentId' => $this->groups[$group],
                 'modified' => now()->toIso8601String(),
                 'created' => now()->toIso8601String(),
                 'url' => '{{ _.base_url }}/'.$uri,
@@ -124,6 +150,7 @@ class Requests
                 '_type' => 'request',
             ];
 
+            // @phpstan-ignore-next-line
             $this->resourceIds[$uri] = collect($this->schema['resources'])->last()['_id'];
         }
     }

@@ -60,7 +60,7 @@ return [
         ],
     ],
     'exporters' => [
-        'provider' => env('REST_PRESENTER_EXPORT_PROVIDER', 'insomnia'),
+        'provider' => env('REST_PRESENTER_EXPORT_PROVIDER', 'postman'),
         'insomnia' => [
             'workspace' => [
                 'name' => config('app.name').' (RESTPresenter)',

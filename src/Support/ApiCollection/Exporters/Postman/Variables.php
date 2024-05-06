@@ -11,6 +11,10 @@ class Variables
 {
     use HasAuthentication;
 
+    /**
+     * @param  array<string, mixed>  $schema
+     * @return array<string, mixed>
+     */
     public function handle(array $schema, callable $next): array
     {
         $this->resolveAuth('postman');
