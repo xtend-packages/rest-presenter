@@ -1,5 +1,17 @@
 # Changelog for RESTPresenter
 
+## [0.8.0](https://github.com/xtend-packages/rest-presenter/compare/0.7.5...0.8.0) (2024-05-06)
+
+
+### Features
+
+* Generate API Collections ([71bf22c](https://github.com/xtend-packages/rest-presenter/commit/71bf22c2d57eb3431c79991bf6e3b730ecdfbe50))
+
+
+### Bug Fixes
+
+* Satisfy phpstan at max level + ignore certain array iterable types ([c56ed57](https://github.com/xtend-packages/rest-presenter/commit/c56ed574e3b728f9056580263867814381b5819d))
+
 ## [0.7.5](https://github.com/xtend-packages/rest-presenter/compare/0.7.4...0.7.5) (2024-05-06)
 
 
