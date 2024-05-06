@@ -20,7 +20,7 @@ trait InteractsWithDbSchema
     }
 
     /**
-     * @return \Illuminate\Support\Collection<int|string, array<string, mixed>>
+     * @return \Illuminate\Support\Collection<int|string, array<mixed>>
      */
     protected function getTableColumns(string $table, bool $withProperties = false): Collection
     {
@@ -36,7 +36,7 @@ trait InteractsWithDbSchema
 
     /**
      * @param  array<string>  $exclude
-     * @return \Illuminate\Support\Collection<int|string, array<string, mixed>>
+     * @return \Illuminate\Support\Collection<int|string, array<mixed>>
      */
     protected function getTableColumnsForRelation(string $table, array $exclude = []): Collection
     {
@@ -68,7 +68,7 @@ trait InteractsWithDbSchema
     }
 
     /**
-     * @return Collection<int|string, array<string, mixed>>
+     * @phpstan-ignore-next-line
      */
     private function replaceJsonColumnsSqliteWorkaround(string $table): Collection
     {
@@ -76,11 +76,12 @@ trait InteractsWithDbSchema
 
         return collect($results)->map(function ($column) use ($table) {
             $column_value = DB::table($table)->whereNotNull($column->name)->value($column->name);
-            if (Str::isJson($column_value)) {
+
+            if (is_string($column_value) && is_array(json_decode($column_value, true))) {
                 $column->type_name = $column->type = 'json';
             }
 
-            return $column;
+            return (array) $column;
         });
     }
 }
