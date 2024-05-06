@@ -80,12 +80,12 @@ trait WithAutoDiscovery
 
     private function isResourceOnlyActionRoutes(string $controller): bool
     {
-        return $this->getXtendResourceControllerClass($controller)::$onlyRegisterActionRoutes;
+        return $this->getResourceControllerClass($controller)::$onlyRegisterActionRoutes;
     }
 
     private function getXtendResourceController(string $controller): ResourceController
     {
-        $name = type($this->getXtendResourceControllerClass($controller))->asString();
+        $name = type($this->getResourceControllerClass($controller))->asString();
 
         return resolve($name, [
             'request' => request(),
@@ -93,12 +93,16 @@ trait WithAutoDiscovery
         ]);
     }
 
-    private function getXtendResourceControllerClass(string $controller): string|ResourceController
+    private function getResourceControllerClass(string $controller): string|ResourceController
     {
         $namespace = type(config('rest-presenter.generator.namespace'))->asString();
 
-        return Str::of($controller)
+        $xtendResourceController = Str::of($controller)
             ->replace($namespace, 'XtendPackages\\RESTPresenter')
             ->value();
+
+        return class_exists($xtendResourceController)
+            ? $xtendResourceController
+            : $controller;
     }
 }
