@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use XtendPackages\RESTPresenter\Facades\RESTPresenter;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Breeze\BreezeApiKitServiceProvider;
+use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\SanctumApiKitServiceProvider;
 
 class RESTPresenterServiceProvider extends ServiceProvider
 {
@@ -12,7 +12,7 @@ class RESTPresenterServiceProvider extends ServiceProvider
     {
         RESTPresenter::register($this->app)
             ->starterKits([
-                BreezeApiKitServiceProvider::class,
+                SanctumApiKitServiceProvider::class,
             ]);
     }
 }

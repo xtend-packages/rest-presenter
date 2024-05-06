@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace XtendPackages\RESTPresenter\Commands\Generator;
 
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -151,16 +152,16 @@ final class MakeData extends GeneratorCommand
             '{{ modelClassName }}' => class_basename($model),
             '{{ $modelVarSingular }}' => strtolower(class_basename($model)),
             '{{ $modelVarPlural }}' => strtolower(Str::plural(class_basename($model))),
-            '{{ properties }}' => $this->transformFieldProperties($fields),
+            '{{ properties }}' => $this->transformFieldProperties($fields, $model),
         ];
     }
 
     /**
      * @param  array<string, array<string, mixed>>  $fields
      */
-    private function transformFieldProperties(array $fields): string
+    private function transformFieldProperties(array $fields, string $model): string
     {
-        return collect($fields)->map(function (array $fieldProperties, string $field): string {
+        return collect($fields)->map(function (array $fieldProperties, string $field) use ($model): string {
             $fieldType = strtolower(type($fieldProperties['type'])->asString());
             $propertyType = match ($fieldType) {
                 'int', 'integer', 'bigint' => 'int',
@@ -170,11 +171,18 @@ final class MakeData extends GeneratorCommand
                 default => 'string',
             };
 
+            /** @var Model $model */
+            $model = type(new $model)->as(Model::class);
+            if (array_key_exists($field, $model->getCasts()) && $propertyType !== 'array') {
+                $propertyType = 'string';
+            }
+
             $nullable = $this->isFieldNullable($fieldProperties);
 
             if ($nullable) {
                 $propertyType = '?'.$propertyType;
             }
+
             $tsOptional = $nullable ? "#[TypeScriptOptional]\n\t\t" : '';
 
             return $tsOptional."public {$propertyType} \${$field}";

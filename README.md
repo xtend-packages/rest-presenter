@@ -18,9 +18,9 @@ RESTPresenter simplifies Laravel API development by providing a lightweight pack
 
 ## Starter Kits
 Our initial release includes the following Starter Kits to jumpstart your development:
-- [Breeze Auth Starter Kit](https://github.com/xtend-packages/rest-presenter/discussions/categories/general) (Will be replaced soon by Sanctum Auth Kit)
+- [Sanctum Auth Starter Kit](https://github.com/xtend-packages/rest-presenter/discussions/categories/general)
+- [Filament API Starter Kit](https://github.com/xtend-packages/rest-presenter/discussions/categories/filament-starter-kit)
 - [Lunar API Starter Kit](https://github.com/xtend-packages/rest-presenter/discussions/categories/lunar-starter-kit) 
-- [Filament API Starter Kit](https://github.com/xtend-packages/rest-presenter/discussions/categories/filament-starter-kit) 
 
 ## Key Features
 
@@ -110,7 +110,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use XtendPackages\RESTPresenter\Facades\RESTPresenter;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\BreezeApiKitServiceProvider;
+use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\SanctumApiKitServiceProvider;
 
 class RESTPresenterServiceProvider extends ServiceProvider
 {
@@ -118,7 +118,7 @@ class RESTPresenterServiceProvider extends ServiceProvider
     {
         RESTPresenter::register($this->app)
             ->starterKits([
-                BreezeApiKitServiceProvider::class,
+                SanctumApiKitServiceProvider::class,
             ]);
     }
 }
