@@ -59,6 +59,41 @@ return [
             'max_attempts' => env('REST_PRESENTER_AUTH_RATE_LIMIT_MAX_ATTEMPTS', 5),
         ],
     ],
+    'exporters' => [
+        'provider' => env('REST_PRESENTER_EXPORT_PROVIDER', 'insomnia'),
+        'insomnia' => [
+            'workspace' => [
+                'name' => config('app.name').' (RESTPresenter)',
+                'description' => config('app.name').' RESTPresenter Workspace',
+            ],
+            'environment' => [
+                'name' => config('app.name').' (RESTPresenter)',
+                'base_url' => config('app.url'),
+                'version' => 'v1',
+            ],
+        ],
+        'postman' => [
+            'info' => [
+                'name' => config('app.name').' (RESTPresenter)',
+                'schema' => 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
+            ],
+            'auth_middleware' => 'auth:api',
+            'authentication' => [
+                'method' => env('POSTMAN_EXPORT_AUTH_METHOD', 'Bearer'),
+                'token' => env('POSTMAN_EXPORT_AUTH_TOKEN', 'YOUR_API_TOKEN'),
+            ],
+            'headers' => [
+                [
+                    'key' => 'Accept',
+                    'value' => 'application/json',
+                ],
+                [
+                    'key' => 'Content-Type',
+                    'value' => 'application/json',
+                ],
+            ],
+        ],
+    ],
     'data' => [
         'response' => DefaultResponse::class,
     ],
