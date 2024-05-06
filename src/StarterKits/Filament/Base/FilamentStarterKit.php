@@ -42,15 +42,12 @@ final class FilamentStarterKit extends StarterKit
         }
 
         $definitions = $this->scanClassDefinitions(
-            directories: [
-                'Clusters',
-                'Resources',
-            ],
-            filterPath: 'Pages',
+            filenamePrefix: 'List',
+            removeFromGroupKey: 'Pages',
+            parentClass: ListRecords::class,
         )->collapse();
 
         $definitions
-            ->filter(fn ($class): bool => is_subclass_of(type($class)->asString(), ListRecords::class))
             // @phpstan-ignore-next-line
             ->each(function (string $class): void {
                 $page = resolve($class);
@@ -82,7 +79,7 @@ final class FilamentStarterKit extends StarterKit
     }
 
     /**
-     * @return \Illuminate\Support\Collection<int|string, array<string, mixed>>
+     * @phpstan-ignore-next-line
      */
     private function generateModelFields(Model $model): Collection
     {

@@ -11,40 +11,29 @@ use SplFileInfo;
 trait InteractsWithClassDefinitions
 {
     /**
-     * @param  array<int, string>  $directories
-     * @return Collection<string, array<string, string>>
+     * @return Collection<string, non-empty-array<string, string>>
      */
-    protected function scanClassDefinitions(array $directories, string $filterPath): Collection
-    {
-        return collect($this->findDirectoriesPaths($directories)
-            ->reduce(fn ($definitions, $directory) => collect($this->filesystem->allFiles($directory))
-                ->filter(fn (SplFileInfo $file) => Str::contains($file->getPath(), $filterPath))
-                ->reduce(function (array $definitions, SplFileInfo $file) use ($directory, $filterPath): array {
-                    $key = Str::of($file->getPath())
-                        ->remove($filterPath)
-                        ->rtrim('/')
-                        ->basename()
-                        ->value();
-
-                    $definitions[$key][$file->getBasename()] = $this->getClassFromPath(
-                        path: $directory.'/'.$file->getRelativePathname(),
-                    );
-
-                    return $definitions;
-                }, $definitions), []));
-    }
-
-    /**
-     * @param  array<int, string>  $directories
-     * @return Collection<int, string>
-     */
-    protected function findDirectoriesPaths(array $directories): Collection
+    protected function scanClassDefinitions(string $filenamePrefix, string $removeFromGroupKey, string $parentClass): Collection
     {
         return collect($this->filesystem->allFiles($this->getBasePath()))
-            ->filter(fn (SplFileInfo $file): bool => in_array(basename($file->getPath()), $directories))
-            ->map(fn (SplFileInfo $file): string => Str::beforeLast($file->getRealPath(), '/'))
-            ->unique()
-            ->values();
+            ->filter(fn (SplFileInfo $file): bool => Str::startsWith($file->getFilename(), $filenamePrefix))
+            ->map(fn (SplFileInfo $file): string => $this->getClassFromPath($file->getRealPath()))
+            ->filter(fn (string $class): bool => is_subclass_of($class, $parentClass))
+            ->mapWithKeys(function (string $class) use ($removeFromGroupKey): array {
+                $key = Str::of($class)
+                    ->remove($removeFromGroupKey)
+                    ->beforeLast('\\')
+                    ->classBasename()
+                    ->value();
+
+                $basename = Str::of($class)
+                    ->classBasename()
+                    ->value();
+
+                $definitions[$key][$basename] = $class;
+
+                return $definitions;
+            });
     }
 
     protected function getBasePath(): string
