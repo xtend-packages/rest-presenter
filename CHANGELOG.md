@@ -1,5 +1,27 @@
 # Changelog for RESTPresenter
 
+## [0.8.0](https://github.com/xtend-packages/rest-presenter/compare/0.7.5...0.8.0) (2024-05-06)
+
+
+### Features
+
+* Generate API Collections ([71bf22c](https://github.com/xtend-packages/rest-presenter/commit/71bf22c2d57eb3431c79991bf6e3b730ecdfbe50))
+
+
+### Bug Fixes
+
+* Satisfy phpstan at max level + ignore certain array iterable types ([c56ed57](https://github.com/xtend-packages/rest-presenter/commit/c56ed574e3b728f9056580263867814381b5819d))
+
+## [0.7.5](https://github.com/xtend-packages/rest-presenter/compare/0.7.4...0.7.5) (2024-05-06)
+
+
+### Bug Fixes
+
+* Check for casts if not array then property type need to be string ([15d1493](https://github.com/xtend-packages/rest-presenter/commit/15d1493b55f1305044ab5839b0f19f14479f5a0f))
+* FilamentStarterKit change logic to scan for class definitions ([bfb0483](https://github.com/xtend-packages/rest-presenter/commit/bfb04837cfb2a1242f85bec629c5744881b229b1))
+* Not all resources required actions or xtend controllers ([03f66bd](https://github.com/xtend-packages/rest-presenter/commit/03f66bd244b040188629a4fedf258bb8f8ff765a))
+* replaceJsonColumnsSqliteWorkaround make sure value is an array ([fc98fcc](https://github.com/xtend-packages/rest-presenter/commit/fc98fcc932c70b9b5e60a437f6c719e8ca10d054))
+
 ## [0.7.4](https://github.com/xtend-packages/rest-presenter/compare/0.7.3...0.7.4) (2024-04-27)
 
 
