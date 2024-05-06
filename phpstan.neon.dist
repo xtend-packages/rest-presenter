@@ -12,5 +12,3 @@ parameters:
          - tests/Helpers.php
     ignoreErrors:
         - '#Undefined variable: \$this#'
-    excludePaths:
-        - src/StarterKits/Stores/Lunar

@@ -20,7 +20,6 @@ RESTPresenter simplifies Laravel API development by providing a lightweight pack
 Our initial release includes the following Starter Kits to jumpstart your development:
 - [Sanctum Auth Starter Kit](https://github.com/xtend-packages/rest-presenter/discussions/categories/general)
 - [Filament API Starter Kit](https://github.com/xtend-packages/rest-presenter/discussions/categories/filament-starter-kit)
-- [Lunar API Starter Kit](https://github.com/xtend-packages/rest-presenter/discussions/categories/lunar-starter-kit) 
 
 ## Key Features
 
@@ -68,8 +67,6 @@ Please note: if you receive an error during installing this package, you may nee
 "minimum-stability": "dev",
 ```
 
-After installation, the package sets up default Breeze auth scaffolding along with the users resource. You can access the register endpoint at api/v1/auth/register using API clients like Insomnia.
-
 ## Setup
 Customize RESTPresenter for your project with our setup command:
 
@@ -85,10 +82,6 @@ To use a presenter, simply add the header property `X-REST-PRESENTER: PresenterN
 Presenters can be used with collections and single resources. They can also be used with nested resources, allowing you to transform data at any level of the response.
 
 ## Usage
-
-### Video Tutorials
-https://rest-presenter.com\
-Coming soon...
 
 ### Generate Resources (Prompts)
 To generate a new resource, use the following command:
