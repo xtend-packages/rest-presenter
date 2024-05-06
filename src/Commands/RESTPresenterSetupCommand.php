@@ -29,7 +29,6 @@ final class RESTPresenterSetupCommand extends Command
     public function handle(): int
     {
         $this->initialSetup();
-
         $this->starGitHubRepo();
         $this->sponsorThisProject();
 

@@ -409,7 +409,7 @@ final class MakeResource extends GeneratorCommand
     }
 
     /**
-     * @return \Illuminate\Support\Collection<int|string, array<string, mixed>>
+     * @return \Illuminate\Support\Collection<int|string, array<mixed>>
      */
     private function generateModelFields(): Collection
     {
