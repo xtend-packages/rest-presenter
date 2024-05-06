@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.9.0](https://github.com/xtend-packages/rest-presenter/compare/0.8.0...0.9.0) (2024-05-06)
+
+
+### Features
+
+* Filament is now the focus removed lunarphp until it's stable ([99d4630](https://github.com/xtend-packages/rest-presenter/commit/99d463041d134407b8291cda53fe52bd5404c71a))
+
 ## [0.8.0](https://github.com/xtend-packages/rest-presenter/compare/0.7.5...0.8.0) (2024-05-06)
 
 
