@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.9.2](https://github.com/xtend-packages/rest-presenter/compare/0.9.1...0.9.2) (2024-05-07)
+
+
+### Bug Fixes
+
+* Filament some projects use scope for tenant so ignore GlobalScopes ([a7e0068](https://github.com/xtend-packages/rest-presenter/commit/a7e00688bea75666641814cf598362661e326b90))
+
 ## [0.9.1](https://github.com/xtend-packages/rest-presenter/compare/0.9.0...0.9.1) (2024-05-07)
 
 
