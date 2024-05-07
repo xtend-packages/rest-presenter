@@ -1,5 +1,17 @@
 # Changelog for RESTPresenter
 
+## [0.9.1](https://github.com/xtend-packages/rest-presenter/compare/0.9.0...0.9.1) (2024-05-07)
+
+
+### Bug Fixes
+
+* Install Filament kit without prompts ([b49441c](https://github.com/xtend-packages/rest-presenter/commit/b49441c04f5c3b40749f617fb972d1978e072014))
+
+
+### Documentation
+
+* Filament Quick Start ([4af72c0](https://github.com/xtend-packages/rest-presenter/commit/4af72c085ec38370110f4a438cb457469382b3c3))
+
 ## [0.9.0](https://github.com/xtend-packages/rest-presenter/compare/0.8.0...0.9.0) (2024-05-06)
 
 
