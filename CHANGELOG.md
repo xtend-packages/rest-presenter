@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.9.3](https://github.com/xtend-packages/rest-presenter/compare/0.9.2...0.9.3) (2024-05-07)
+
+
+### Bug Fixes
+
+* DefaultResponse only check carbon date type if value is not null ([48d7d87](https://github.com/xtend-packages/rest-presenter/commit/48d7d871186e2f04394e741a6f7080163a4c8dc9))
+
 ## [0.9.2](https://github.com/xtend-packages/rest-presenter/compare/0.9.1...0.9.2) (2024-05-07)
 
 
