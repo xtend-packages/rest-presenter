@@ -1,0 +1,72 @@
+<?php
+
+namespace {{ testNamespace }};
+
+use {{ modelClassImport }} as {{ modelClassName }};
+use {{ dataResponseClassImport }} as DataResponse;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Collection;
+use Tests\TestCase;
+
+class {{ testClassName }} extends TestCase
+{
+    use RefreshDatabase;
+
+    protected Collection ${{ $modelVarPlural }};
+
+    /**
+     * Setup the test
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->{{ $modelVarPlural }} = {{ modelClassName }}::factory(10)->create();
+    }
+
+    /**
+     * Test to show a single {{ $modelVarSingular }}
+     *
+     * @return void
+     */
+    public function test_can_show_a_{{ $modelVarSingular }}()
+    {
+        ${{ $modelVarSingular }} = $this->{{ $modelVarPlural }}->first();
+
+        $response = $this->json(
+            method: 'GET',
+            uri: route('api.v1.filament.{{ $modelVarPlural }}.show', ${{ $modelVarSingular }}->id),
+            headers: ['x-rest-presenter' => '{{ modelClassName }}']
+        );
+
+        $response->assertStatus(200);
+
+        $this->assertEquals(
+            expected: DataResponse::from(${{ $modelVarSingular }})->toArray(),
+            actual: $response->json(),
+            message: 'Response data is in the expected format',
+        );
+    }
+
+    /**
+     * Test to list all {{ $modelVarPlural }}
+     *
+     * @return void
+     */
+    public function test_can_list_all_{{ $modelVarPlural }}()
+    {
+        $response = $this->json(
+            method: 'GET',
+            uri: route('api.v1.filament.{{ $modelVarPlural }}.index'),
+            headers: ['x-rest-presenter' => '{{ modelClassName }}']
+        );
+
+        $response->assertStatus(200);
+
+        $this->assertEquals(
+            expected: DataResponse::collect($this->{{ $modelVarPlural }})->toArray(),
+            actual: $response->json(),
+            message: 'Response data is in the expected format',
+        );
+    }
+}
