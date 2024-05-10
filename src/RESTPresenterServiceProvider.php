@@ -15,6 +15,7 @@ use XtendPackages\RESTPresenter\Commands\Generator\MakeData;
 use XtendPackages\RESTPresenter\Commands\Generator\MakeFilter;
 use XtendPackages\RESTPresenter\Commands\Generator\MakePresenter;
 use XtendPackages\RESTPresenter\Commands\Generator\MakeResource;
+use XtendPackages\RESTPresenter\Commands\Generator\MakeTest;
 use XtendPackages\RESTPresenter\Commands\RESTPresenterSetupCommand;
 use XtendPackages\RESTPresenter\Commands\XtendStarterKit;
 use XtendPackages\RESTPresenter\Facades\XtendRoute;
@@ -31,7 +32,6 @@ final class RESTPresenterServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasConfigFile()
             ->hasTranslations()
-            ->publishesServiceProvider('RESTPresenterServiceProvider')
             ->hasCommands([
                 RESTPresenterSetupCommand::class,
                 XtendStarterKit::class,
@@ -40,6 +40,7 @@ final class RESTPresenterServiceProvider extends PackageServiceProvider
                 MakeController::class,
                 MakeFilter::class,
                 MakeData::class,
+                MakeTest::class,
                 GenerateApiCollection::class,
             ]);
     }
