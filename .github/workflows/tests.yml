@@ -31,5 +31,6 @@ jobs:
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "filament/support" --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
+          composer dump-autoload --no-interaction --optimize
       - name: Execute tests
         run: ./vendor/bin/pest
