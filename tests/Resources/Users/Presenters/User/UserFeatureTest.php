@@ -5,6 +5,7 @@ declare(strict_types=1);
 use XtendPackages\RESTPresenter\Resources\Users\Data\Response\UserData;
 
 use function Pest\Laravel\getJson;
+use function XtendPackages\RESTPresenter\Support\Tests\authenticateApiUser;
 
 beforeEach(function (): void {
     $this->user = authenticateApiUser();

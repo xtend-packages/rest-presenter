@@ -1,6 +1,6 @@
 {
     "name": "xtend-packages/rest-presenter",
-    "version": "0.7.4",
+    "version": "0.9.3",
     "description": "REST API Presenter & Generator for Laravel",
     "keywords": [
         "code-labx",
@@ -33,7 +33,6 @@
         "larastan/larastan": "^v2.9",
         "laravel/pint": "^1.0",
         "livewire/livewire": "^3.4",
-        "lunarphp/core": "1.*",
         "mockery/mockery": "^1.6",
         "orchestra/testbench": "^8.0|^9.0",
         "pestphp/pest": "^v2.34.2",
@@ -50,21 +49,20 @@
             "XtendPackages\\RESTPresenter\\": "src"
         },
         "files": [
-            "src/Support/TypeGuard/Functions.php"
+            "src/Support/TypeGuard/Functions.php",
+            "src/Support/Tests/Helpers.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
             "XtendPackages\\RESTPresenter\\Tests\\": "tests",
-            "XtendPackages\\RESTPresenter\\Factories\\": "database/factories/",
-            "XtendPackages\\RESTPresenter\\StarterKits\\Stores\\Lunar\\Tests\\": "src/StarterKits/Stores/Lunar/tests"
+            "XtendPackages\\RESTPresenter\\Factories\\": "database/factories/"
         }
     },
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
         "pest": "vendor/bin/pest --testsuite=RESTPresenter",
         "pest-coverage": "vendor/bin/pest --testsuite=RESTPresenter --coverage",
-        "pest-starter-kit:lunar": "vendor/bin/pest --testsuite=starter-kit:lunar",
         "test:format": "pint --test",
         "test:refactor": "rector --dry-run",
         "test:types": "phpstan analyse",

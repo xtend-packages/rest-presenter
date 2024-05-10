@@ -41,7 +41,7 @@ trait InteractsWithModel
      */
     protected function setModelQuery(Builder $query): void
     {
-        static::$modelQuery = $query;
+        static::$modelQuery = $query->withoutGlobalScopes();
     }
 
     /**

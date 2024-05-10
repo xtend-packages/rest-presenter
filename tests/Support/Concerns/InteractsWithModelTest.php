@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithModel;
 
+use function XtendPackages\RESTPresenter\Support\Tests\invokeNonPublicMethod;
+
 test('should return correct model modified query instance', function (): void {
     $mock = new class
     {

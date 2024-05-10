@@ -10,6 +10,9 @@ use XtendPackages\RESTPresenter\Exceptions\PresenterNotFoundException;
 use XtendPackages\RESTPresenter\Resources\Users\Presenters;
 use XtendPackages\RESTPresenter\Support\ResourceDefaultPresenter;
 
+use function XtendPackages\RESTPresenter\Support\Tests\getApiHeaderPresenterName;
+use function XtendPackages\RESTPresenter\Support\Tests\invokeNonPublicMethod;
+
 beforeEach(function (): void {
     $this->resourceController = new class
     {

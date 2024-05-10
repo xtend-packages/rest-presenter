@@ -5,9 +5,6 @@
       <directory>tests/Resources</directory>
       <directory>tests/Support</directory>
     </testsuite>
-    <testsuite name="starter-kit:lunar">
-      <directory>src/StarterKits/Stores/Lunar/Tests</directory>
-    </testsuite>
   </testsuites>
   <source>
     <include>

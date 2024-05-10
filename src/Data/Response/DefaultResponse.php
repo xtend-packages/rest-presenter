@@ -25,8 +25,8 @@ final class DefaultResponse extends Data
 
     public static function fromModel(Model $model): self
     {
-        $createdAt = type($model->getAttribute('created_at'))->as(Carbon::class);
-        $updatedAt = type($model->getAttribute('updated_at'))->as(Carbon::class);
+        $createdAt = $model->getAttribute('created_at') ? type($model->getAttribute('created_at'))->as(Carbon::class) : null;
+        $updatedAt = $model->getAttribute('updated_at') ? type($model->getAttribute('updated_at'))->as(Carbon::class) : null;
         $name = type($model->getAttribute('name') ?? '')->asString();
 
         return new self(

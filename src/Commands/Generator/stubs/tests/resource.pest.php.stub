@@ -1,0 +1,39 @@
+<?php
+
+use {{ modelClassImport }} as {{ modelClassName }};
+use {{ dataResponseClassImport }} as DataResponse;
+
+use function Pest\Laravel\getJson;
+
+beforeEach(function (): void {
+    $this->{{ $modelVarPlural }} = {{ modelClassName }}::factory(10)->create();
+});
+
+describe('{{ modelClassName }}', function (): void {
+    test('can show a {{ $modelVarSingular }}', function ({{ modelClassName }} ${{ $modelVarSingular }}): void {
+        $response = getJson(
+            uri: route('api.v1.filament.{{ $modelVarPlural }}.show', ${{ $modelVarSingular }}),
+            headers: ['x-rest-presenter' => '{{ modelClassName }}'],
+        )->assertOk()->json();
+
+        expect($response)
+            ->toMatchArray(
+                array: DataResponse::from(${{ $modelVarSingular }})->toArray(),
+                message: 'Response data is in the expected format',
+            );
+    });
+
+    test('can list all {{ $modelVarPlural }}', function (): void {
+        $response = getJson(
+            uri: route('api.v1.filament.{{ $modelVarPlural }}.index'),
+            headers: ['x-rest-presenter' => '{{ modelClassName }}'],
+        )->assertOk()->json();
+
+        expect($response)
+            ->toMatchArray(
+                array: DataResponse::collect($this->{{ $modelVarPlural }})->toArray(),
+                message: 'Response data is in the expected format',
+            )
+            ->toHaveCount($this->{{ $modelVarPlural }}->count());
+    });
+});

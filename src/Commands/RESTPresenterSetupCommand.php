@@ -17,7 +17,7 @@ use function Laravel\Prompts\multiselect;
 #[AsCommand(name: 'rest-presenter:setup')]
 final class RESTPresenterSetupCommand extends Command
 {
-    protected $signature = 'rest-presenter:setup';
+    protected $signature = 'rest-presenter:setup {--starter-kit= : Install starter kit}';
 
     protected $description = 'Setup REST Presenter & prepare your API structure';
 
@@ -129,7 +129,25 @@ final class RESTPresenterSetupCommand extends Command
             ->values();
 
         if ($unpublishedStarterKits->isEmpty()) {
-            $this->components->info('All starter kits have already been installed');
+            $this->components->warn('All starter kits have already been installed');
+
+            return;
+        }
+
+        if ($this->option('starter-kit')) {
+            $starterKit = type($this->option('starter-kit'))->asString();
+
+            if (! $unpublishedStarterKits->contains($starterKit)) {
+                $this->components->warn(__('The starter kit :name is already installed', ['name' => $starterKit]));
+                exit;
+            }
+
+            if ($starterKit === 'Filament' && $this->filesystem->exists($generatedKitsDirectory.'/Filament')) {
+                $this->components->warn('Filament starter kit has already been installed');
+                exit;
+            }
+
+            $this->call('rest-presenter:xtend-starter-kit', ['name' => $starterKit]);
 
             return;
         }

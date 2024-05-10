@@ -8,6 +8,8 @@ use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\Resources\Users\Data\Response\UserData;
 use XtendPackages\RESTPresenter\Resources\Users\Presenters;
 
+use function XtendPackages\RESTPresenter\Support\Tests\getValidationRule;
+
 beforeEach(function (): void {
     $this->request = mock(Request::class);
     $this->mockUser = mock(User::class)
