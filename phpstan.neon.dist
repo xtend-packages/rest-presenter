@@ -8,8 +8,6 @@ parameters:
     level: max
     tmpDir: build/phpstan
     checkMissingIterableValueType: true
-    scanFiles:
-         - tests/Helpers.php
     ignoreErrors:
         - '#Undefined variable: \$this#'
     excludePaths:
