@@ -135,7 +135,7 @@ final class RESTPresenterSetupCommand extends Command
         }
 
         if ($this->option('starter-kit')) {
-            $starterKit = $this->option('starter-kit');
+            $starterKit = type($this->option('starter-kit'))->asString();
 
             if (! $unpublishedStarterKits->contains($starterKit)) {
                 $this->components->warn(__('The starter kit :name is already installed', ['name' => $starterKit]));
