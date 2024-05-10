@@ -82,7 +82,7 @@ if (! function_exists('getValidationRule')) {
      */
     function getValidationRule(string $field, string $key, array $rules): mixed
     {
-        return collect($rules) // @phpstan-ignore-line
+        return collect($rules)
             ->mapWithKeys(
                 fn ($rule, $field) => [
                     $field => collect($rule)->mapWithKeys( // @phpstan-ignore-line
