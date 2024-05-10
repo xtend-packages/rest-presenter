@@ -1,5 +1,23 @@
 # Changelog for RESTPresenter
 
+## [0.10.0](https://github.com/xtend-packages/rest-presenter/compare/0.9.3...0.10.0) (2024-05-10)
+
+
+### Features
+
+* Make resource test called directly after generating each resource ([53c95fb](https://github.com/xtend-packages/rest-presenter/commit/53c95fbfa25b0c2c56076e95d3a295fd1c940ef6))
+* New test command + stubs to support both pest & phpunit ([59e598b](https://github.com/xtend-packages/rest-presenter/commit/59e598b69d2c9b98201dbffc34b6c35839454c1e))
+
+
+### Bug Fixes
+
+* phpstan ignore rules ([f2d6689](https://github.com/xtend-packages/rest-presenter/commit/f2d6689a0229814d09af6f4a2954be742357e453))
+* Remove ServiceProvider no longer needed + register new test command ([8e5d039](https://github.com/xtend-packages/rest-presenter/commit/8e5d0394aeddd01bb57315d6b79e3f416bc7f0bb))
+* Satisfy phpstan ([a5b3379](https://github.com/xtend-packages/rest-presenter/commit/a5b3379664fe31eabef9dd51aa67f41929284c18))
+* starter-kit type string ([ea1dfad](https://github.com/xtend-packages/rest-presenter/commit/ea1dfad5b5bb0ca938a78b5f7aa834f4add1434d))
+* Test helpers namespace functions ([b665de4](https://github.com/xtend-packages/rest-presenter/commit/b665de44176fc75537707d7566e4b543779d2ac7))
+* test workflow composer dump-autoload ([1c424a3](https://github.com/xtend-packages/rest-presenter/commit/1c424a36d870df0f866cdf6bf90533f4b9fc7bc0))
+
 ## [0.9.3](https://github.com/xtend-packages/rest-presenter/compare/0.9.2...0.9.3) (2024-05-07)
 
 
