@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Illuminate\Http\Request;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
 
+use function XtendPackages\RESTPresenter\Support\Tests\invokeNonPublicMethod;
+
 beforeEach(function (): void {
     $request = new Request();
     $request->merge(['filters' => ['filterKey' => 'filterValue']]);

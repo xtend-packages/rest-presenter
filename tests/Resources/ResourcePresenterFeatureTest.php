@@ -6,6 +6,7 @@ use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 use XtendPackages\RESTPresenter\Models\User;
 
 use function Pest\Laravel\getJson;
+use function XtendPackages\RESTPresenter\Support\Tests\authenticateApiUser;
 
 beforeEach(function (): void {
     $this->user = User::factory()->create();
