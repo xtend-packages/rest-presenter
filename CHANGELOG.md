@@ -1,5 +1,38 @@
 # Changelog for RESTPresenter
 
+## [0.9.3](https://github.com/xtend-packages/rest-presenter/compare/0.9.2...0.9.3) (2024-05-07)
+
+
+### Bug Fixes
+
+* DefaultResponse only check carbon date type if value is not null ([48d7d87](https://github.com/xtend-packages/rest-presenter/commit/48d7d871186e2f04394e741a6f7080163a4c8dc9))
+
+## [0.9.2](https://github.com/xtend-packages/rest-presenter/compare/0.9.1...0.9.2) (2024-05-07)
+
+
+### Bug Fixes
+
+* Filament some projects use scope for tenant so ignore GlobalScopes ([a7e0068](https://github.com/xtend-packages/rest-presenter/commit/a7e00688bea75666641814cf598362661e326b90))
+
+## [0.9.1](https://github.com/xtend-packages/rest-presenter/compare/0.9.0...0.9.1) (2024-05-07)
+
+
+### Bug Fixes
+
+* Install Filament kit without prompts ([b49441c](https://github.com/xtend-packages/rest-presenter/commit/b49441c04f5c3b40749f617fb972d1978e072014))
+
+
+### Documentation
+
+* Filament Quick Start ([4af72c0](https://github.com/xtend-packages/rest-presenter/commit/4af72c085ec38370110f4a438cb457469382b3c3))
+
+## [0.9.0](https://github.com/xtend-packages/rest-presenter/compare/0.8.0...0.9.0) (2024-05-06)
+
+
+### Features
+
+* Filament is now the focus removed lunarphp until it's stable ([99d4630](https://github.com/xtend-packages/rest-presenter/commit/99d463041d134407b8291cda53fe52bd5404c71a))
+
 ## [0.8.0](https://github.com/xtend-packages/rest-presenter/compare/0.7.5...0.8.0) (2024-05-06)
 
 

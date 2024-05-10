@@ -10,5 +10,3 @@ parameters:
     checkMissingIterableValueType: true
     ignoreErrors:
         - '#Undefined variable: \$this#'
-    excludePaths:
-        - src/StarterKits/Stores/Lunar
