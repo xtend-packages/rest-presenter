@@ -14,9 +14,6 @@ use XtendPackages\RESTPresenter\Models\User;
 if (! function_exists('authenticateApiUser')) {
     /**
      * Authenticate an API user.
-     *
-     * @param  User|null  $user
-     * @return User|HasApiTokens
      */
     function authenticateApiUser(?User $user = null): User|HasApiTokens
     {
@@ -30,9 +27,6 @@ if (! function_exists('authenticateApiUser')) {
 if (! function_exists('fixture')) {
     /**
      * Get a fixture.
-     *
-     * @param  string  $name
-     * @return array
      */
     function fixture(string $name): array
     {
@@ -56,8 +50,6 @@ if (! function_exists('fixture')) {
 if (! function_exists('getApiHeaderPresenterName')) {
     /**
      * Get the API header presenter name.
-     *
-     * @return string
      */
     function getApiHeaderPresenterName(): string
     {
@@ -68,11 +60,6 @@ if (! function_exists('getApiHeaderPresenterName')) {
 if (! function_exists('invokeNonPublicMethod')) {
     /**
      * Invoke a non-public method.
-     *
-     * @param  object  $object
-     * @param  string  $methodName
-     * @param  array  $parameters
-     * @return mixed
      */
     function invokeNonPublicMethod(object $object, string $methodName, array $parameters = []): mixed
     {
@@ -86,11 +73,6 @@ if (! function_exists('invokeNonPublicMethod')) {
 if (! function_exists('getValidationRule')) {
     /**
      * Get a validation rule.
-     *
-     * @param  string  $field
-     * @param  string  $key
-     * @param  array  $rules
-     * @return mixed
      */
     function getValidationRule(string $field, string $key, array $rules): mixed
     {
@@ -109,9 +91,6 @@ if (! function_exists('getValidationRule')) {
 if (! function_exists('formatRule')) {
     /**
      * Format a rule.
-     *
-     * @param  string  $rule
-     * @return array
      */
     function formatRule(string $rule): array
     {
