@@ -171,6 +171,14 @@ final class XtendStarterKit extends Command
                     ],
                     'type' => 'new',
                 ]);
+
+                $this->call('rest-presenter:make-test', [
+                    'kit_namespace' => $kitNamespace.'\\'.$resourceNamespace,
+                    'name' => $resourceName.'ResourceTest',
+                    'model' => $resource['model'],
+                    'test_type' => 'feature',
+                    'type' => 'resource',
+                ]);
             }
         });
     }

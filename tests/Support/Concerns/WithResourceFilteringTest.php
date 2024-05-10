@@ -8,6 +8,8 @@ use XtendPackages\RESTPresenter\Concerns\WithResourceFiltering;
 use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\Resources\Users\Filters\UserEmailVerified;
 
+use function XtendPackages\RESTPresenter\Support\Tests\invokeNonPublicMethod;
+
 beforeEach(function (): void {
     $this->resourceController = new class()
     {

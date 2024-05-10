@@ -1,0 +1,26 @@
+<?php
+
+use {{ dataResponseNamespace }} as DataResponse;
+
+use function Pest\Laravel\getJson;
+
+beforeEach(function (): void {
+    $this->{{ modelVarSingular }} = {{ authenticationSnippet }};
+});
+
+describe('{{ describeBlockName }}', function (): void {
+    test('{{ testBlockName }}', function (): void {
+        $response = getJson(
+            uri: route('api.v1.{{ modelLowercasePlural }}.show', $this->{{ modelVarSingular }}),
+            headers: ['x-rest-presenter' => '{{ restPresenterName }}'],
+        )->assertOk()->json();
+
+        $this->assertNotSame($response, $this->{{ modelVarSingular }}->toArray());
+
+        expect($response)
+            ->toMatchArray(
+                array: DataResponse::from($this->{{ modelVarSingular }})->toArray(),
+                message: 'Response data is in the expected format',
+            );
+    });
+});

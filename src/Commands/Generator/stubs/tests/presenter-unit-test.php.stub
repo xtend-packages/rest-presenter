@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use {{ modelNamespace }} as ModelNamespace;
+use {{ responseDataNamespace }} as ResponseData;
+use {{ presenterNamespace }} as PresenterNamespace;
+
+beforeEach(function (): void {
+    $this->request = mock(Request::class);
+    $this->mock{{ modelName }} = mock(ModelNamespace::class)
+        ->makePartial()
+        ->forceFill({{arrayOfModelFields}});
+
+    $this->{{ presenterName }}Presenter = mock(
+        PresenterNamespace::{{ presenterName }}::class,
+        [$this->mock{{ modelName }}]
+    );
+
+    $this->{{ presenterName }}Presenter
+        ->shouldReceive('transform')
+        ->andReturn(ResponseData::from($this->mock{{ modelName }}));
+
+    $this->response = $this->{{ presenterName }}Presenter->transform();
+    $this->data = $this->response->toArray();
+});
+
+describe('{{ presenterName }} Presenter', function (): void {
+    test('{{ presenterName }}::transform returns the correct data', function (): void {
+        $this->response->validate($this->data);
+
+        expect($this->response)->toBeInstanceOf(ResponseData::class);
+
+        {{ additionalAssertions }}
+
+    });
+
+    // add more tests as per your requirements
+});
