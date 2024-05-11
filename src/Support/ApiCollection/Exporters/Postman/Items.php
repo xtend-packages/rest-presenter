@@ -107,6 +107,11 @@ class Items
         return collect([
             'method' => strtoupper($method),
             'header' => collect()
+                ->push([
+                    'key' => 'Accept',
+                    'value' => 'application/json',
+                    'type' => 'text',
+                ])
                 ->push($group !== null && $group !== '' && $group !== '0' ? [
                     'key' => config('rest-presenter.api.presenter_header'),
                     'value' => strtolower(Str::singular($group)),
