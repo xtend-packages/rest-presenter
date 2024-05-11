@@ -260,6 +260,13 @@ final class MakeResource extends GeneratorCommand
                     ->plural()
                     ->value();
 
+                if ($presenter === 'xtend') {
+                    $presenterPlural = $presenterKey !== 'profile' ? Str::of($presenterKey)->plural()->studly() : 'Users';
+                    $presenterSingle = Str::of($presenterKey)->singular()->studly();
+
+                    return "'$presenterKey' => \XtendPackages\RESTPresenter\Resources\\$presenterPlural\\Presenters\\$presenterSingle::class";
+                }
+
                 return "'$presenterKey' => Presenters\\".$presenterNamespace.'\\'.$presenter;
             },
         )->implode(",\n\t\t\t").',';
