@@ -1,5 +1,13 @@
 # Changelog for RESTPresenter
 
+## [0.11.0](https://github.com/xtend-packages/rest-presenter/compare/0.10.1...0.11.0) (2024-05-11)
+
+
+### Features
+
+* auth middleware isAuthenticated property for all resources ([8125c0b](https://github.com/xtend-packages/rest-presenter/commit/8125c0b86d90fd08507236e407c145f35739a8ba))
+* Default resource presenters + profile example for user ([03fa2e1](https://github.com/xtend-packages/rest-presenter/commit/03fa2e15f741dbec051f549578bb3c48f7658bba))
+
 ## [0.10.1](https://github.com/xtend-packages/rest-presenter/compare/0.10.0...0.10.1) (2024-05-11)
 
 
