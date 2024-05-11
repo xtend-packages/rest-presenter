@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [0.10.1](https://github.com/xtend-packages/rest-presenter/compare/0.10.0...0.10.1) (2024-05-11)
+
+
+### Bug Fixes
+
+* PEST show tests ([01998f5](https://github.com/xtend-packages/rest-presenter/commit/01998f5b1ac7de76f2d0d1c0daf0d2efe67f1ec7))
+
 ## [0.10.0](https://github.com/xtend-packages/rest-presenter/compare/0.9.3...0.10.0) (2024-05-10)
 
 
