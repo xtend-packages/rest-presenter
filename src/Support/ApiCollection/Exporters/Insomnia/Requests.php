@@ -140,6 +140,10 @@ class Requests
                 'parameters' => [],
                 'headers' => [
                     [
+                        'name' => 'Accept',
+                        'value' => 'application/json',
+                    ],
+                    [
                         'name' => config('rest-presenter.api.presenter_header'),
                         'value' => strtolower(Str::singular($group)),
                         'disabled' => true,

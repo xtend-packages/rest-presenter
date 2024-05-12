@@ -106,11 +106,23 @@ final class RESTPresenterSetupCommand extends Command
     {
         collect($this->filesystem->directories(__DIR__.'/../Resources'))
             ->map(fn ($resource) => Str::singular(basename((string) $resource)))
-            ->each(fn ($resource) => $this->call('rest-presenter:make-resource', [
-                'model' => 'App\\Models\\'.Str::singular($resource),
-                'name' => $resource,
-                'type' => 'new',
-            ]));
+            ->each(function ($resource) {
+                $resourceKey = Str::of($resource)
+                    ->kebab()
+                    ->value();
+
+                $presenters = [$resourceKey => 'xtend'];
+                if ($resourceKey === 'user') {
+                    $presenters['profile'] = 'xtend';
+                }
+
+                return $this->call('rest-presenter:make-resource', [
+                    'model' => 'App\\Models\\'.Str::singular($resource),
+                    'presenters' => $presenters,
+                    'name' => $resource,
+                    'type' => 'new',
+                ]);
+            });
     }
 
     private function publishStarterKits(): void

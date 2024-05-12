@@ -12,6 +12,8 @@ class {{ class }} extends ResourceController
 {
     protected static string $model = {{ modelClassName }}::class;
 
+    public static bool $isAuthenticated = false;
+
     public function index(Request $request): Collection
     {
         ${{ $modelVarPlural }} = $this->getModelQueryInstance()->get();
