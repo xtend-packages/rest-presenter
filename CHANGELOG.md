@@ -1,5 +1,23 @@
 # Changelog for RESTPresenter
 
+## [1.0.0-rc.0](https://github.com/xtend-packages/rest-presenter/compare/0.11.0...1.0.0-rc.0) (2024-05-13)
+
+
+### Features
+
+* Extra Security API Key (Enabled by Default) ([b7baa38](https://github.com/xtend-packages/rest-presenter/commit/b7baa380aa8f6caa600a3f04b18a3f431a2d83a5))
+* Improve tests + remove service provider ([151bb8b](https://github.com/xtend-packages/rest-presenter/commit/151bb8bc06c3b2ff1867dbdbca1f6b2928558f0c))
+
+
+### Bug Fixes
+
+* Skip RESTPresenterSetupCommand test issue with expectsChoice ([1a7ee6b](https://github.com/xtend-packages/rest-presenter/commit/1a7ee6b96262bc9a01975266f0eafcc568713659))
+
+
+### Documentation
+
+* Update for pre-release ([4af1f3d](https://github.com/xtend-packages/rest-presenter/commit/4af1f3d41ae724c9f8eca68cbe08e8ca4479ed8f))
+
 ## [0.11.0](https://github.com/xtend-packages/rest-presenter/compare/0.10.1...0.11.0) (2024-05-11)
 
 
