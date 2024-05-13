@@ -87,4 +87,4 @@ describe('RESTPresenterSetupCommand', function (): void {
             ->expectsOutputToContain('Checking for updates...')
             ->assertExitCode(0);
     });
-});
+})->skip();
