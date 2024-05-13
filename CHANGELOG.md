@@ -1,5 +1,17 @@
 # Changelog for RESTPresenter
 
+## [1.0.0-rc.1](https://github.com/xtend-packages/rest-presenter/compare/1.0.0-rc.0...1.0.0-rc.1) (2024-05-13)
+
+
+### Bug Fixes
+
+* No need to remove the API directory via XtendRouter ([c40a819](https://github.com/xtend-packages/rest-presenter/commit/c40a819c5f6defa2afdd39c49ad53dd6881569bf))
+
+
+### Documentation
+
+* Add info about tests + warning to update phpunit.xml ([bab9042](https://github.com/xtend-packages/rest-presenter/commit/bab904222f88e64a3d025519014334ab96c75f73))
+
 ## [1.0.0-rc.0](https://github.com/xtend-packages/rest-presenter/compare/0.11.0...1.0.0-rc.0) (2024-05-13)
 
 
