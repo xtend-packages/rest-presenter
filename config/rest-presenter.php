@@ -16,8 +16,6 @@ return [
         'ts_types_trailing_semicolon' => env('REST_PRESENTER_GENERATOR_TS_TYPES_TRAILING_SEMICOLON', true),
         'test_path' => env('REST_PRESENTER_GENERATOR_TEST_PATH', 'tests/Feature/Api/v1'),
         'test_namespace' => env('REST_PRESENTER_GENERATOR_TEST_NAMESPACE', 'Tests\Feature\Api\v1'),
-        // Currently we only support PEST testing framework. Other testing frameworks will be supported in the future.
-        'test_framework' => 'pest',
         'structure' => [
             'actions' => 'Actions',
             'concerns' => 'Concerns',

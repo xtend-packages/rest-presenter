@@ -5,8 +5,6 @@ declare(strict_types=1);
 use Illuminate\Http\Request;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
 
-use function XtendPackages\RESTPresenter\Support\Tests\invokeNonPublicMethod;
-
 beforeEach(function (): void {
     $request = new Request();
     $request->merge(['filters' => ['filterKey' => 'filterValue']]);
@@ -35,6 +33,7 @@ describe('InteractsWithRequest', function (): void {
     });
 
     test('filtersFromRequest checks request for filters', function (): void {
-        $this->assertEquals(['filterKey' => 'filterValue'], invokeNonPublicMethod($this->resourceController, 'filtersFromRequest'));
+        $filtersFromRequest = invade($this->resourceController)->filtersFromRequest();
+        $this->assertEquals(['filterKey' => 'filterValue'], $filtersFromRequest);
     });
 });
