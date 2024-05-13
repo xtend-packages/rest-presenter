@@ -6,7 +6,6 @@ namespace XtendPackages\RESTPresenter\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 use UnhandledMatchError;
@@ -28,9 +27,19 @@ final class RESTPresenterSetupCommand extends Command
 
     public function handle(): int
     {
+        if (! $this->firstTimeSetup()) {
+            $this->components->info('REST Presenter has already been setup. Now checking for updates...');
+            $this->checkForUpdates();
+
+            return self::SUCCESS;
+        }
+
         $this->initialSetup();
-        $this->starGitHubRepo();
-        $this->sponsorThisProject();
+
+        if (! app()->runningUnitTests()) {
+            $this->starGitHubRepo();
+            $this->sponsorThisProject();
+        }
 
         $this->components->info('REST Presenter setup completed successfully 🚀');
 
@@ -41,13 +50,7 @@ final class RESTPresenterSetupCommand extends Command
     {
         $this->components->info('Welcome to REST Presenter setup wizard');
 
-        if (! $this->firstTimeSetup()) {
-            $this->components->info('REST Presenter has already been setup. Now checking for updates...');
-            $this->checkForUpdates();
-        }
-
         $this->publishingConfig();
-        $this->publishingServiceProvider();
         $this->publishingDefaultResources();
         $this->publishStarterKits();
     }
@@ -89,19 +92,6 @@ final class RESTPresenterSetupCommand extends Command
         $this->call('vendor:publish', ['--tag' => 'rest-presenter-config']);
     }
 
-    private function publishingServiceProvider(): void
-    {
-        $this->call('vendor:publish', ['--tag' => 'rest-presenter-provider']);
-
-        $providersPath = app()->bootstrapPath('providers.php');
-        if (! file_exists($providersPath)) {
-            return;
-        }
-
-        $callable = [ServiceProvider::class, 'addProviderToBootstrapFile'];
-        call_user_func($callable, 'App\\Providers\\RESTPresenterServiceProvider', $providersPath);
-    }
-
     private function publishingDefaultResources(): void
     {
         collect($this->filesystem->directories(__DIR__.'/../Resources'))
@@ -129,7 +119,10 @@ final class RESTPresenterSetupCommand extends Command
     {
         $starterKitsDirectory = __DIR__.'/../StarterKits';
         $generatedKitsDirectory = config('rest-presenter.generator.path').'/StarterKits';
-        $this->filesystem->ensureDirectoryExists($generatedKitsDirectory);
+
+        if (! app()->runningUnitTests()) {
+            $this->filesystem->ensureDirectoryExists($generatedKitsDirectory);
+        }
 
         /** @var \Illuminate\Support\Collection<string, string> $unpublishedStarterKits */
         $unpublishedStarterKits = collect($this->filesystem->allFiles($starterKitsDirectory))

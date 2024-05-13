@@ -11,7 +11,6 @@ use XtendPackages\RESTPresenter\Resources\Users\Presenters;
 use XtendPackages\RESTPresenter\Support\ResourceDefaultPresenter;
 
 use function XtendPackages\RESTPresenter\Support\Tests\getApiHeaderPresenterName;
-use function XtendPackages\RESTPresenter\Support\Tests\invokeNonPublicMethod;
 
 beforeEach(function (): void {
     $this->resourceController = new class
@@ -33,11 +32,7 @@ describe('InteractsWithPresenter', function (): void {
         $request = mock(Request::class);
         $model = mock(Model::class);
 
-        $presenter = invokeNonPublicMethod(
-            object: $this->resourceController,
-            methodName: 'makePresenter',
-            parameters: [$request, $model],
-        );
+        $presenter = invade($this->resourceController)->makePresenter($request, $model);
 
         expect($presenter)->toBeInstanceOf(ResourceDefaultPresenter::class);
     });
@@ -76,22 +71,13 @@ describe('InteractsWithPresenter', function (): void {
                 'updated_at' => now(),
             ]);
 
-        // @todo Simplify Mocking API
-
-        $result = invokeNonPublicMethod(
-            object: $this->resourceController,
-            methodName: 'present',
-            parameters: [$request, $model],
-        );
+        $result = invade($this->resourceController)->present($request, $model);
 
         expect($result)->toBeInstanceOf(Data::class);
     });
 
     test('getPresenters merges default and resource presenters', function (): void {
-        $presenters = invokeNonPublicMethod(
-            object: $this->resourceController,
-            methodName: 'getPresenters',
-        );
+        $presenters = invade($this->resourceController)->getPresenters();
 
         expect($presenters)->toBeArray()
             ->and($presenters['default'])
@@ -101,10 +87,7 @@ describe('InteractsWithPresenter', function (): void {
     test('getPresenterFromRequestHeader returns correct presenter from user request header is set', function (): void {
         request()->headers->set(getApiHeaderPresenterName(), 'user');
 
-        $presenter = invokeNonPublicMethod(
-            object: $this->resourceController,
-            methodName: 'getPresenterFromRequestHeader',
-        );
+        $presenter = invade($this->resourceController)->getPresenterFromRequestHeader();
 
         expect($presenter)->toBe(Presenters\User::class);
     });
@@ -114,19 +97,13 @@ describe('InteractsWithPresenter', function (): void {
 
         $this->expectException(PresenterNotFoundException::class);
 
-        invokeNonPublicMethod(
-            object: $this->resourceController,
-            methodName: 'getPresenterFromRequestHeader',
-        );
+        invade($this->resourceController)->getPresenterFromRequestHeader();
     });
 
     test('getPresenterFromRequestHeader returns default presenter when request header is not set', function (): void {
         request()->headers->remove(getApiHeaderPresenterName());
 
-        $presenter = invokeNonPublicMethod(
-            object: $this->resourceController,
-            methodName: 'getPresenterFromRequestHeader',
-        );
+        $presenter = invade($this->resourceController)->getPresenterFromRequestHeader();
 
         expect($presenter)->toBe(ResourceDefaultPresenter::class);
     });
