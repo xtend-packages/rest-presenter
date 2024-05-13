@@ -8,7 +8,6 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Laravel\Sanctum\Sanctum;
-use ReflectionClass;
 use XtendPackages\RESTPresenter\Models\User;
 
 if (! function_exists('authenticateApiUser')) {
@@ -56,21 +55,6 @@ if (! function_exists('getApiHeaderPresenterName')) {
     function getApiHeaderPresenterName(): string
     {
         return strtolower(type(config('rest-presenter.api.presenter_header'))->asString());
-    }
-}
-
-if (! function_exists('invokeNonPublicMethod')) {
-    /**
-     * Invoke a non-public method.
-     *
-     * @param  array<mixed>  $parameters
-     */
-    function invokeNonPublicMethod(object $object, string $methodName, array $parameters = []): mixed
-    {
-        $reflection = new ReflectionClass($object);
-        $method = $reflection->getMethod($methodName);
-
-        return $method->invokeArgs($object, $parameters);
     }
 }
 

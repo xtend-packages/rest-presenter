@@ -45,6 +45,10 @@ final class XtendStarterKit extends Command
             return self::FAILURE;
         }
 
+        if (! app()->runningUnitTests()) {
+            $this->filesystem->ensureDirectoryExists($generatedKitsDirectory.'/'.$kitPath);
+        }
+
         $this->generateStarterKit($starterKitsDirectory, $kitPath);
 
         return self::SUCCESS;

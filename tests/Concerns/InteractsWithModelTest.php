@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithModel;
 
-use function XtendPackages\RESTPresenter\Support\Tests\invokeNonPublicMethod;
-
 test('should return correct model modified query instance', function (): void {
     $mock = new class
     {
@@ -21,14 +19,14 @@ test('should return correct model modified query instance', function (): void {
         }
     };
 
-    $query = invokeNonPublicMethod($mock, 'getModelQuery');
+    $query = invade($mock)->getModelQuery();
     expect($query)->toBeInstanceOf(Builder::class);
 
     $queryModified = $query->where('column', 'value');
-    invokeNonPublicMethod($mock, 'setModelQuery', [$queryModified]);
+    invade($mock)->setModelQuery($queryModified);
 
     /** @var Builder $instance */
-    $instance = invokeNonPublicMethod($mock, 'getModelQueryInstance');
+    $instance = invade($mock)->getModelQueryInstance();
     expect($instance->toSql())->toBe($queryModified->toSql())
         ->and($instance)->toBeInstanceOf(Builder::class);
 

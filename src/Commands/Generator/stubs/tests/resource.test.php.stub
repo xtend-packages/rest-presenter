@@ -31,7 +31,7 @@ class {{ testClassName }} extends TestCase
      */
     public function test_can_show_a_{{ $modelVarSingular }}()
     {
-        ${{ $modelVarSingular }} = $this->{{ $modelVarPlural }}->first();
+        ${{ $modelVarSingular }} = $this->{{ $modelVarPlural }}->random();
 
         $response = $this->json(
             method: 'GET',

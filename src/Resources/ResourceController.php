@@ -27,10 +27,16 @@ abstract class ResourceController extends Controller
      */
     public array $sorts;
 
+    public static bool $isAuthenticated = false;
+
     public function __construct(Request $request, bool $init = true)
     {
         if ($init) {
             $this->init($request);
+        }
+
+        if (static::$isAuthenticated) {
+            $this->middleware('auth:sanctum');
         }
     }
 
