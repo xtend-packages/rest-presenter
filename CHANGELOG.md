@@ -1,5 +1,12 @@
 # Changelog for RESTPresenter
 
+## [1.0.0-rc.2](https://github.com/xtend-packages/rest-presenter/compare/1.0.0-rc.1...1.0.0-rc.2) (2024-05-13)
+
+
+### Bug Fixes
+
+* Include API key with test generation ([79de5b1](https://github.com/xtend-packages/rest-presenter/commit/79de5b1791e4209a32cea61c992704ac390514cf))
+
 ## [1.0.0-rc.1](https://github.com/xtend-packages/rest-presenter/compare/1.0.0-rc.0...1.0.0-rc.1) (2024-05-13)
 
 
