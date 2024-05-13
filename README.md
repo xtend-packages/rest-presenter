@@ -22,7 +22,7 @@ Please follow the steps below to get started:
 
 Install package ("minimum-stability": "dev", may be required in your composer.json file):
 ```bash
-composer require xtend-packages/rest-presenter
+composer require xtend-packages/rest-presenter:^1.0.0
 ````
 Run the direct setup command for our Filament starter kit to avoid prompts:
 ```bash
@@ -52,6 +52,10 @@ REST_PRESENTER_EXPORT_PROVIDER=insomnia
 ```
 
 Without this update, it will use your default database connection and refresh the database after each test.
+
+### Tests Failing! Missing Factory Relationships?
+If you encounter any issues with the tests, please update your factories to include relationships for your models.\
+For example, if you have a Post model but your factory is missing author_id, you will need to update your factory to include this relationship.
 
 ### API Collection Auto-Generation
 Make sure you only run this command after the setup command to generate your API collection.
@@ -130,7 +134,7 @@ RESTPresenter is more than just a CRUD generator. It offers:
 You can install the package via composer:
 
 ```bash
-composer require xtend-packages/rest-presenter
+composer require xtend-packages/rest-presenter:^1.0.0
 ```
 Please note: if you receive an error during installing this package, you may need to update your minimum stability requirement to dev in your composer.json file:
 
