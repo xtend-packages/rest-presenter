@@ -24,10 +24,10 @@ final class XtendRouter extends Router
         parent::__construct($events, $container);
 
         $filesystem = app(Filesystem::class);
-        if (!$filesystem->isDirectory(app_path('Api'))) {
+        if (! $filesystem->isDirectory(app_path('Api'))) {
             return;
         }
-        if (!app()->runningUnitTests()) {
+        if (! app()->runningUnitTests()) {
             return;
         }
         $filesystem->deleteDirectory(app_path('Api'));
