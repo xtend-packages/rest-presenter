@@ -6,7 +6,6 @@ namespace XtendPackages\RESTPresenter\Support;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\PendingResourceRegistration;
 use Illuminate\Routing\Router;
 use Illuminate\Routing\RouteRegistrar;
@@ -22,15 +21,6 @@ final class XtendRouter extends Router
     public function __construct(Dispatcher $events, ?Container $container = null)
     {
         parent::__construct($events, $container);
-
-        $filesystem = app(Filesystem::class);
-        if (! $filesystem->isDirectory(app_path('Api'))) {
-            return;
-        }
-        if (! app()->runningUnitTests()) {
-            return;
-        }
-        $filesystem->deleteDirectory(app_path('Api'));
     }
 
     public function register(): RouteRegistrar
