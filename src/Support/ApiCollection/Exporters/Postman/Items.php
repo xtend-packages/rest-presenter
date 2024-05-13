@@ -108,14 +108,20 @@ class Items
             'method' => strtoupper($method),
             'header' => collect()
                 ->push([
+                    'type' => 'text',
                     'key' => 'Accept',
                     'value' => 'application/json',
+                ])
+                ->push([
                     'type' => 'text',
+                    'key' => config('rest-presenter.auth.key_header'),
+                    'value' => config('rest-presenter.auth.key'),
+                    'disabled' => config('rest-presenter.auth.enable_api_key') === false,
                 ])
                 ->push($group !== null && $group !== '' && $group !== '0' ? [
+                    'type' => 'text',
                     'key' => config('rest-presenter.api.presenter_header'),
                     'value' => strtolower(Str::singular($group)),
-                    'type' => 'text',
                     'disabled' => true,
                 ] : [])
                 ->filter()

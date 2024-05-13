@@ -144,6 +144,11 @@ class Requests
                         'value' => 'application/json',
                     ],
                     [
+                        'name' => config('rest-presenter.auth.key_header'),
+                        'value' => config('rest-presenter.auth.key'),
+                        'disabled' => config('rest-presenter.auth.enable_api_key') === false,
+                    ],
+                    [
                         'name' => config('rest-presenter.api.presenter_header'),
                         'value' => strtolower(Str::singular($group)),
                         'disabled' => true,

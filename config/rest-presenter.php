@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
+use XtendPackages\RESTPresenter\Middleware\VerifyApiKey;
 use XtendPackages\RESTPresenter\Resources\Users\Filters;
 use XtendPackages\RESTPresenter\Resources\Users\Presenters;
 
@@ -34,7 +35,7 @@ return [
         'debug' => env('REST_PRESENTER_API_DEBUG', true),
         'presenter_header' => env('REST_PRESENTER_API_PRESENTER_HEADER', 'X-REST-PRESENTER'),
         'middleware' => [
-            // @todo implement middleware + test for VerifyApiKey::class,
+            VerifyApiKey::class,
             SubstituteBindings::class,
         ],
     ],
@@ -43,6 +44,7 @@ return [
         'key' => env('REST_PRESENTER_AUTH_API_KEY', 'rest-presenter-secret-key'),
         'token_name' => env('REST_PRESENTER_API_TOKEN_NAME', 'rest-presenter-api-token'),
         'key_header' => env('REST_PRESENTER_API_KEY_HEADER', 'X-REST-PRESENTER-API-KEY'),
+        'enable_api_key' => env('REST_PRESENTER_AUTH_ENABLE_API_KEY', true),
         'register_data_request_rules' => [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
