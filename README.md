@@ -42,6 +42,16 @@ REST_PRESENTER_EXPORT_PROVIDER=insomnia
 - `resources/rest-presenter/postman` (generated Postman collection)
 - `resources/rest-presenter/insomnia` (generated Insomnia collection)
 - `resources/types/` (generated TypeScript DTOs)
+- `tests/StarterKits/Filament` (generated tests)
+
+> **_WARNING:_** Please don't run any tests before you update your phpunit.xml file to include the following:
+
+```xml 
+<env name="DB_CONNECTION" value="sqlite"/>
+<env name="DB_DATABASE" value=":memory:"/>
+```
+
+Without this update, it will use your default database connection and refresh the database after each test.
 
 ### API Collection Auto-Generation
 Make sure you only run this command after the setup command to generate your API collection.
