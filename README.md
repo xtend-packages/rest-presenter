@@ -1,4 +1,4 @@
-<picture>
+<picture class="filament-hidden">
   <source media="(prefers-color-scheme: dark)" srcset="https://www.codelabx.ltd/assets/images/xtend-packages/rest-presenter/rest-presenter-banner-dark.png">
   <img alt="XtendLaravel" src="https://www.codelabx.ltd/assets/images/xtend-packages/rest-presenter/rest-presenter-banner-light.png">
 </picture>
