@@ -36,7 +36,10 @@ class {{ testClassName }} extends TestCase
         $response = $this->json(
             method: 'GET',
             uri: route('api.v1.filament.{{ $modelVarPlural }}.show', ${{ $modelVarSingular }}->id),
-            headers: ['x-rest-presenter' => '{{ modelClassName }}']
+            headers: [
+                'x-rest-presenter-api-key' => config('rest-presenter.auth.key'),
+                'x-rest-presenter' => '{{ modelClassName }}'
+            ],
         );
 
         $response->assertStatus(200);
@@ -58,7 +61,10 @@ class {{ testClassName }} extends TestCase
         $response = $this->json(
             method: 'GET',
             uri: route('api.v1.filament.{{ $modelVarPlural }}.index'),
-            headers: ['x-rest-presenter' => '{{ modelClassName }}']
+            headers: [
+                'x-rest-presenter-api-key' => config('rest-presenter.auth.key'),
+                'x-rest-presenter' => '{{ modelClassName }}'
+            ],
         );
 
         $response->assertStatus(200);

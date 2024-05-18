@@ -1,5 +1,42 @@
 # Changelog for RESTPresenter
 
+## [1.0.0-rc.2](https://github.com/xtend-packages/rest-presenter/compare/1.0.0-rc.1...1.0.0-rc.2) (2024-05-13)
+
+
+### Bug Fixes
+
+* Include API key with test generation ([79de5b1](https://github.com/xtend-packages/rest-presenter/commit/79de5b1791e4209a32cea61c992704ac390514cf))
+
+## [1.0.0-rc.1](https://github.com/xtend-packages/rest-presenter/compare/1.0.0-rc.0...1.0.0-rc.1) (2024-05-13)
+
+
+### Bug Fixes
+
+* No need to remove the API directory via XtendRouter ([c40a819](https://github.com/xtend-packages/rest-presenter/commit/c40a819c5f6defa2afdd39c49ad53dd6881569bf))
+
+
+### Documentation
+
+* Add info about tests + warning to update phpunit.xml ([bab9042](https://github.com/xtend-packages/rest-presenter/commit/bab904222f88e64a3d025519014334ab96c75f73))
+
+## [1.0.0-rc.0](https://github.com/xtend-packages/rest-presenter/compare/0.11.0...1.0.0-rc.0) (2024-05-13)
+
+
+### Features
+
+* Extra Security API Key (Enabled by Default) ([b7baa38](https://github.com/xtend-packages/rest-presenter/commit/b7baa380aa8f6caa600a3f04b18a3f431a2d83a5))
+* Improve tests + remove service provider ([151bb8b](https://github.com/xtend-packages/rest-presenter/commit/151bb8bc06c3b2ff1867dbdbca1f6b2928558f0c))
+
+
+### Bug Fixes
+
+* Skip RESTPresenterSetupCommand test issue with expectsChoice ([1a7ee6b](https://github.com/xtend-packages/rest-presenter/commit/1a7ee6b96262bc9a01975266f0eafcc568713659))
+
+
+### Documentation
+
+* Update for pre-release ([4af1f3d](https://github.com/xtend-packages/rest-presenter/commit/4af1f3d41ae724c9f8eca68cbe08e8ca4479ed8f))
+
 ## [0.11.0](https://github.com/xtend-packages/rest-presenter/compare/0.10.1...0.11.0) (2024-05-11)
 
 
