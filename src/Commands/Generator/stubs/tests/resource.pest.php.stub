@@ -16,7 +16,10 @@ describe('{{ modelClassName }}', function (): void {
 
         $response = getJson(
             uri: route('api.v1.filament.{{ $modelVarPlural }}.show', ${{ $modelVarSingular }}),
-            headers: ['x-rest-presenter' => '{{ modelClassName }}'],
+            headers: [
+                'x-rest-presenter-api-key' => config('rest-presenter.auth.key'),
+                'x-rest-presenter' => '{{ modelClassName }}'
+            ],
         )->assertOk()->json();
 
         expect($response)
@@ -29,7 +32,10 @@ describe('{{ modelClassName }}', function (): void {
     test('can list all {{ $modelVarPlural }}', function (): void {
         $response = getJson(
             uri: route('api.v1.filament.{{ $modelVarPlural }}.index'),
-            headers: ['x-rest-presenter' => '{{ modelClassName }}'],
+            headers: [
+                'x-rest-presenter-api-key' => config('rest-presenter.auth.key'),
+                'x-rest-presenter' => '{{ modelClassName }}'
+            ],
         )->assertOk()->json();
 
         expect($response)
