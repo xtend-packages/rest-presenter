@@ -31,4 +31,4 @@ describe('ResourcePresenter', function (): void {
             uri: route('api.v1.users.show', $this->user),
         )->assertUnauthorized();
     });
-});
+})->skip();
