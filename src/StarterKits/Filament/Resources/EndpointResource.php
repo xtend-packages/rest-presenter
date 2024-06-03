@@ -106,9 +106,6 @@ class EndpointResource extends Resource
             ])
             ->filters([
                 //
-            ])
-            ->actions([
-                Tables\Actions\ViewAction::make(),
             ]);
     }
 
