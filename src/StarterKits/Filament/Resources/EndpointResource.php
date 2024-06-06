@@ -10,7 +10,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
-use Illuminate\Support\Str;
 use XtendPackages\RESTPresenter\Models\Endpoint;
 use XtendPackages\RESTPresenter\StarterKits\Filament\Resources\EndpointResource\Pages;
 
@@ -51,11 +50,8 @@ class EndpointResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_authenticated')
-                    ->label('Authenticated')
+                    ->label('Auth')
                     ->default(false),
-                Forms\Components\Toggle::make('is_active')
-                    ->label('Active')
-                    ->default(true),
             ]);
     }
 
@@ -66,7 +62,6 @@ class EndpointResource extends Resource
             ->groups([
                 Group::make('group')
                     ->collapsible()
-                    ->getDescriptionFromRecordUsing(fn (Endpoint $record): string => Str::of($record->route)->beforeLast('.')->value())
                     ->titlePrefixedWithLabel(false),
             ])
             ->columns([
@@ -82,6 +77,7 @@ class EndpointResource extends Resource
                     ->weight('medium')
                     ->alignLeft(),
                 Tables\Columns\TextColumn::make('type')
+                    ->label('Method')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'GET' => 'success',
@@ -97,11 +93,7 @@ class EndpointResource extends Resource
                     ->alignLeft(),
                 Tables\Columns\IconColumn::make('is_authenticated')
                     ->boolean()
-                    ->label('Authenticated')
-                    ->alignCenter(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->boolean()
-                    ->label('Active')
+                    ->label('Auth')
                     ->alignCenter(),
             ])
             ->filters([

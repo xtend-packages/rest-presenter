@@ -32,7 +32,8 @@ class ManageEndpoints extends ManageRecords
                 ->button(),
             Actions\ActionGroup::make([
                 Actions\Action::make('generate-api-token')
-                    ->action(fn () => resolve(EndpointResource\Actions\GenerateApiTokenAction::class)())
+                    ->form(fn () => resolve(EndpointResource\Forms\GenerateApiTokenForm::class)())
+                    ->action(fn (array $data) => resolve(EndpointResource\Actions\GenerateApiTokenAction::class)($data))
                     ->label('Generate Token')
                     ->icon('heroicon-o-key'),
                 Actions\Action::make('manage-api-tokens')

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace XtendPackages\RESTPresenter\StarterKits\Filament\Resources\UserResource\Pages;
 
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use XtendPackages\RESTPresenter\StarterKits\Filament\Resources\UserResource;
 

@@ -6,19 +6,27 @@ namespace XtendPackages\RESTPresenter\StarterKits\Filament\Resources\EndpointRes
 
 use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Carbon;
 
 class GenerateApiTokenAction
 {
-    public function __invoke(): void
+    public function __invoke(array $data): void
     {
+        if ($data['abilities'] ?? false) {
+            $data['abilities'] = collect($data['abilities'])->map(
+                fn ($ability) => $ability['name'].($ability['only'] ? ':'.$ability['only'] : ''),
+            )->toArray();
+        }
+
         $config = [
-            'abilities' => type(config('rest-presenter.auth.abilities'))->asArray(),
-            'tokenName' => type(config('rest-presenter.auth.token_name'))->asString(),
+            'abilities' => type($data['abilities'] ?? config('rest-presenter.auth.abilities'))->asArray(),
+            'tokenName' => type($data['tokenName'] ?? config('rest-presenter.auth.token_name'))->asString(),
         ];
 
         $token = auth()->user()->createToken(
             name: $config['tokenName'],
             abilities: $config['abilities'],
+            expiresAt: Carbon::parse($data['expires_at']) ?? null,
         )->plainTextToken;
 
         Notification::make()
