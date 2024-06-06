@@ -1,0 +1,24 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ resourceNamespace }} as {{ aliasResource }};
+use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
+
+class {{ class }} extends {{ aliasResource }}
+{
+    public static bool $onlyRegisterActionRoutes = true;
+
+    /**
+     * @return array<string, string>
+     */
+    public function routeActions(): array
+    {
+        return [
+            'register' => Actions\Register::class,
+            'login' => Actions\Login::class,
+            'logout' => Actions\Logout::class,
+            'reset-password' => Actions\ResetPassword::class,
+        ];
+    }
+}

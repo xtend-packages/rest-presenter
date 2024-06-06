@@ -112,7 +112,11 @@ final class MakeResource extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return __DIR__.'/stubs/'.type($this->argument('type'))->asString().'/resource.controller.php.stub';
+        $stub = $this->argument('name') === 'Auth'
+            ? 'resource.controller.auth.php.stub'
+            : 'resource.controller.php.stub';
+
+        return __DIR__.'/stubs/'.type($this->argument('type'))->asString().'/'.$stub;
     }
 
     protected function getDefaultNamespace($rootNamespace): string
