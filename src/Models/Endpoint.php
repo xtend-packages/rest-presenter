@@ -13,8 +13,6 @@ class Endpoint extends Model
 {
     use Sushi;
 
-    protected $rows = [];
-
     public function getRows(): array
     {
         return Http::withOptions(['verify' => false])
@@ -32,17 +30,16 @@ class Endpoint extends Model
                     $group = 'API Resources';
                 }
 
+                $authenticatedRoute = collect($v['middleware'])->contains('auth:sanctum');
+
                 return [
                     'id' => $k + 1,
                     'group' => $group,
                     'route' => $v['name'],
                     'type' => $v['methods'][0],
                     'uri' => $v['uri'],
-                    'is_authenticated' => true,
-                    'is_active' => true,
+                    'is_authenticated' => $authenticatedRoute,
                 ];
-            })->filter(
-                fn ($v) => $v['type'] === 'GET' || ! Str::of($v['route'])->contains('filament'),
-            )->values()->toArray();
+            })->toArray();
     }
 }
