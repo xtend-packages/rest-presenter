@@ -1,5 +1,53 @@
 # Changelog for RESTPresenter
 
+## [1.0.0](https://github.com/xtend-packages/rest-presenter/compare/1.0.0-rc.2...1.0.0) (2024-06-07)
+
+
+### Features
+
+* Apply auth middleware when isAuthenticated is true ([731988d](https://github.com/xtend-packages/rest-presenter/commit/731988d8e60e4d3822cd063ed67c4e7fb32dd835))
+* Generate collection auto commit ([0338a79](https://github.com/xtend-packages/rest-presenter/commit/0338a791c6cd1240652234013a177d11f896eaa4))
+* Improvements to endpoint resource & token generation ([d28e74c](https://github.com/xtend-packages/rest-presenter/commit/d28e74cc01a3fc7be6cc5f37250fd44c9d57776c))
+* Manage users & generate tokens ([5582afa](https://github.com/xtend-packages/rest-presenter/commit/5582afa269ab5d79bfe08afda539192c6c2886da))
+* New filament command + auto commits ([ed71d28](https://github.com/xtend-packages/rest-presenter/commit/ed71d288488672ff76647017724204ce33b1e641))
+* No need to publish config everything now configurable from env ([0189819](https://github.com/xtend-packages/rest-presenter/commit/0189819c4dfe5cba197d95e8a3e9d11bf52625c3))
+* Setup command now has the option to auto commit ([82f268d](https://github.com/xtend-packages/rest-presenter/commit/82f268d5453ef513f8da60458dc0317d950e93d3))
+
+
+### Bug Fixes
+
+* Generate separate auth stub for sanctum overrides ([8c857d8](https://github.com/xtend-packages/rest-presenter/commit/8c857d8d2feea797832cde9f1d0922faaed820aa))
+* Hide duplicated logo for filament plugin ([ef891b9](https://github.com/xtend-packages/rest-presenter/commit/ef891b9c4c3c9d198f30446871d2a9df873cc7d9))
+* Move type generation to rest-presenter directory ([0b57273](https://github.com/xtend-packages/rest-presenter/commit/0b572735641482bbaa493c8f0874c3347dc741e7))
+* phpstan ignore multiselect options prompt ([69ded40](https://github.com/xtend-packages/rest-presenter/commit/69ded40bf70e76093aa5c228c93ce42196592840))
+* Remove view action for endpoints not needed right now ([f0ec0bf](https://github.com/xtend-packages/rest-presenter/commit/f0ec0bf4c18a26618a4116c2ce57dc0a94ffe103))
+* Skip failing test fix later once we enable test coverage ([030ccf2](https://github.com/xtend-packages/rest-presenter/commit/030ccf206232a5adac4e8374f4e3f5b396ef4c69))
+* User resource authenticated by default ([4207592](https://github.com/xtend-packages/rest-presenter/commit/42075929a6becaddb6b5c4a2b6154d13882620e9))
+
+
+### Documentation
+
+* Condense introduction ([fdf68f9](https://github.com/xtend-packages/rest-presenter/commit/fdf68f9a92aed9508bc5cd8cb9ee513624bf47b0))
+* Improve and extend README ([2ee5a27](https://github.com/xtend-packages/rest-presenter/commit/2ee5a270c4ed79450819d238b6b4634b6cfbcad2))
+* Improve Filament Plugin Integration ([854dd38](https://github.com/xtend-packages/rest-presenter/commit/854dd3818c079732e4cd05a299114166776d558c))
+* Improve Introduction ([ec4a947](https://github.com/xtend-packages/rest-presenter/commit/ec4a947152db8fcc60f2092f3a07b84e1a4f3d49))
+* Improve RESTPresenter Package ([d9813f5](https://github.com/xtend-packages/rest-presenter/commit/d9813f508cbd1ed5851fcf84cff51dfe017a92d6))
+* Update README & improve CONTRIBUTING guide ([1f86b79](https://github.com/xtend-packages/rest-presenter/commit/1f86b79bcf425482fb2043f3342fa71e1e95801e))
+* Update README to include Filament Plugin ([f684ecf](https://github.com/xtend-packages/rest-presenter/commit/f684ecf5e5ca4522ecb59fbe6cf59d8e583833eb))
+* Update to use correct version + test failure advice ([dd12bb6](https://github.com/xtend-packages/rest-presenter/commit/dd12bb60ca1e83f90de06871fa9a475178ce3dd1))
+
+
+### Code Refactoring
+
+* Resource generation now based from selected model ([f521265](https://github.com/xtend-packages/rest-presenter/commit/f521265043f49c24e30bb854ce7b2b3bcb645c69))
+
+
+### Style Changes
+
+* Rector fixes ([91502a4](https://github.com/xtend-packages/rest-presenter/commit/91502a4ee749b9ebea6ee7ab75fa8a4c9a9c9f4e))
+* Reformat & Rector fixes ([960b893](https://github.com/xtend-packages/rest-presenter/commit/960b89305dce6a62c33c29007e34fb7469e87f75))
+* Resolve phpstan issues ([55db517](https://github.com/xtend-packages/rest-presenter/commit/55db5174417daff7dc1ca73835bf5d66d5370348))
+
 ## [1.0.0-rc.2](https://github.com/xtend-packages/rest-presenter/compare/1.0.0-rc.1...1.0.0-rc.2) (2024-05-13)
 
 
