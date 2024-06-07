@@ -146,60 +146,62 @@ Tests are generated for each resource in the Filament test suite.
 
 - **Adjustments:** You're encouraged to make adjustments as needed based on the test results. This could involve modifying either the data object or the factory to align with the expected types and specifications.
 
-
 ## RESTPresenter Package
 
 ### Key Features
 
-- Effortless REST API creation with Laravel API Resources.
-- Simplified data transformation using our Presenter layer.
-- Built-in example filters and presenters for rapid API development.
-- Testing support to ensure reliability and stability.
-- Automating API creation from resources in Filament.
-- TypeScript auto-generation for API resource DTOs.
-- Postman and Insomnia collection generation for easy API testing.
-- Secure your API collection with a security API key.
-- Simple authentication middleware for your API resources.
+- **Effortless REST API Creation:** Build REST APIs with ease using Laravel API Resources.
+- **Simplified Data Transformation:** Utilize our Presenter layer for streamlined data transformation.
+- **Built-in Filters and Presenters:** Accelerate API development with pre-built example filters and presenters.
+- **Comprehensive Testing Support:** Ensure your APIs are reliable and stable with robust testing features.
+- **Automated API Creation:** Seamlessly generate APIs from resources in Filament.
+- **TypeScript Auto-Generation:** Automatically create TypeScript DTOs for your API resources.
+- **API Collection Generation:** Easily test your APIs with Postman and Insomnia collection generation.
+- **Secure API Access:** Protect your API with a configurable security API key.
+- **Simple Authentication Middleware:** Add authentication to your API resources effortlessly.
 
 ### Planned Features
-- Release of Sponsorware API Kits for comprehensive API integration.
-- Customisable kits providing a solid foundation for API development.
-- Future open-sourcing of full kits upon reaching sponsorship milestones.
-- Widget API generation for easy integration with your frontend.
-- Social Kit for login and registration with social media platforms.
+
+- **Sponsorware API Kits:** Comprehensive API integration kits available for sponsors.
+- **Customizable Kits:** Provide a solid foundation for your API development needs.
+- **Open-Source Milestones:** Full kits will be open-sourced upon reaching sponsorship goals.
+- **Widget API Generation:** Simplify frontend integration with widget API generation.
+- **Social Kit:** Facilitate login and registration using social media platforms.
 
 Check out our [Roadmap](https://github.com/orgs/xtend-packages/projects/1/views/1) for upcoming features and improvements. Feel free to open an issue for suggestions or feature requests. Join us on Discord to start a discussion and stay updated on the latest news.
 
 ### What Makes This Package Unique?
+
 RESTPresenter is more than just a CRUD generator. It offers:
-- A Presenter layer for easy data transformation without modifying API resources.
-- Compliance with standard features like OpenAPI, RESTful CRUD, filtering/pagination.
-- Better business logic and direct access to required data for requests.
-- Everything is extendable and customisable to fit your project's needs.
-- API Kits to jumpstart your development with pre-built features and resources.
+
+- **Presenter Layer:** Easily transform data without altering API resources.
+- **Standards Compliance:** Adheres to OpenAPI, RESTful CRUD, and filtering/pagination standards.
+- **Enhanced Business Logic:** Directly access required data for requests, improving business logic.
+- **Extendable and Customizable:** Tailor every aspect to fit your project's unique needs.
+- **API Kits:** Jumpstart development with pre-built features and resources.
 
 ### So What Are Presenters?
-Presenters are simply a way to transform data before it's sent to the client. They allow you to modify the data in any way you want, without modifying the API resources. This is especially useful when you need to transform data in a specific way for a particular endpoint before sending it to the client.
 
-To use a presenter, simply add the header property `X-REST-PRESENTER: PresenterName` to your request. RESTPresenter will automatically apply the presenter to the data before sending it to the client.
-Presenters can be used with collections and single resources. They can also be used with nested resources, allowing you to transform data at any level of the response.
+Presenters allow you to transform data before it's sent to the client, enabling modifications without altering API resources. This is particularly useful for transforming data for specific endpoints.
+
+To use a presenter, add the header property `X-REST-PRESENTER: PresenterName` to your request. RESTPresenter will automatically apply the presenter to the data before sending it to the client. Presenters work with collections, single resources, and nested resources, allowing for data transformation at any response level.
 
 ### Filament Starter Kit
 
-Included in the RESTPresenter package is a Filament Starter Kit. This kit provides a solid foundation for your Filament project and includes:
+The RESTPresenter package includes a Filament Starter Kit, providing a robust foundation for your Filament projects:
 
-- **API Resources:** Automatically generated API resources for your Filament project.
-- **Data Objects:** Spatie's Data objects for easy data transformation.
+- **API Resources:** Auto-generated API resources for your Filament project.
+- **Data Objects:** Utilize Spatie's Data objects for straightforward data transformation.
 - **Presenters:** Example presenters for your API resources.
-- **Tests:** Comprehensive test suite for your API resources.
-- **Types:** TypeScript DTOs for your API resources.
+- **Comprehensive Tests:** Ensure reliability with a full test suite for your API resources.
+- **TypeScript DTOs:** Automatically generate TypeScript DTOs for your API resources.
 
-#### Need something more advanced?
+#### Need Something More Advanced?
 
-We are planning to implement a full Filament Kit with additional features to support full CRUD generation for your Filament project.
-This is not suited to everyone and is intended for those who require a more advanced solution. If you're interested in this, please let us know by reaching out to us on Discord. We plan to develop and release this kit under the sponsorship model. This means that once we reach our sponsorship milestones, we will open-source the full Filament Kit.
+We are developing a full Filament Kit with additional features for comprehensive CRUD generation in your Filament project. This advanced solution is intended for those who require more robust functionality and will be released under a sponsorship model. Once we reach our sponsorship milestones, the full Filament Kit will be open-sourced.
 
-The full kit will save developers time, however it's worth noting that you are not restricted in any way by using the Starter Kit. You can still implement full CRUD for your resources but this takes more time and effort. The full kit will provide a more advanced solution out of the box for those who require it.
+The full kit will save developers time by providing advanced solutions out of the box. However, the Starter Kit still allows for full CRUD implementation, though it may require more time and effort. If you’re interested in the advanced Filament Kit, reach out to us on Discord to express your interest and support its development through sponsorship.
+
 
 
 ## Standalone Laravel Setup
