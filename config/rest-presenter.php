@@ -3,9 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Routing\Middleware\SubstituteBindings;
-use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 use XtendPackages\RESTPresenter\Middleware\VerifyApiKey;
-use XtendPackages\RESTPresenter\Resources\Users\Filters;
 use XtendPackages\RESTPresenter\Resources\Users\Presenters;
 
 return [

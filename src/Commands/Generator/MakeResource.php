@@ -307,9 +307,9 @@ final class MakeResource extends GeneratorCommand
             /** @var array<string> $selectedFilters */
             $selectedFilters = multiselect(
                 label: __('Here are some suggested filters we found in your :model model to add to your generated resource:', ['model' => class_basename($this->model)]),
-                options: $suggestFilters, // @phpstan-ignore-line
-                default: $suggestFilters->keys(), // @phpstan-ignore-line
-                hint: 'Press <comment>Space</> to select the filters then <comment>Enter</> to confirm.'
+                options: $suggestFilters,
+                default: $suggestFilters->keys(),
+                hint: 'Press <comment>Space</> to select the filters then <comment>Enter</> to confirm.',
             );
 
             $this->filters = $suggestFilters->only($selectedFilters);
@@ -318,7 +318,7 @@ final class MakeResource extends GeneratorCommand
         $addMoreFilters = select(
             label: 'Would you like to add any custom filters for this resource?',
             options: ['Yes', 'No'],
-            hint: 'Press <comment>Enter</> to select an option.'
+            hint: 'Press <comment>Enter</> to select an option.',
         );
 
         if ($addMoreFilters === 'Yes') {

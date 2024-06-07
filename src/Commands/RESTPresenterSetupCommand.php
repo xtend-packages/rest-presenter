@@ -9,8 +9,8 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 use UnhandledMatchError;
-
 use XtendPackages\RESTPresenter\Concerns\InteractsWithGit;
+
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\multiselect;
 

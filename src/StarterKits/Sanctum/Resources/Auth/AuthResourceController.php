@@ -17,10 +17,10 @@ class AuthResourceController extends ResourceController
     public function routeActions(): array
     {
         return [
-            'register' => \XtendPackages\RESTPresenter\StarterKits\Sanctum\Actions\Register::class,
-            'login' => \XtendPackages\RESTPresenter\StarterKits\Sanctum\Actions\Login::class,
-            'logout' => \XtendPackages\RESTPresenter\StarterKits\Sanctum\Actions\Logout::class,
-            'reset-password' => \XtendPackages\RESTPresenter\StarterKits\Sanctum\Actions\ResetPassword::class,
+            'register' => Actions\Register::class,
+            'login' => Actions\Login::class,
+            'logout' => Actions\Logout::class,
+            'reset-password' => Actions\ResetPassword::class,
         ];
     }
 }

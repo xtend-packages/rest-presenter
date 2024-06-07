@@ -26,7 +26,7 @@ final class SanctumApiKitServiceProvider extends ServiceProvider
             ->line(Lang::get('You are receiving this email because we received a password reset request for your account.'))
             ->action(Lang::get('Login'), url(config('app.frontend_url'))) // @phpstan-ignore-line
             ->line(Lang::get('Please use the following temporary password to login to your account: :password', [
-                'password' => \XtendPackages\RESTPresenter\StarterKits\Sanctum\Actions\ResetPassword::generateTemporaryPassword($notifiable, $token),// @phpstan-ignore-line
+                'password' => Actions\ResetPassword::generateTemporaryPassword($notifiable, $token), // @phpstan-ignore-line
             ]))
             ->line(Lang::get('If you did not request a password reset, no further action is required.')));
     }
