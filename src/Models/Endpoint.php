@@ -18,7 +18,7 @@ class Endpoint extends Model
         return Http::withOptions(['verify' => false])
             ->withHeader('X-REST-PRESENTER-API-KEY', config('rest-presenter.auth.key'))
             ->get(route('api.v1.resources'))
-            ->collect()->transform(function ($v, $k) {
+            ->collect()->transform(function (array $v, $k): array {
 
                 $group = Str::of($v['name'])
                     ->beforeLast('.')

@@ -14,7 +14,7 @@ class GenerateApiTokenAction
     {
         if ($data['abilities'] ?? false) {
             $data['abilities'] = collect($data['abilities'])->map(
-                fn ($ability) => $ability['name'].($ability['only'] ? ':'.$ability['only'] : ''),
+                fn ($ability): string => $ability['name'].($ability['only'] ? ':'.$ability['only'] : ''),
             )->toArray();
         }
 

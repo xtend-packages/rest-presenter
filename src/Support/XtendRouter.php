@@ -51,7 +51,7 @@ final class XtendRouter extends Router
                     fn ($route) => Str::startsWith($route['uri'], 'api/v1'),
                 )
                 ->filter(
-                    fn ($route) => $route['methods'][0] === 'GET' || ! Str::of($route['uri'])->contains('filament'),
+                    fn ($route): bool => $route['methods'][0] === 'GET' || ! Str::of($route['uri'])->contains('filament'),
                 )
                 ->values();
         })->name('resources');

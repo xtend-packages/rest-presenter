@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-it('defines fillable attributes', function () {
+it('defines fillable attributes', function (): void {
     $user = new XtendPackages\RESTPresenter\Models\User();
     $this->assertEquals(['name', 'email', 'password'], $user->getFillable());
 });
 
-it('defines hidden attributes', function () {
+it('defines hidden attributes', function (): void {
     $user = new XtendPackages\RESTPresenter\Models\User();
     $this->assertEquals(['password', 'remember_token'], $user->getHidden());
 });
 
-it('returns correct factory instance', function () {
+it('returns correct factory instance', function (): void {
     $factory = XtendPackages\RESTPresenter\Models\User::newFactory();
     $this->assertInstanceOf(XtendPackages\RESTPresenter\Factories\UserFactory::class, $factory);
 });
 
-it('casts attributes correctly', function () {
+it('casts attributes correctly', function (): void {
     $user = new XtendPackages\RESTPresenter\Models\User();
     $casts = $user->getCasts();
     $this->assertArrayHasKey('email_verified_at', $casts);

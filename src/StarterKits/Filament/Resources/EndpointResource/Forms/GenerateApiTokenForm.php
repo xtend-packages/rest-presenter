@@ -8,7 +8,7 @@ use Filament\Forms;
 
 class GenerateApiTokenForm
 {
-    public function __invoke()
+    public function __invoke(): array
     {
         return [
             Forms\Components\TextInput::make('tokenName')
