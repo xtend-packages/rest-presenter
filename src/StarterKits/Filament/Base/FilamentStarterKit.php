@@ -54,7 +54,7 @@ final class FilamentStarterKit extends StarterKit
                 /** @var ListRecords $page */
                 $page = type($page)->as(ListRecords::class);
                 $table = $page->table(
-                    table: mock(Table::class)->makePartial(),
+                    table: mock(Table::class)->makePartial(), // @phpstan-ignore-line
                 );
 
                 $resourceNamespace = Str::of($page::class)

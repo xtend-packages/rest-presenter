@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
+namespace {{ namespace }};
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Resources\Auth;
-
-use XtendPackages\RESTPresenter\Resources\ResourceController;
+use {{ resourceNamespace }} as {{ aliasResource }};
 use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
 
-class AuthResourceController extends ResourceController
+class {{ class }} extends {{ aliasResource }}
 {
     public static bool $onlyRegisterActionRoutes = true;
 
