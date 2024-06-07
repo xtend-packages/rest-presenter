@@ -17,16 +17,6 @@ return [
         'ts_types_trailing_semicolon' => env('REST_PRESENTER_GENERATOR_TS_TYPES_TRAILING_SEMICOLON', true),
         'test_path' => env('REST_PRESENTER_GENERATOR_TEST_PATH', 'tests/Feature/Api/v1'),
         'test_namespace' => env('REST_PRESENTER_GENERATOR_TEST_NAMESPACE', 'Tests\Feature\Api\v1'),
-        'structure' => [
-            'actions' => 'Actions',
-            'concerns' => 'Concerns',
-            'contracts' => 'Contracts',
-            'data' => 'Data',
-            'enums' => 'Enums',
-            'exceptions' => 'Exceptions',
-            'resources' => 'Resources',
-            'support' => 'Support',
-        ],
     ],
     'api' => [
         'prefix' => env('REST_PRESENTER_API_PREFIX', 'api'),
@@ -42,17 +32,17 @@ return [
     'auth' => [
         'abilities' => ['*'],
         'key' => env('REST_PRESENTER_AUTH_API_KEY', 'rest-presenter-secret-key'),
-        'token_name' => env('REST_PRESENTER_API_TOKEN_NAME', 'rest-presenter-api-token'),
-        'key_header' => env('REST_PRESENTER_API_KEY_HEADER', 'X-REST-PRESENTER-API-KEY'),
+        'token_name' => env('REST_PRESENTER_AUTH_API_TOKEN_NAME', 'rest-presenter-api-token'),
+        'key_header' => env('REST_PRESENTER_AUTH_API_KEY_HEADER', 'X-REST-PRESENTER-API-KEY'),
         'enable_api_key' => env('REST_PRESENTER_AUTH_ENABLE_API_KEY', true),
         'register_data_request_rules' => [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'confirmed', 'min:8'],
+            'name' => env('REST_PRESENTER_AUTH_REGISTER_DATA_NAME', 'required|string|max:255'),
+            'email' => env('REST_PRESENTER_AUTH_REGISTER_DATA_EMAIL', 'required|string|email|max:255|unique:users,email'),
+            'password' => env('REST_PRESENTER_AUTH_REGISTER_DATA_PASSWORD', 'required|string|min:8|max:255|confirmed'),
         ],
         'login_data_request_rules' => [
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:8'],
+            'email' => env('REST_PRESENTER_AUTH_LOGIN_DATA_EMAIL', 'required|string|email|max:255'),
+            'password' => env('REST_PRESENTER_AUTH_LOGIN_DATA_PASSWORD', 'required|string|min:8'),
         ],
         'logout_revoke_all_tokens' => env('REST_PRESENTER_AUTH_LOGOUT_REVOKE_ALL_TOKENS', false),
         'rate_limit' => [
@@ -63,24 +53,23 @@ return [
         'provider' => env('REST_PRESENTER_EXPORT_PROVIDER', 'postman'),
         'insomnia' => [
             'workspace' => [
-                'name' => config('app.name').' (RESTPresenter)',
-                'description' => config('app.name').' RESTPresenter Workspace',
+                'name' => env('REST_PRESENTER_EXPORT_INSOMNIA_WORKSPACE_NAME', config('app.name').' (RESTPresenter)'),
+                'description' => env('REST_PRESENTER_EXPORT_INSOMNIA_WORKSPACE_DESCRIPTION', config('app.name').' RESTPresenter Workspace'),
             ],
             'environment' => [
-                'name' => config('app.name').' (RESTPresenter)',
-                'base_url' => config('app.url'),
-                'version' => 'v1',
+                'name' => env('REST_PRESENTER_EXPORT_INSOMNIA_ENVIRONMENT_NAME', config('app.name').' (RESTPresenter)'),
+                'base_url' => env('REST_PRESENTER_EXPORT_INSOMNIA_ENVIRONMENT_BASE_URL', config('app.url')),
+                'version' => env('REST_PRESENTER_EXPORT_INSOMNIA_ENVIRONMENT_VERSION', 'v1'),
             ],
         ],
         'postman' => [
             'info' => [
-                'name' => config('app.name').' (RESTPresenter)',
-                'schema' => 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
+                'name' => env('REST_PRESENTER_EXPORT_POSTMAN_INFO_NAME', config('app.name').' (RESTPresenter)'),
+                'schema' => env('REST_PRESENTER_EXPORT_POSTMAN_INFO_SCHEMA', 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json'),
             ],
-            'auth_middleware' => 'auth:api',
             'authentication' => [
-                'method' => env('POSTMAN_EXPORT_AUTH_METHOD', 'Bearer'),
-                'token' => env('POSTMAN_EXPORT_AUTH_TOKEN', 'YOUR_API_TOKEN'),
+                'method' => env('REST_PRESENTER_EXPORT_POSTMAN_AUTH_METHOD', 'bearer'),
+                'token' => env('REST_PRESENTER_EXPORT_POSTMAN_AUTH_TOKEN', 'YOUR_API_TOKEN'),
             ],
             'headers' => [
                 [
@@ -94,29 +83,12 @@ return [
             ],
         ],
     ],
-    'data' => [
-        'response' => DefaultResponse::class,
-    ],
-    'presenter' => [
-        'default' => 'Default',
-        'namespace' => 'Presenters',
-        'path' => 'Presenters',
-    ],
     'resources' => [
-        'auth' => [
-            // @todo: Add auth overrides here
-        ],
         'user' => [
             'model' => config('auth.providers.users.model'),
-            'actions' => [
-                // @todo: Add actions here
-            ],
-            'filters' => [
-                'email_verified_at' => Filters\UserEmailVerified::class,
-            ],
             'presenters' => [
-                'profile' => Presenters\Profile::class,
-                'user' => Presenters\User::class,
+                'profile' => env('REST_PRESENTER_RESOURCES_USER_PROFILE', Presenters\Profile::class),
+                'user' => env('REST_PRESENTER_RESOURCES_USER_USER', Presenters\User::class),
             ],
         ],
     ],
