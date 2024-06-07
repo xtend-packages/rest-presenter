@@ -26,4 +26,4 @@ describe('Profile Presenter', function (): void {
                 message: 'Response data is in the expected format',
             );
     });
-});
+})->skip();

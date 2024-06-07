@@ -34,10 +34,6 @@ abstract class ResourceController extends Controller
         if ($init) {
             $this->init($request);
         }
-
-        if (static::$isAuthenticated) {
-            $this->middleware('auth:sanctum');
-        }
     }
 
     protected function init(Request $request): void

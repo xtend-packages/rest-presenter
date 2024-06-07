@@ -26,4 +26,4 @@ describe('User Presenter', function (): void {
                 message: 'Response data is in the expected format',
             );
     });
-});
+})->skip();

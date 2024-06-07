@@ -1,6 +1,6 @@
 {
     "name": "xtend-packages/rest-presenter",
-    "version": "0.11.0",
+    "version": "1.0.0-rc.2",
     "description": "REST API Presenter & Generator for Laravel",
     "keywords": [
         "code-labx",
@@ -19,6 +19,8 @@
     ],
     "require": {
         "php": "^8.2",
+        "calebporzio/sushi": "^2.5",
+        "knuckleswtf/scribe": "^4.35",
         "laravel/framework": "^10|^11",
         "laravel/prompts": "^0.1.16",
         "laravel/sanctum": "^3.0|^4.0",
@@ -39,6 +41,7 @@
         "pestphp/pest-plugin-faker": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.3",
         "pestphp/pest-plugin-livewire": "^2.1",
+        "pestphp/pest-plugin-type-coverage": "^2.8",
         "phpunit/phpunit": "^10",
         "rector/rector": "^1.0.4",
         "spatie/invade": "^1.1",
@@ -61,17 +64,25 @@
     },
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
-        "pest": "vendor/bin/pest --testsuite=RESTPresenter",
-        "pest-coverage": "vendor/bin/pest --testsuite=RESTPresenter --coverage",
-        "test:format": "pint --test",
-        "test:refactor": "rector --dry-run",
-        "test:types": "phpstan analyse",
+        "test:arch": "pest --filter=arch",
+        "test:type-coverage": "pest --type-coverage --min=100",
+        "test:unit": "pest --parallel --coverage --min=100",
+        "test:profile": "pest --profile --parallel",
+        "check:format": "pint --test",
+        "check:refactor": "rector --dry-run",
+        "check:types": "phpstan analyse",
         "format": "vendor/bin/pint",
         "refactor": "rector",
+        "check": [
+            "@check:format",
+            "@check:refactor",
+            "@check:types"
+        ],
         "test": [
-            "@test:format",
-            "@test:refactor",
-            "@test:types"
+            "@test:arch",
+            "@test:type-coverage",
+            "@test:unit",
+            "@test:profile"
         ]
     },
     "config": {
@@ -84,7 +95,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "XtendPackages\\RESTPresenter\\RESTPresenterServiceProvider"
+                "XtendPackages\\RESTPresenter\\RESTPresenterServiceProvider",
+                "XtendPackages\\RESTPresenter\\StarterKits\\Filament\\FilamentPanelProvider"
             ]
         }
     },
