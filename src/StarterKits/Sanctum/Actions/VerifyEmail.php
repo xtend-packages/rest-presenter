@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
+namespace XtendPackages\RESTPresenter\StarterKits\Sanctum\Actions;
 
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\JsonResponse;

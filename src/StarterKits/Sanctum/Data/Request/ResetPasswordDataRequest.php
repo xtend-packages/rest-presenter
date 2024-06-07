@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Data\Request;
+namespace XtendPackages\RESTPresenter\StarterKits\Sanctum\Data\Request;
 
 use Spatie\LaravelData\Attributes\Validation\Email;
 use Spatie\LaravelData\Data;

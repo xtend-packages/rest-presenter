@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Concerns;
+namespace XtendPackages\RESTPresenter\StarterKits\Sanctum\Concerns;
 
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Data\Request\LoginDataRequest;
+use XtendPackages\RESTPresenter\StarterKits\Sanctum\Data\Request\LoginDataRequest;
 
 trait WithSanctumRateLimit
 {
