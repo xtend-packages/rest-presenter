@@ -11,7 +11,7 @@ use SplFileInfo;
 trait InteractsWithClassDefinitions
 {
     /**
-     * @return Collection<string, non-empty-array<string, string>>
+     * @return Collection<string, non-empty-array<string, class-string>>
      */
     protected function scanClassDefinitions(string $filenamePrefix, string $removeFromGroupKey, string $parentClass): Collection
     {

@@ -50,6 +50,7 @@ final class XtendStarterKit extends Command
         }
 
         $this->generateStarterKit($starterKitsDirectory, $kitPath);
+        $this->autoDiscoverResources($kitPath);
 
         return self::SUCCESS;
     }
@@ -118,7 +119,8 @@ final class XtendStarterKit extends Command
     {
         $kitNamespace = Str::of($kitPath)->replace('/', '\\')->value();
         $supportedKit = match ($kitNamespace) {
-            'Filament\Base' => 'FilamentStarterKit',
+            'Auth\\Sanctum\\Base' => 'SanctumStarterKit',
+            'Filament\\Base' => 'FilamentStarterKit',
             default => false,
         };
 
@@ -131,6 +133,8 @@ final class XtendStarterKit extends Command
         /** @var \XtendPackages\RESTPresenter\Base\StarterKit $starterKit */
         $starterKit = resolve('XtendPackages\\RESTPresenter\\StarterKits\\'.$kitNamespace.'\\'.$supportedKit);
         $resources = $starterKit->autoDiscover();
+
+        $this->filesystem->deleteDirectory(config('rest-presenter.generator.path').'/StarterKits/'.$kitPath);
 
         if (! $resources) {
             $this->components->warn(__('No resources were found for ":supported_kit"', ['supported_kit' => $supportedKit]));

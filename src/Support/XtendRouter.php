@@ -46,9 +46,14 @@ final class XtendRouter extends Router
                 'name' => $route->action['as'] ?? null,
                 'action' => $route->action['uses'] ?? null,
                 'middleware' => $route->action['middleware'] ?? null,
-            ])->filter(
-                fn ($route) => Str::startsWith($route['uri'], 'api/v1'),
-            )->values();
+            ])
+                ->filter(
+                    fn ($route) => Str::startsWith($route['uri'], 'api/v1'),
+                )
+                ->filter(
+                    fn ($route): bool => $route['methods'][0] === 'GET' || ! Str::of($route['uri'])->contains('filament'),
+                )
+                ->values();
         })->name('resources');
 
         $this->resource('users', UserResourceController::class);
@@ -98,8 +103,9 @@ final class XtendRouter extends Router
             ->value();
 
         $controller = file_exists($extendControllerFile) ? $xtendController : $controller;
+        $authenticated = $controller::$isAuthenticated ?? false;
 
-        return Route::apiResource($name, $controller);
+        return Route::apiResource($name, $controller)->middleware($authenticated ? ['auth:sanctum'] : []);
     }
 
     /**

@@ -171,7 +171,6 @@ final class MakeData extends GeneratorCommand
                 default => 'string',
             };
 
-            /** @var Model $model */
             $model = type(new $model)->as(Model::class);
             if (array_key_exists($field, $model->getCasts()) && $propertyType !== 'array') {
                 $propertyType = 'string';

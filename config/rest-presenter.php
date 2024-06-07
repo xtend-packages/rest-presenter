@@ -12,7 +12,7 @@ return [
     'generator' => [
         'path' => env('REST_PRESENTER_GENERATOR_PATH', 'app/Api'),
         'namespace' => env('REST_PRESENTER_GENERATOR_NAMESPACE', 'App\Api'),
-        'ts_types_path' => env('REST_PRESENTER_GENERATOR_TS_TYPES_PATH', 'types'),
+        'ts_types_path' => env('REST_PRESENTER_GENERATOR_TS_TYPES_PATH', 'rest-presenter/types'),
         'ts_types_keyword' => env('REST_PRESENTER_GENERATOR_TS_TYPES_KEYWORD', 'interface'),
         'ts_types_trailing_semicolon' => env('REST_PRESENTER_GENERATOR_TS_TYPES_TRAILING_SEMICOLON', true),
         'test_path' => env('REST_PRESENTER_GENERATOR_TEST_PATH', 'tests/Feature/Api/v1'),
