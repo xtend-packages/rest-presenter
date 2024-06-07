@@ -8,6 +8,9 @@ use Filament\Forms;
 
 class GenerateApiTokenForm
 {
+    /**
+     * @return array<int, mixed>
+     */
     public function __invoke(): array
     {
         return [

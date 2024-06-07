@@ -39,7 +39,7 @@ class TokensRelationManager extends RelationManager
                 Tables\Columns\IconColumn::make('expired')
                     ->boolean()
                     ->color(fn (bool $state): string => $state ? 'danger' : 'gray')
-                    ->getStateUsing(fn (PersonalAccessToken $record) => $record->expires_at->isPast())
+                    ->getStateUsing(fn (PersonalAccessToken $record) => $record->expires_at->isPast()) // @phpstan-ignore-line
                     ->alignCenter(),
             ])
             ->filters([

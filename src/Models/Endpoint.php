@@ -7,18 +7,33 @@ namespace XtendPackages\RESTPresenter\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Sushi\Sushi;
 
+/**
+ * @property int $id
+ * @property string $group
+ * @property string $route
+ * @property string $type
+ * @property string $uri
+ * @property bool $is_authenticated
+ */
 class Endpoint extends Model
 {
     use Sushi;
 
+    /**
+     * @return array<mixed>
+     */
     public function getRows(): array
     {
-        return Http::withOptions(['verify' => false])
-            ->withHeader('X-REST-PRESENTER-API-KEY', config('rest-presenter.auth.key'))
+        return Http::withOptions(type(['verify' => false])->asArray())
+            ->withHeader('X-REST-PRESENTER-API-KEY', type(config('rest-presenter.auth.key'))->asString())
             ->get(route('api.v1.resources'))
-            ->collect()->transform(function (array $v, $k): array {
+            ->collect()->transform(function ($v, $k) {
+                if (! is_array($v)) {
+                    throw new InvalidArgumentException('v must be an array');
+                }
 
                 $group = Str::of($v['name'])
                     ->beforeLast('.')
@@ -30,7 +45,10 @@ class Endpoint extends Model
                     $group = 'API Resources';
                 }
 
-                $authenticatedRoute = collect($v['middleware'])->contains('auth:sanctum');
+                $authenticatedRoute = false;
+                if ($v['middleware'] ?? false) {
+                    $authenticatedRoute = collect(type($v['middleware'])->asArray())->contains('auth:sanctum');
+                }
 
                 return [
                     'id' => $k + 1,

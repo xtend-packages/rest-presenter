@@ -11,10 +11,16 @@ class TestReport extends Model
 {
     use Sushi;
 
-    protected $rows = [
+    /**
+     * @var array<array<string, mixed>>
+     */
+    protected array $rows = [
         ['id' => 1, 'name' => 'TestSuite'],
     ];
 
+    /**
+     * @return array<array<string, mixed>>
+     */
     public function getRows(): array
     {
         return $this->rows;

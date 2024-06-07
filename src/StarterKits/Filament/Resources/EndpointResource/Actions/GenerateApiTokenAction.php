@@ -10,10 +10,17 @@ use Illuminate\Support\Carbon;
 
 class GenerateApiTokenAction
 {
+    /**
+     * @param array<string, mixed> $data
+     */
     public function __invoke(array $data): void
     {
+        if (! auth()->user()) {
+            return;
+        }
+
         if ($data['abilities'] ?? false) {
-            $data['abilities'] = collect($data['abilities'])->map(
+            $data['abilities'] = collect(type($data['abilities'])->asArray())->map(
                 fn ($ability): string => $ability['name'].($ability['only'] ? ':'.$ability['only'] : ''),
             )->toArray();
         }
@@ -23,10 +30,10 @@ class GenerateApiTokenAction
             'tokenName' => type($data['tokenName'] ?? config('rest-presenter.auth.token_name'))->asString(),
         ];
 
-        $token = auth()->user()->createToken(
+        $token = auth()->user()->createToken( // @phpstan-ignore-line
             name: $config['tokenName'],
             abilities: $config['abilities'],
-            expiresAt: Carbon::parse($data['expires_at']) ?? null,
+            expiresAt: Carbon::parse(type($data['expires_at'])->asString()),
         )->plainTextToken;
 
         Notification::make()

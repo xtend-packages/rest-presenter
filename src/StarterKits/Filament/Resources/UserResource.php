@@ -20,7 +20,7 @@ class UserResource extends Resource
 
     public static function getModel(): string
     {
-        return config('auth.providers.users.model');
+        return type(config('auth.providers.users.model'))->asString();
     }
 
     public static function table(Table $table): Table
