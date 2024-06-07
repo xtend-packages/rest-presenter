@@ -125,8 +125,6 @@ final class XtendStarterKit extends Command
         };
 
         if ($supportedKit === false) {
-            $this->components->warn(__('No supported kit was found for ":kit_namespace"', ['kit_namespace' => $kitNamespace]));
-
             return;
         }
 
