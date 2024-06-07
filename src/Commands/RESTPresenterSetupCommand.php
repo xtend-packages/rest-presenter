@@ -9,6 +9,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 use UnhandledMatchError;
+use XtendPackages\RESTPresenter\Concerns\InteractsWithGit;
 
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\multiselect;
@@ -16,7 +17,9 @@ use function Laravel\Prompts\multiselect;
 #[AsCommand(name: 'rest-presenter:setup')]
 final class RESTPresenterSetupCommand extends Command
 {
-    protected $signature = 'rest-presenter:setup {--starter-kit= : Install starter kit}';
+    use InteractsWithGit;
+
+    protected $signature = 'rest-presenter:setup';
 
     protected $description = 'Setup REST Presenter & prepare your API structure';
 
@@ -27,6 +30,12 @@ final class RESTPresenterSetupCommand extends Command
 
     public function handle(): int
     {
+        $this->components->info('Welcome to REST Presenter setup wizard');
+
+        if (confirm(__('Would you like to auto-commit all changes made by the installer?'))) {
+            $this->gitAutoCommit = $this->isCleanWorkingDirectory();
+        }
+
         if (! $this->firstTimeSetup()) {
             $this->components->info('REST Presenter has already been setup. Now checking for updates...');
             $this->checkForUpdates();
@@ -48,11 +57,12 @@ final class RESTPresenterSetupCommand extends Command
 
     private function initialSetup(): void
     {
-        $this->components->info('Welcome to REST Presenter setup wizard');
-
-        $this->publishingConfig();
-        $this->publishingDefaultResources();
         $this->publishStarterKits();
+        $this->publishingDefaultResources();
+
+        if (confirm('Would you like to create your first resource?')) {
+            $this->call('rest-presenter:make-resource');
+        }
     }
 
     private function starGitHubRepo(): void
@@ -87,11 +97,6 @@ final class RESTPresenterSetupCommand extends Command
         }
     }
 
-    private function publishingConfig(): void
-    {
-        $this->call('vendor:publish', ['--tag' => 'rest-presenter-config']);
-    }
-
     private function publishingDefaultResources(): void
     {
         collect($this->filesystem->directories(__DIR__.'/../Resources'))
@@ -120,17 +125,14 @@ final class RESTPresenterSetupCommand extends Command
         $starterKitsDirectory = __DIR__.'/../StarterKits';
         $generatedKitsDirectory = config('rest-presenter.generator.path').'/StarterKits';
 
-        if (! app()->runningUnitTests()) {
-            $this->filesystem->ensureDirectoryExists($generatedKitsDirectory);
-        }
-
         /** @var \Illuminate\Support\Collection<string, string> $unpublishedStarterKits */
         $unpublishedStarterKits = collect($this->filesystem->allFiles($starterKitsDirectory))
             ->map(fn ($file): string => $file->getRelativePathname())
-            ->filter(fn ($file): bool => ! $this->filesystem->exists($generatedKitsDirectory.'/'.$file))
-            ->filter(fn ($file): bool => str_ends_with($file, 'ApiKitServiceProvider.php'))
-            ->map(fn ($file): string => str_replace('ApiKitServiceProvider.php', '', basename($file)))
+            ->filter(fn ($file): bool => str_ends_with($file, 'StarterKit.php'))
+            ->map(fn ($file): string => str_replace('StarterKit.php', '', basename($file)))
             ->map(fn ($kit): string => $kit)
+            ->filter(fn ($kit): bool => ! $this->filesystem->exists($generatedKitsDirectory.'/'.$kit))
+            ->filter(fn ($kit): bool => $kit !== 'Filament')
             ->values();
 
         if ($unpublishedStarterKits->isEmpty()) {
@@ -139,27 +141,10 @@ final class RESTPresenterSetupCommand extends Command
             return;
         }
 
-        if ($this->option('starter-kit')) {
-            $starterKit = type($this->option('starter-kit'))->asString();
-
-            if (! $unpublishedStarterKits->contains($starterKit)) {
-                $this->components->warn(__('The starter kit :name is already installed', ['name' => $starterKit]));
-                exit;
-            }
-
-            if ($starterKit === 'Filament' && $this->filesystem->exists($generatedKitsDirectory.'/Filament')) {
-                $this->components->warn('Filament starter kit has already been installed');
-                exit;
-            }
-
-            $this->call('rest-presenter:xtend-starter-kit', ['name' => $starterKit]);
-
-            return;
-        }
-
         $starterKits = multiselect(
             label: 'Would you like to install any of these starter kits?',
             options: $unpublishedStarterKits->toArray(), // @phpstan-ignore-line
+            default: ['Sanctum'],
             hint: 'You can re-run this command to install more starter kits later',
         );
 
@@ -167,15 +152,22 @@ final class RESTPresenterSetupCommand extends Command
             return;
         }
 
+        if (! app()->runningUnitTests()) {
+            $this->filesystem->ensureDirectoryExists($generatedKitsDirectory);
+        }
+
         foreach ($starterKits as $starterKit) {
             $this->call('rest-presenter:xtend-starter-kit', ['name' => $starterKit]);
+            if ($this->gitAutoCommit) {
+                $this->commitChanges(__('feat: REST Presenter :name Starter Kit', ['name' => $starterKit]));
+            }
         }
     }
 
     private function firstTimeSetup(): bool
     {
         return ! $this->filesystem->exists(
-            path: type(config('rest-presenter.generator.path'))->asString(),
+            path: type(config('rest-presenter.generator.path').'/Resources')->asString(),
         );
     }
 

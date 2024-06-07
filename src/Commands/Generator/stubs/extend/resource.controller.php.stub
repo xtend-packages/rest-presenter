@@ -6,6 +6,8 @@ use {{ resourceNamespace }} as {{ aliasResource }};
 
 class {{ class }} extends {{ aliasResource }}
 {
+    public static bool $isAuthenticated = false;
+
     public function routeActions(): array
     {
         return array_merge(

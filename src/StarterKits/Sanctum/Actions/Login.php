@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
+namespace XtendPackages\RESTPresenter\StarterKits\Sanctum\Actions;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 use XtendPackages\RESTPresenter\Models\User;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Concerns\WithSanctumRateLimit;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Data\Request\LoginDataRequest;
+use XtendPackages\RESTPresenter\StarterKits\Sanctum\Concerns\WithSanctumRateLimit;
+use XtendPackages\RESTPresenter\StarterKits\Sanctum\Data\Request\LoginDataRequest;
 
 final class Login
 {

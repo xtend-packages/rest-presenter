@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
+namespace XtendPackages\RESTPresenter\StarterKits\Sanctum\Actions;
 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
 use XtendPackages\RESTPresenter\Models\User;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Data\Request\RegisterDataRequest;
+use XtendPackages\RESTPresenter\StarterKits\Sanctum\Data\Request\RegisterDataRequest;
 
 final class Register
 {

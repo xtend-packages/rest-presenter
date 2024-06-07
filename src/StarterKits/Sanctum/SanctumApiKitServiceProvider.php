@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum;
+namespace XtendPackages\RESTPresenter\StarterKits\Sanctum;
 
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Schema\Blueprint;

@@ -30,7 +30,7 @@ class Endpoint extends Model
         return Http::withOptions(type(['verify' => false])->asArray())
             ->withHeader('X-REST-PRESENTER-API-KEY', type(config('rest-presenter.auth.key'))->asString())
             ->get(route('api.v1.resources'))
-            ->collect()->transform(function ($v, $k) {
+            ->collect()->transform(function ($v, $k): array {
                 if (! is_array($v)) {
                     throw new InvalidArgumentException('v must be an array');
                 }

@@ -12,12 +12,7 @@ use XtendPackages\RESTPresenter\Resources\ResourceController;
 
 final class UserResourceController extends ResourceController
 {
-    public function __construct(Request $request)
-    {
-        $this->middleware('auth:sanctum');
-
-        parent::__construct($request);
-    }
+    public static bool $isAuthenticated = true;
 
     /**
      * @return Collection<int, Data>
@@ -28,7 +23,7 @@ final class UserResourceController extends ResourceController
         $users = $this->getModelQueryInstance()->get();
 
         return $users->map(
-            fn ($user): \Spatie\LaravelData\Data => $this->present($request, $user),
+            fn ($user): Data => $this->present($request, $user),
         );
     }
 
