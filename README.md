@@ -1,6 +1,6 @@
 <picture class="filament-hidden">
   <source media="(prefers-color-scheme: dark)" srcset="https://www.codelabx.ltd/assets/images/xtend-packages/rest-presenter/rest-presenter-banner-dark.png">
-  <img alt="XtendLaravel" src="https://www.codelabx.ltd/assets/images/xtend-packages/rest-presenter/rest-presenter-banner-light.png">
+  <img alt="RESTPresenter" src="https://www.codelabx.ltd/assets/images/xtend-packages/rest-presenter/rest-presenter-banner-light.png">
 </picture>
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/xtend-packages/rest-presenter.svg?style=flat-square)](https://packagist.org/packages/xtend-packages/rest-presenter)
@@ -88,7 +88,7 @@ The new RESTPresenter panel serves as a dashboard, offering a comprehensive over
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://www.codelabx.ltd/assets/images/xtend-packages/rest-presenter/rest-presenter-panel-dark.png">
-  <img alt="XtendLaravel" src="https://www.codelabx.ltd/assets/images/xtend-packages/rest-presenter/rest-presenter-panel-light.png">
+  <img alt="RESTPresenter" src="https://www.codelabx.ltd/assets/images/xtend-packages/rest-presenter/rest-presenter-panel-light.png">
 </picture>
 
 Features include:
@@ -206,6 +206,8 @@ The full kit will save developers time by providing advanced solutions out of th
 
 ## Standalone Laravel Setup
 
+RESTPresenter seamlessly integrates into any Laravel application, allowing you to generate API resources effortlessly from your selected models.
+
 ### Initial Setup
 Customize RESTPresenter for your project with our setup command:
 
@@ -280,11 +282,14 @@ REST_PRESENTER_EXPORT_POSTMAN_AUTH_TOKEN=YOUR_API_TOKEN
 REST_PRESENTER_RESOURCES_USER_PROFILE=\XtendPackages\RESTPresenter\Resources\Users\Presenters\Profile
 REST_PRESENTER_RESOURCES_USER_USER=\XtendPackages\RESTPresenter\Resources\Users\Presenters\User
 ```
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) this is automatically generated from commits which follow the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) standards and updated with each release.
 
 ## Contributing
 
-See [CONTRIBUTING](CONTRIBUTING) for details on how to contribute to RESTPresenter.
+Please see our [CONTRIBUTING](CONTRIBUTING.md) guide if you are thinking of contributing to this package.
 
 ## License
 
-RESTPresenter is open-source software licensed under the [MIT License](LICENSE)
+RESTPresenter is open-source software licensed under the [MIT License](LICENSE.md)
