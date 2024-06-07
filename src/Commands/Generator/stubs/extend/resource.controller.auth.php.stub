@@ -3,7 +3,7 @@
 namespace {{ namespace }};
 
 use {{ resourceNamespace }} as {{ aliasResource }};
-use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
+use XtendPackages\RESTPresenter\StarterKits\Sanctum\Actions;
 
 class {{ class }} extends {{ aliasResource }}
 {

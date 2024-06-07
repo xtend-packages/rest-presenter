@@ -62,6 +62,7 @@ final class MakeResource extends GeneratorCommand
      */
     public function handle(): ?bool
     {
+
         $this->actions ??= collect();
         $this->filters ??= collect();
         $this->presenters ??= collect();
@@ -110,6 +111,19 @@ final class MakeResource extends GeneratorCommand
         return null;
     }
 
+    protected function interact(InputInterface $input, OutputInterface $output): void
+    {
+        parent::interact($input, $output);
+
+        if ($this->didReceiveOptions($input) || $this->argument('kit_namespace')) {
+            return;
+        }
+
+        $this->promptForModel($input);
+        $this->promptForFilters($input);
+        $this->promptForPresenters($input);
+    }
+
     protected function getStub(): string
     {
         $stub = $this->argument('name') === 'Auth'
@@ -156,38 +170,13 @@ final class MakeResource extends GeneratorCommand
     protected function getArguments(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the '.strtolower($this->type)],
-            ['type', InputArgument::REQUIRED, 'The type of resource to create'],
+            ['name', InputArgument::OPTIONAL, 'The name of the '.strtolower($this->type)],
+            ['type', InputArgument::OPTIONAL, 'The type of resource to create'],
             ['model', InputArgument::OPTIONAL, 'The model that the resource references'],
             ['filters', InputArgument::OPTIONAL, 'The filters to include in the resource'],
             ['presenters', InputArgument::OPTIONAL, 'The presenters to include in the resource'],
             ['kit_namespace', InputArgument::OPTIONAL, 'The namespace of the '.strtolower($this->type)],
         ];
-    }
-
-    /**
-     * @return array<string, array<int, string>>
-     */
-    protected function promptForMissingArgumentsUsing(): array
-    {
-        return [
-            'name' => [
-                'Whats the name of your resource? (singular)',
-                'e.g. Post',
-            ],
-        ];
-    }
-
-    protected function afterPromptingForMissingArguments(InputInterface $input, OutputInterface $output): void
-    {
-        if ($this->didReceiveOptions($input)) {
-            return;
-        }
-
-        $this->promptForResourceType($input);
-        $this->promptForModel($input);
-        $this->promptForFilters($input);
-        $this->promptForPresenters($input);
     }
 
     private function guessRelationSearchKey(string $filter): ?string
@@ -293,20 +282,10 @@ final class MakeResource extends GeneratorCommand
         return $this->presentersArgument;
     }
 
-    private function promptForResourceType(InputInterface $input): void
-    {
-        $type = select('Which type of resource would you like to create?', [
-            'new' => 'New resource',
-            'extend' => 'Extend existing resource',
-        ]);
-
-        $input->setArgument('type', $type);
-    }
-
     private function promptForModel(InputInterface $input): void
     {
         $model = search(
-            label: 'Which model should the resource use?',
+            label: 'Which model should the resource be generated for?',
             options: fn (): array => $this->scanModels(), // @phpstan-ignore-line
             placeholder: 'Search for a model...',
             hint: 'Press <comment>Enter</> to select the model.'
@@ -316,6 +295,8 @@ final class MakeResource extends GeneratorCommand
         $this->setModel($model);
 
         $input->setArgument('model', $model);
+        $input->setArgument('name', class_basename($model));
+        $input->setArgument('type', 'new');
     }
 
     private function promptForFilters(InputInterface $input): void
@@ -325,10 +306,10 @@ final class MakeResource extends GeneratorCommand
         if ($suggestFilters->isNotEmpty()) {
             /** @var array<string> $selectedFilters */
             $selectedFilters = multiselect(
-                label: 'Here are some suggested filters to add to your resource:',
+                label: __('Here are some suggested filters we found in your :model model to add to your generated resource:', ['model' => class_basename($this->model)]),
                 options: $suggestFilters, // @phpstan-ignore-line
                 default: $suggestFilters->keys(), // @phpstan-ignore-line
-                hint: 'Press <comment>Enter</> to select the filters.'
+                hint: 'Press <comment>Space</> to select the filters then <comment>Enter</> to confirm.'
             );
 
             $this->filters = $suggestFilters->only($selectedFilters);
@@ -392,7 +373,7 @@ final class MakeResource extends GeneratorCommand
                 label: 'Select the fields you would like to include in the presenter:',
                 options: $fields->keys()->toArray(), // @phpstan-ignore-line
                 default: $fields->keys(),
-                hint: 'Press <comment>Enter</> to select the fields.'
+                hint: 'Press <comment>Space</> to select the fields then <comment>Enter</> to confirm.'
             );
             $presenterFields = $fields->only($selectedFields)->toArray();
         }
