@@ -48,33 +48,33 @@ Manage your RESTPresenter resources directly from Filament with our dedicated pl
 
 ### Plugin Installation
 
-To install the RESTPresenter Filament plugin, run the following command:
+To install the RESTPresenter Filament plugin, run:
 
 ```bash
 php artisan rest-presenter:filament --install
 ```
 
-This command will prompt you to auto-commit the changes to your Git repository. If you choose not to commit, you can manually commit the changes yourself. Our sanctum StarterKit is automatically installed as part of the plugin installation process see further details below [Sanctum StarterKit](#sanctum-starter-kit).
+This command will prompt you to auto-commit changes to your Git repository. If you choose not to commit, you can manually commit the changes yourself. The Sanctum StarterKit is automatically installed during this process. For more details, see [Sanctum StarterKit](#sanctum-starter-kit).
 
 ### Export API Collection
 
-To generate your API collection, run the following command:
+To generate your API collection, run:
 
 ```bash
 php artisan rest-presenter:generate-api-collection
 ```
 
-By default, this command generates a Postman collection. If you prefer Insomnia, you can switch by setting the following in your `.env` file:
+By default, this command generates a Postman collection. If you prefer Insomnia, switch by setting the following in your `.env` file:
 
 ```bash
 REST_PRESENTER_EXPORT_PROVIDER=insomnia
 ```
 
-See below for a full list of configuration options [Configuration](#configuration).
+For a full list of configuration options, see [Configuration](#configuration).
 
 ### Uninstall
 
-To uninstall the RESTPresenter Filament plugin, run the following command:
+To uninstall the RESTPresenter Filament plugin, run:
 
 ```bash
 php artisan rest-presenter:filament --uninstall
@@ -83,29 +83,26 @@ php artisan rest-presenter:filament --uninstall
 This command will prompt you to auto-commit and revert changes to your Git repository. If you choose not to commit, you can manually commit the changes yourself.
 
 ### RESTPresenter Panel
-The new RESTPresenter panel serves as a centralized dashboard, offering a comprehensive overview and management interface for your API collection.
+
+The new RESTPresenter panel serves as a dashboard, offering a comprehensive overview and management interface for your API collection.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://www.codelabx.ltd/assets/images/xtend-packages/rest-presenter/rest-presenter-panel-dark.png">
   <img alt="XtendLaravel" src="https://www.codelabx.ltd/assets/images/xtend-packages/rest-presenter/rest-presenter-panel-light.png">
 </picture>
 
-We have included the following features:
-- **API Endpoints:** View all your API endpoints in one place especially useful when you update a resource to have authentication.
+Features include:
+- **API Endpoints:** View all your API endpoints in one place, especially useful when you update a resource to require authentication.
+- **Token Generation:** Generate user tokens for secure API access. You can define the token name, abilities, and expiration datetime. Simply copy the generated token to your API client to use with any authenticated endpoints.
+- **Users Resource:** Detailed view of user tokens. From here, you can revoke tokens.
 
-
-- **Token Generation:** Generate user tokens for secure API access you can define the token name, abilities, and expiration datetime. Simply copy the generated token to your API client to use with any authenticated endpoints.
-
-
-- **Users Resource:** Detail view about users tokens from here you can revoke tokens.
-
-> **Coming Soon:** Test Coverage and Reports just one of many features in active development.  
+> **Coming Soon:** Test Coverage and Reports, just one of many features in active development.
 
 ### Endpoint Authentication & Security
-By default, all endpoint are publicly available without sanctum middleware protected by a security API key which you can update via the env. `REST_PRESENTER_AUTH_API_KEY`
 
+By default, all endpoints are publicly available without Sanctum middleware, protected by a security API key which you can update via `REST_PRESENTER_AUTH_API_KEY` in your `.env` file.
 
-You can make any endpoint authenticated by updating the `isAuthenticated` property in the resource controller. This will automatically add the sanctum middleware to the endpoint.
+You can make any endpoint authenticated by updating the `isAuthenticated` property in the resource controller. This will automatically add the Sanctum middleware to the endpoint.
 
 ```php
 <?php
@@ -124,13 +121,12 @@ class CustomerResourceController extends ResourceController
 
 The following directories with generated files will be created:
 
-- `app/Api/StarterKits/Sanctum` (allows you to override the default sanctum actions)
+- `app/Api/StarterKits/Sanctum` (allows you to override the default Sanctum actions)
 - `app/Api/StarterKits/Filament` (contains all auto-generated resources for Filament)
 - `resources/rest-presenter/postman` (generated Postman collection)
 - `resources/rest-presenter/insomnia` (generated Insomnia collection)
 - `resources/rest-presenter/types/` (generated TypeScript DTOs)
 - `tests/StarterKits` (generated tests)
-
 
 ### Filament Test Suite
 
@@ -144,12 +140,9 @@ Tests are generated for each resource in the Filament test suite.
 
 - **Initial Test Expectations:** We anticipate that your initial tests will fail. This is a standard part of the testing process and is one of the reasons we provide a comprehensive test suite.
 
-
 - **Identifying Issues:** The test suite aids in identifying any missing relationships or properties in your factories. It serves as a diagnostic tool to highlight areas that may need adjustment or improvement.
 
-
 - **Field Matching and Types:** One specific aspect of the tests is to verify that fields match and return the expected data type. For instance, if a field is supposed to contain an integer but is instead a string, the test will fail. This aspect helps ensure data consistency and integrity.
-
 
 - **Adjustments:** You're encouraged to make adjustments as needed based on the test results. This could involve modifying either the data object or the factory to align with the expected types and specifications.
 
