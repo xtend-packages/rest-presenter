@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Actions;
+namespace XtendPackages\RESTPresenter\StarterKits\Sanctum\Actions;
 
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Data\Request\ResetPasswordDataRequest;
+use XtendPackages\RESTPresenter\StarterKits\Sanctum\Data\Request\ResetPasswordDataRequest;
 
 final class ResetPassword
 {

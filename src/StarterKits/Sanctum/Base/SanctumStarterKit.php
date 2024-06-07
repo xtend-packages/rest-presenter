@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace XtendPackages\RESTPresenter\StarterKits\Auth\Sanctum\Base;
+namespace XtendPackages\RESTPresenter\StarterKits\Sanctum\Base;
 
 use XtendPackages\RESTPresenter\Base\StarterKit;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithClassDefinitions;
