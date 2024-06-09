@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace XtendPackages\RESTPresenter\StarterKits\Filament;
 
+use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
@@ -22,14 +23,18 @@ final class FilamentPanelProvider extends PanelProvider
     {
         return $panel
             ->id('rest-presenter')
-            ->path('rest-presenter')
-            // ->brandLogo(asset('img/logo.svg'))
-            // ->maxContentWidth('full')
-            ->brandName('RESTPresenter')
-            ->login()
-            ->registration()
+            ->path(config('rest-presenter.panel.path'))
+            ->font('Work Sans')
+            ->brandName(config('rest-presenter.panel.brand_name'))
+            ->brandLogo(
+                fn () => config('rest-presenter.panel.brand_logo')
+                    ? view('rest-presenter::brand-logo')
+                    : null,
+            )
+            ->maxContentWidth(config('rest-presenter.panel.max_width'))
+            ->topNavigation(config('rest-presenter.panel.top_navigation'))
             ->globalSearch(false)
-            ->topNavigation()
+            ->spa()
             ->discoverResources(in: __DIR__.'/Resources', for: 'XtendPackages\\RESTPresenter\\StarterKits\\Filament\\Resources')
             ->middleware([
                 EncryptCookies::class,
@@ -43,7 +48,7 @@ final class FilamentPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                \Filament\Http\Middleware\Authenticate::class,
+                Authenticate::class,
             ]);
     }
 }

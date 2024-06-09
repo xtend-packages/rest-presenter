@@ -91,6 +91,8 @@ The new RESTPresenter panel serves as a dashboard, offering a comprehensive over
   <img alt="RESTPresenter" src="https://www.codelabx.ltd/assets/images/xtend-packages/rest-presenter/rest-presenter-panel-light.png">
 </picture>
 
+You can access the RESTPresenter panel by navigating to `/rest-presenter` in your browser. the path is configurable in the `.env` file see [Configuration](#configuration) for more details.
+
 Features include:
 - **API Endpoints:** View all your API endpoints in one place, especially useful when you update a resource to require authentication.
 - **Token Generation:** Generate user tokens for secure API access. You can define the token name, abilities, and expiration datetime. Simply copy the generated token to your API client to use with any authenticated endpoints.
@@ -281,6 +283,13 @@ REST_PRESENTER_EXPORT_POSTMAN_AUTH_TOKEN=YOUR_API_TOKEN
 # RESTPresenter Resource Configuration
 REST_PRESENTER_RESOURCES_USER_PROFILE=\XtendPackages\RESTPresenter\Resources\Users\Presenters\Profile
 REST_PRESENTER_RESOURCES_USER_USER=\XtendPackages\RESTPresenter\Resources\Users\Presenters\User
+
+# RESTPresenter Panel Configuration
+REST_PRESENTER_PANEL_BRAND_NAME=RESTPresenter
+REST_PRESENTER_PANEL_BRAND_LOGO=true
+REST_PRESENTER_PANEL_PATH=rest-presenter
+REST_PRESENTER_PANEL_MAX_WIDTH=7xl
+REST_PRESENTER_PANEL_TOP_NAVIGATION=false
 ```
 ## Changelog
 
