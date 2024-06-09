@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use XtendPackages\RESTPresenter\Middleware\VerifyApiKey;
 use XtendPackages\RESTPresenter\Resources\Users\Presenters;
@@ -89,5 +90,12 @@ return [
                 'user' => env('REST_PRESENTER_RESOURCES_USER_USER', Presenters\User::class),
             ],
         ],
+    ],
+    'panel' => [
+        'brand_name' => env('REST_PRESENTER_PANEL_BRAND_NAME', 'RESTPresenter'),
+        'brand_logo' => env('REST_PRESENTER_PANEL_BRAND_LOGO', true),
+        'path' => env('REST_PRESENTER_PANEL_PATH', 'rest-presenter'),
+        'max_width' => env('REST_PRESENTER_PANEL_MAX_WIDTH', MaxWidth::SevenExtraLarge),
+        'top_navigation' => env('REST_PRESENTER_PANEL_TOP_NAVIGATION', false),
     ],
 ];
