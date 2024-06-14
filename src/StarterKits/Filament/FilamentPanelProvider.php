@@ -9,6 +9,8 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -36,6 +38,7 @@ final class FilamentPanelProvider extends PanelProvider
             ->globalSearch(false)
             ->spa()
             ->discoverResources(in: __DIR__.'/Resources', for: 'XtendPackages\\RESTPresenter\\StarterKits\\Filament\\Resources')
+            ->discoverPages(in: __DIR__.'/Pages', for: 'XtendPackages\\RESTPresenter\\StarterKits\\Filament\\Pages')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
@@ -50,5 +53,12 @@ final class FilamentPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    public function boot(): void
+    {
+        // FilamentAsset::register([
+        //     Js::make('scalar-script', __DIR__.'/../../../resources/js/scalar.js'),
+        // ]);
     }
 }

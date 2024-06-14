@@ -57,6 +57,7 @@ class Endpoint extends Model
                     'type' => $v['methods'][0],
                     'uri' => $v['uri'],
                     'is_authenticated' => $authenticatedRoute,
+                    'base_url' => config('app.url').'/',
                 ];
             })->toArray();
     }

@@ -33,6 +33,7 @@ final class RESTPresenterServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasConfigFile()
             ->hasTranslations()
+            ->hasRoute('api-client')
             ->hasCommands([
                 RESTPresenterSetupCommand::class,
                 RESTPresenterFilamentCommand::class,
