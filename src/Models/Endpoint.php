@@ -60,4 +60,14 @@ class Endpoint extends Model
                 ];
             })->toArray();
     }
+
+    public function isPackageEndpoint(): bool
+    {
+        return ! $this->isFilamentEndpoint() && ! Str::contains($this->route, 'resource');
+    }
+
+    public function isFilamentEndpoint(): bool
+    {
+        return Str::contains($this->route, 'filament');
+    }
 }
