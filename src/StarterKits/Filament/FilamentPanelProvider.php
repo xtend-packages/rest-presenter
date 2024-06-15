@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace XtendPackages\RESTPresenter\StarterKits\Filament;
 
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -22,7 +24,7 @@ final class FilamentPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('rest-presenter')
+            ->id(config('rest-presenter.panel.path'))
             ->path(config('rest-presenter.panel.path'))
             ->font('Work Sans')
             ->brandName(config('rest-presenter.panel.brand_name'))
@@ -50,5 +52,26 @@ final class FilamentPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+    }
+
+    public function boot(): void
+    {
+        $panelIds = collect(Filament::getPanels())
+            ->filter(fn (Panel $panel): bool => $panel->getId() !== config('rest-presenter.panel.path'))
+            ->keys();
+
+        $panelIds->each(
+            fn (string $panelId) => $this->setUserMenuPanelRoute($panelId),
+        );
+    }
+
+    private function setUserMenuPanelRoute(string $panelId): void
+    {
+        Filament::getPanel($panelId)->userMenuItems([
+            MenuItem::make()
+                ->label(config('rest-presenter.panel.brand_name'))
+                ->url(fn (): string => '/'.config('rest-presenter.panel.path'))
+                ->icon('heroicon-o-server-stack'),
+        ]);
     }
 }
