@@ -93,6 +93,8 @@ The new RESTPresenter panel serves as a dashboard, offering a comprehensive over
 
 You can access the RESTPresenter panel by navigating to `/rest-presenter` in your browser. the path is configurable in the `.env` file see [Configuration](#configuration) for more details.
 
+RESTPresenter panel link has now conveniently been added to the user menu for all your filament panels.
+
 Features include:
 - **API Endpoints:** View all your API endpoints in one place, especially useful when you update a resource to require authentication.
 - **Token Generation:** Generate user tokens for secure API access. You can define the token name, abilities, and expiration datetime. Simply copy the generated token to your API client to use with any authenticated endpoints.
