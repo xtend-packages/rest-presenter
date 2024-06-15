@@ -7,11 +7,14 @@ namespace XtendPackages\RESTPresenter\StarterKits\Filament\Resources\EndpointRes
 use Filament\Actions;
 use Filament\Resources\Pages\ManageRecords;
 use Filament\Support\Enums\ActionSize;
+use XtendPackages\RESTPresenter\Concerns\InteractsWithCollectionExports;
 use XtendPackages\RESTPresenter\StarterKits\Filament\Resources\EndpointResource;
 use XtendPackages\RESTPresenter\StarterKits\Filament\Resources\EndpointResource\Widgets\EndpointStatsWidget;
 
 class ManageEndpoints extends ManageRecords
 {
+    use InteractsWithCollectionExports;
+
     protected static string $resource = EndpointResource::class;
 
     protected function getActions(): array
@@ -20,10 +23,12 @@ class ManageEndpoints extends ManageRecords
             Actions\ActionGroup::make([
                 Actions\Action::make('insomnia')
                     ->label('Insomnia')
-                    ->icon('heroicon-o-arrow-down-tray'),
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->action(fn () => $this->downloadExportedCollection('insomnia')),
                 Actions\Action::make('postman')
                     ->label('Postman')
-                    ->icon('heroicon-o-arrow-down-tray'),
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->action(fn () => $this->downloadExportedCollection('postman')),
             ])
                 ->label('Export Collection')
                 ->icon('heroicon-o-circle-stack')
