@@ -1,5 +1,19 @@
 # Changelog for RESTPresenter
 
+## [1.1.0](https://github.com/xtend-packages/rest-presenter/compare/1.0.0...1.1.0) (2024-06-15)
+
+
+### Features
+
+* Additional panel configuration & branding + enable spa ([02f4eb9](https://github.com/xtend-packages/rest-presenter/commit/02f4eb9d9e3c5dcbfa2ecec956ba18c04fce760a))
+* Export and download collection direct from panel ([43e155d](https://github.com/xtend-packages/rest-presenter/commit/43e155d0a657e35796aa7d3afbae94f71ce08581))
+* User menu link added to all panels + update README ([0c743a0](https://github.com/xtend-packages/rest-presenter/commit/0c743a0dbabc5ac7e2c4f642852d35e8236b341f))
+
+
+### Bug Fixes
+
+* Replace stats with real values from Endpoint model ([cfef4a4](https://github.com/xtend-packages/rest-presenter/commit/cfef4a4286d091506347e36e932461944703c847))
+
 ## [1.0.0](https://github.com/xtend-packages/rest-presenter/compare/1.0.0-rc.2...1.0.0) (2024-06-07)
 
 
