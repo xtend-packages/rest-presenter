@@ -38,6 +38,7 @@ final class FilamentPanelProvider extends PanelProvider
             ->globalSearch(false)
             ->spa()
             ->discoverResources(in: __DIR__.'/Resources', for: 'XtendPackages\\RESTPresenter\\StarterKits\\Filament\\Resources')
+            ->discoverPages(in: __DIR__.'/Pages', for: 'XtendPackages\\RESTPresenter\\StarterKits\\Filament\\Pages')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
