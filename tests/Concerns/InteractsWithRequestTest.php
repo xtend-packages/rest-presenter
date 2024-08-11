@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use XtendPackages\RESTPresenter\Concerns\InteractsWithRequest;
 
 beforeEach(function (): void {
-    $request = new Request();
+    $request = new Request;
     $request->merge(['filters' => ['filterKey' => 'filterValue']]);
     app()->instance('request', $request);
 

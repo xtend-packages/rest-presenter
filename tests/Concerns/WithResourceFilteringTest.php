@@ -9,7 +9,7 @@ use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\Resources\Users\Filters\UserEmailVerified;
 
 beforeEach(function (): void {
-    $this->resourceController = new class()
+    $this->resourceController = new class
     {
         use InteractsWithModel;
         use WithResourceFiltering;
@@ -30,7 +30,7 @@ beforeEach(function (): void {
 
 describe('WithResourceFiltering', function (): void {
     test('applyFilters correctly modifies the query', function (): void {
-        $request = new Request();
+        $request = new Request;
         $request->merge(['filters' => ['email_verified_at' => now()]]);
         app()->instance('request', $request);
 
