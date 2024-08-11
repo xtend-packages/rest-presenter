@@ -13,9 +13,7 @@ test('should return correct model modified query instance', function (): void {
 
         public function __construct()
         {
-            self::$model = (new class extends Model
-            {
-            })::class;
+            self::$model = (new class extends Model {})::class;
         }
     };
 

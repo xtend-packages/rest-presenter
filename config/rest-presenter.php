@@ -45,7 +45,7 @@ return [
         ],
         'logout_revoke_all_tokens' => env('REST_PRESENTER_AUTH_LOGOUT_REVOKE_ALL_TOKENS', false),
         'rate_limit' => [
-            'max_attempts' => env('REST_PRESENTER_AUTH_RATE_LIMIT_MAX_ATTEMPTS', 5),
+            'max_attempts' => (int) env('REST_PRESENTER_AUTH_RATE_LIMIT_MAX_ATTEMPTS', 5),
         ],
     ],
     'exporters' => [

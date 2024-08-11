@@ -12,6 +12,5 @@ final class ResetPasswordDataRequest extends Data
     public function __construct(
         #[Email(Email::RfcValidation)]
         public string $email,
-    ) {
-    }
+    ) {}
 }

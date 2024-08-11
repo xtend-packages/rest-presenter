@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace XtendPackages\RESTPresenter\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
+use XtendPackages\RESTPresenter\Concerns\InteractsWithSushi;
 
 class TestCoverage extends Model
 {
-    use Sushi;
+    use InteractsWithSushi;
 
     /**
      * @var array<array<string, mixed>>

@@ -15,9 +15,7 @@ class Exporter extends BaseExporter implements ExporterContract
     /**
      * @param  array<string, array<mixed>>  $config
      */
-    public function __construct(protected array $config)
-    {
-    }
+    public function __construct(protected array $config) {}
 
     public function schema(): void
     {

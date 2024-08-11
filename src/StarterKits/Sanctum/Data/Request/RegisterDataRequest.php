@@ -18,8 +18,7 @@ final class RegisterDataRequest extends Data
         public string $email,
         #[Rule(['required', 'confirmed'])]
         public string $password,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, array<mixed>>

@@ -53,7 +53,7 @@ final class UserResourceController extends ResourceController
     {
         $presenters = config('rest-presenter.resources.user.presenters', [
             'profile' => Presenters\Profile::class,
-            'user' => Presenters\User::class,
+            'user' => config('rest-presenter.resources.user.model'),
         ]);
 
         assert(is_array($presenters));

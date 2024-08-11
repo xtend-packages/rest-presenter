@@ -18,8 +18,7 @@ final class ProfileData extends Data
         public ?string $lastName,
         #[Email(Email::RfcValidation)]
         public string $email,
-    ) {
-    }
+    ) {}
 
     /**
      * @template TModel of \XtendPackages\RESTPresenter\Models\User

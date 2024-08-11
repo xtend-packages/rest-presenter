@@ -25,6 +25,5 @@ final class UserData extends Data
         public Carbon $created_at,
         #[WithCast(DateTimeInterfaceCast::class)]
         public Carbon $updated_at,
-    ) {
-    }
+    ) {}
 }

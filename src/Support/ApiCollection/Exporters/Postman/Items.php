@@ -114,6 +114,11 @@ class Items
                 ])
                 ->push([
                     'type' => 'text',
+                    'key' => 'Content-Type',
+                    'value' => 'application/json',
+                ])
+                ->push([
+                    'type' => 'text',
                     'key' => config('rest-presenter.auth.key_header'),
                     'value' => config('rest-presenter.auth.key'),
                     'disabled' => config('rest-presenter.auth.enable_api_key') === false,

@@ -69,9 +69,19 @@ final class FilamentPanelProvider extends PanelProvider
     {
         Filament::getPanel($panelId)->userMenuItems([
             MenuItem::make()
+                ->visible(fn (): bool => $this->getAuthenticatedUser())
                 ->label(config('rest-presenter.panel.brand_name'))
                 ->url(fn (): string => '/'.config('rest-presenter.panel.path'))
                 ->icon('heroicon-o-server-stack'),
         ]);
+    }
+
+    private function getAuthenticatedUser(): bool
+    {
+        return auth()
+            ->user()
+            ->canAccessPanel(
+                Filament::getPanel(config('rest-presenter.panel.path'))
+            );
     }
 }

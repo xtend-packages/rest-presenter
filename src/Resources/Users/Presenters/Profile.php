@@ -13,8 +13,7 @@ class Profile implements Presentable
 {
     public function __construct(
         private readonly ?Authenticatable $model,
-    ) {
-    }
+    ) {}
 
     public function transform(): Data
     {

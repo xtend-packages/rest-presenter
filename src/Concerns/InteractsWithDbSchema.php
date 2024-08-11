@@ -74,7 +74,7 @@ trait InteractsWithDbSchema
     {
         $results = DB::select("PRAGMA table_info({$table})");
 
-        return collect($results)->map(function ($column) use ($table) {
+        return collect($results)->map(function ($column) use ($table): array {
             $column_value = DB::table($table)->whereNotNull($column->name)->value($column->name);
 
             if (is_string($column_value) && is_array(json_decode($column_value, true))) {

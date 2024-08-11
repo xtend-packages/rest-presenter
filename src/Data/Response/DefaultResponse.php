@@ -20,8 +20,7 @@ final class DefaultResponse extends Data
         public Carbon|Optional|null $createdAt,
         public Carbon|Optional|null $updatedAt,
         public ?array $attributes,
-    ) {
-    }
+    ) {}
 
     public static function fromModel(Model $model): self
     {

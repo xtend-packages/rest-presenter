@@ -19,11 +19,11 @@ class EndpointStatsWidget extends BaseWidget
                 ->description('Total Endpoints')
                 ->descriptionIcon('heroicon-o-server-stack')
                 ->color('info'),
-            Stat::make('Package', $endpoints->filter(fn (Endpoint $endpoint) => $endpoint->isPackageEndpoint())->count())
+            Stat::make('Package', $endpoints->filter(fn (Endpoint $endpoint): bool => $endpoint->isPackageEndpoint())->count())
                 ->description('RESTPresenter Endpoints')
                 ->descriptionIcon('heroicon-o-server-stack')
                 ->color('white'),
-            Stat::make('Filament', $endpoints->filter(fn (Endpoint $endpoint) => $endpoint->isFilamentEndpoint())->count())
+            Stat::make('Filament', $endpoints->filter(fn (Endpoint $endpoint): bool => $endpoint->isFilamentEndpoint())->count())
                 ->description('Filament Endpoints')
                 ->descriptionIcon('heroicon-o-server-stack')
                 ->color('warning'),

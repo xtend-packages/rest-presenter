@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 use XtendPackages\RESTPresenter\Data\Response\DefaultResponse;
-use XtendPackages\RESTPresenter\Models\User;
 use XtendPackages\RESTPresenter\StarterKits\Sanctum\Concerns\WithSanctumRateLimit;
 use XtendPackages\RESTPresenter\StarterKits\Sanctum\Data\Request\LoginDataRequest;
 
@@ -22,7 +21,7 @@ final class Login
     public function __invoke(LoginDataRequest $request): JsonResponse
     {
         $this->authenticate($request);
-        $user = type(auth()->user())->as(User::class);
+        $user = type(auth()->user())->as(config('rest-presenter.resources.user.model'));
 
         $config = [
             'abilities' => type(config('rest-presenter.auth.abilities'))->asArray(),

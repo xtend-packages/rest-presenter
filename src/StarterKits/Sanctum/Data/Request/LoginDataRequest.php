@@ -16,8 +16,7 @@ final class LoginDataRequest extends Data
         public string $email,
         #[Rule(['required'])]
         public string $password,
-    ) {
-    }
+    ) {}
 
     /**
      * @return array<string, array<mixed>>

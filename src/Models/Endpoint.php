@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Sushi\Sushi;
+use XtendPackages\RESTPresenter\Concerns\InteractsWithSushi;
 
 /**
  * @property int $id
@@ -20,7 +20,7 @@ use Sushi\Sushi;
  */
 class Endpoint extends Model
 {
-    use Sushi;
+    use InteractsWithSushi;
 
     /**
      * @return array<mixed>

@@ -32,7 +32,7 @@ final class Logout
     private function deleteAllTokens(): void
     {
         /** @var User $user */
-        $user = type(auth()->user())->as(User::class);
+        $user = type(auth()->user())->as(config('rest-presenter.resources.user.model'));
 
         /** @var \Illuminate\Database\Eloquent\Relations\MorphMany<\Laravel\Sanctum\PersonalAccessToken> $tokens */
         $tokens = $user->tokens();
@@ -45,7 +45,7 @@ final class Logout
     private function deleteCurrentToken(): void
     {
         /** @var User $user */
-        $user = type(auth()->user())->as(User::class);
+        $user = type(auth()->user())->as(config('rest-presenter.resources.user.model'));
 
         /** @var \Laravel\Sanctum\Contracts\HasAbilities $currentAccessToken */
         $currentAccessToken = $user->currentAccessToken();

@@ -16,8 +16,7 @@ final readonly class ResourceDefaultPresenter implements Presentable
 
     public function __construct(
         private ?Model $model,
-    ) {
-    }
+    ) {}
 
     public function transform(): Data
     {

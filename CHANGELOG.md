@@ -1,5 +1,19 @@
 # Changelog for RESTPresenter
 
+## [1.1.1](https://github.com/xtend-packages/rest-presenter/compare/1.1.0...1.1.1) (2024-08-11)
+
+
+### Bug Fixes
+
+* Remove sushi dependency to avoid pdo requirement include as trait ([82df1b0](https://github.com/xtend-packages/rest-presenter/commit/82df1b08370cb43612ecd7fe7309c54e6234ccf2))
+* Sanctum rate limit max attempts cast to int ([cbad2b9](https://github.com/xtend-packages/rest-presenter/commit/cbad2b94674c0dd254ae2bd221d66076dde96735))
+* Set Content-Type to application/json when generating collections ([d60563b](https://github.com/xtend-packages/rest-presenter/commit/d60563b58409cadb0be041f368151243352e1c37))
+
+
+### Style Changes
+
+* Pint + Rector ([ab8b8a6](https://github.com/xtend-packages/rest-presenter/commit/ab8b8a6991cdc65d7b01917d7754a0d53bc9dbb5))
+
 ## [1.1.0](https://github.com/xtend-packages/rest-presenter/compare/1.0.0...1.1.0) (2024-06-15)
 
 

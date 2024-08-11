@@ -24,11 +24,11 @@ class ManageEndpoints extends ManageRecords
                 Actions\Action::make('insomnia')
                     ->label('Insomnia')
                     ->icon('heroicon-o-arrow-down-tray')
-                    ->action(fn () => $this->downloadExportedCollection('insomnia')),
+                    ->action(fn (): \Symfony\Component\HttpFoundation\BinaryFileResponse => $this->downloadExportedCollection('insomnia')),
                 Actions\Action::make('postman')
                     ->label('Postman')
                     ->icon('heroicon-o-arrow-down-tray')
-                    ->action(fn () => $this->downloadExportedCollection('postman')),
+                    ->action(fn (): \Symfony\Component\HttpFoundation\BinaryFileResponse => $this->downloadExportedCollection('postman')),
             ])
                 ->label('Export Collection')
                 ->icon('heroicon-o-circle-stack')
@@ -44,7 +44,7 @@ class ManageEndpoints extends ManageRecords
                 Actions\Action::make('manage-api-tokens')
                     ->label('Manage Tokens')
                     ->icon('heroicon-s-users')
-                    ->action(fn () => $this->redirect(route('filament.rest-presenter.resources.users.view', auth()->id()))),
+                    ->action(fn () => $this->redirect(route('filament.'.config('rest-presenter.panel.path').'.resources.users.view', auth()->id()))),
             ])
                 ->label('API Tokens')
                 ->icon('heroicon-o-key')

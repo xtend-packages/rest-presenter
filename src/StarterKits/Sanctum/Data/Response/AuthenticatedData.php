@@ -12,6 +12,5 @@ final class AuthenticatedData extends Data
     public function __construct(
         public UserData $user,
         public string $token,
-    ) {
-    }
+    ) {}
 }

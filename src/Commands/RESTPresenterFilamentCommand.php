@@ -18,6 +18,7 @@ final class RESTPresenterFilamentCommand extends Command
 
     protected $signature = 'rest-presenter:filament
         {--install : Install REST Presenter for Filament}
+        {--upgrade : Upgrade REST Presenter for Filament}
         {--uninstall : Uninstall REST Presenter for Filament}';
 
     protected $description = 'REST Presenter for Filament';
@@ -31,6 +32,10 @@ final class RESTPresenterFilamentCommand extends Command
     {
         if ($this->option('install')) {
             return $this->install();
+        }
+
+        if ($this->option('upgrade')) {
+            return $this->upgrade();
         }
 
         if (! $this->filesystem->exists(config('rest-presenter.generator.path').'/StarterKits')) {
@@ -69,6 +74,19 @@ final class RESTPresenterFilamentCommand extends Command
         $this->components->info('REST Presenter Filament installed successfully 🚀');
 
         $this->components->info('Next step when your ready run "php artisan rest-presenter:generate-api-collection" to auto-generate your API collection for Insomnia or Postman.');
+
+        return self::SUCCESS;
+    }
+
+    private function upgrade(): int
+    {
+        $this->components->info('Upgrading REST Presenter for Filament');
+
+        if (confirm(__('Would you like to auto-commit all changes made by the installer?'))) {
+            $this->gitAutoCommit = $this->isCleanWorkingDirectory();
+        }
+
+        $this->components->info('REST Presenter Filament upgraded successfully 🚀');
 
         return self::SUCCESS;
     }

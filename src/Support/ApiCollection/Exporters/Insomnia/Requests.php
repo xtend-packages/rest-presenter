@@ -144,6 +144,10 @@ class Requests
                         'value' => 'application/json',
                     ],
                     [
+                        'name' => 'Content-Type',
+                        'value' => 'application/json',
+                    ],
+                    [
                         'name' => config('rest-presenter.auth.key_header'),
                         'value' => config('rest-presenter.auth.key'),
                         'disabled' => config('rest-presenter.auth.enable_api_key') === false,
