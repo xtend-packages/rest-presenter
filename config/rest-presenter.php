@@ -8,6 +8,7 @@ use XtendPackages\RESTPresenter\Middleware\VerifyApiKey;
 use XtendPackages\RESTPresenter\Resources\Users\Presenters;
 
 return [
+    'scan_paths' => explode(',', env('REST_PRESENTER_SCAN_PATHS', app_path().':App')),
     'generator' => [
         'path' => env('REST_PRESENTER_GENERATOR_PATH', 'app/Api'),
         'namespace' => env('REST_PRESENTER_GENERATOR_NAMESPACE', 'App\Api'),
