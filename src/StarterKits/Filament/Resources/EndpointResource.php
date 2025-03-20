@@ -10,7 +10,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
+use Illuminate\Support\HtmlString;
 use XtendPackages\RESTPresenter\Models\Endpoint;
+use XtendPackages\RESTPresenter\StarterKits\Filament\Components\TableAction;
 use XtendPackages\RESTPresenter\StarterKits\Filament\Resources\EndpointResource\Pages;
 
 class EndpointResource extends Resource
@@ -96,6 +98,16 @@ class EndpointResource extends Resource
                     ->label('Auth')
                     ->alignCenter(),
             ])
+            ->actions([
+                TableAction::make('test')
+                    ->color('info')
+                    ->icon('heroicon-o-command-line')
+                    ->modalWidth('max-w-7xl')
+                    ->modalSubmitAction(false)
+                    ->modalCancelAction(false)
+                    ->modalHeading('Test Endpoint')
+                    ->modalContent(fn (Endpoint $endpoint): HtmlString => static::iframeClient($endpoint)),
+            ])
             ->filters([
                 //
             ]);
@@ -113,5 +125,14 @@ class EndpointResource extends Resource
         return [
             'index' => Pages\ManageEndpoints::route('/'),
         ];
+    }
+
+    private static function iframeClient(Endpoint $endpoint): HtmlString
+    {
+        $clientRoute = route('api-client', $endpoint->id);
+
+        return new HtmlString(<<<HTML
+            <iframe src="$clientRoute" class="w-full" height="700"></iframe>
+        HTML);
     }
 }
