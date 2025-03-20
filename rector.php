@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\Concat\JoinStringConcatRector;
 use Rector\Config\RectorConfig;
-use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
 use Rector\Strict\Rector\BooleanNot\BooleanInBooleanNotRuleFixerRector;
 use RectorLaravel\Set\LaravelSetList;
 
@@ -13,8 +13,8 @@ return RectorConfig::configure()
         __DIR__.'/tests',
     ])
     ->withSkip([
-        AddOverrideAttributeToOverriddenMethodsRector::class,
         BooleanInBooleanNotRuleFixerRector::class,
+        JoinStringConcatRector::class,
     ])
     ->withAttributesSets(
         symfony: true,

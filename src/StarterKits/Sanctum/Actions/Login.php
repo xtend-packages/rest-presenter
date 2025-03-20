@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace XtendPackages\RESTPresenter\StarterKits\Sanctum\Actions;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
@@ -21,7 +22,9 @@ final class Login
     public function __invoke(LoginDataRequest $request): JsonResponse
     {
         $this->authenticate($request);
-        $user = type(auth()->user())->as(config('rest-presenter.resources.user.model'));
+
+        /** @var \Laravel\Sanctum\Contracts\HasApiTokens $user */
+        $user = type(auth()->user())->as(Authenticatable::class);
 
         $config = [
             'abilities' => type(config('rest-presenter.auth.abilities'))->asArray(),

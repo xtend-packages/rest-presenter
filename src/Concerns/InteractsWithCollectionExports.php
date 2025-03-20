@@ -29,7 +29,7 @@ trait InteractsWithCollectionExports
     protected function getLatestExportedCollection(string $type, string $filenameSuffix): string
     {
         $collections = glob(resource_path("rest-presenter/$type/*_$filenameSuffix"));
-        if (empty($collections)) {
+        if (! $collections) {
             throw new InvalidArgumentException('No collections found');
         }
 

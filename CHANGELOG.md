@@ -1,5 +1,13 @@
 # Changelog for RESTPresenter
 
+## [1.1.2](https://github.com/xtend-packages/rest-presenter/compare/1.1.1...1.1.2) (2024-08-11)
+
+
+### Bug Fixes
+
+* Resolves phpstan issues ([1554189](https://github.com/xtend-packages/rest-presenter/commit/1554189a1918b76396422cc4a78658b6a65ecf7e))
+* User factory generics ([7a28296](https://github.com/xtend-packages/rest-presenter/commit/7a282963ca1f40e6cf210bc94b91ca18121c7dc0))
+
 ## [1.1.1](https://github.com/xtend-packages/rest-presenter/compare/1.1.0...1.1.1) (2024-08-11)
 
 

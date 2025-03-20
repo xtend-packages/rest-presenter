@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace XtendPackages\RESTPresenter\StarterKits\Filament\Resources\TestCoverageResource\Widgets;
+namespace XtendPackages\RESTPresenter\StarterKits\Filament\Resources\TestReportResource\Widgets;
 
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;

@@ -11,8 +11,8 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use XtendPackages\RESTPresenter\Models\Endpoint;
 use XtendPackages\RESTPresenter\Models\TestReport;
-use XtendPackages\RESTPresenter\StarterKits\Filament\Resources\TestCoverageResource\Pages;
-use XtendPackages\RESTPresenter\StarterKits\Filament\Resources\TestCoverageResource\Widgets\TestReportStatsWidget;
+use XtendPackages\RESTPresenter\StarterKits\Filament\Resources\TestReportResource\Pages;
+use XtendPackages\RESTPresenter\StarterKits\Filament\Resources\TestReportResource\Widgets\TestReportStatsWidget;
 
 class TestReportResource extends Resource
 {

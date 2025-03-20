@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace XtendPackages\RESTPresenter\StarterKits\Sanctum\Actions;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\JsonResponse;
 use XtendPackages\RESTPresenter\Models\User;
 
@@ -32,7 +33,7 @@ final class Logout
     private function deleteAllTokens(): void
     {
         /** @var User $user */
-        $user = type(auth()->user())->as(config('rest-presenter.resources.user.model'));
+        $user = type(auth()->user())->as(Authenticatable::class);
 
         /** @var \Illuminate\Database\Eloquent\Relations\MorphMany<\Laravel\Sanctum\PersonalAccessToken> $tokens */
         $tokens = $user->tokens();
@@ -45,7 +46,7 @@ final class Logout
     private function deleteCurrentToken(): void
     {
         /** @var User $user */
-        $user = type(auth()->user())->as(config('rest-presenter.resources.user.model'));
+        $user = type(auth()->user())->as(Authenticatable::class);
 
         /** @var \Laravel\Sanctum\Contracts\HasAbilities $currentAccessToken */
         $currentAccessToken = $user->currentAccessToken();

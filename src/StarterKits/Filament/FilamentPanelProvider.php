@@ -13,28 +13,32 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use XtendPackages\RESTPresenter\Concerns\InteractsWithConfig;
 
 final class FilamentPanelProvider extends PanelProvider
 {
+    use InteractsWithConfig;
+
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id(config('rest-presenter.panel.path'))
-            ->path(config('rest-presenter.panel.path'))
+            ->id($this->config('rest-presenter.panel.path'))
+            ->path($this->config('rest-presenter.panel.path'))
             ->font('Work Sans')
-            ->brandName(config('rest-presenter.panel.brand_name'))
+            ->brandName($this->config('rest-presenter.panel.brand_name'))
             ->brandLogo(
-                fn () => config('rest-presenter.panel.brand_logo')
+                fn () => $this->config('rest-presenter.panel.brand_logo')
                     ? view('rest-presenter::brand-logo')
                     : null,
             )
-            ->maxContentWidth(config('rest-presenter.panel.max_width'))
-            ->topNavigation(config('rest-presenter.panel.top_navigation'))
+            ->maxContentWidth($this->config('rest-presenter.panel.max_width'))
+            ->topNavigation($this->config('rest-presenter.panel.top_navigation'))
             ->globalSearch(false)
             ->spa()
             ->discoverResources(in: __DIR__.'/Resources', for: 'XtendPackages\\RESTPresenter\\StarterKits\\Filament\\Resources')
@@ -58,7 +62,7 @@ final class FilamentPanelProvider extends PanelProvider
     public function boot(): void
     {
         $panelIds = collect(Filament::getPanels())
-            ->filter(fn (Panel $panel): bool => $panel->getId() !== config('rest-presenter.panel.path'))
+            ->filter(fn (Panel $panel): bool => $panel->getId() !== $this->config('rest-presenter.panel.path'))
             ->keys();
 
         $panelIds->each(
@@ -71,18 +75,23 @@ final class FilamentPanelProvider extends PanelProvider
         Filament::getPanel($panelId)->userMenuItems([
             MenuItem::make()
                 ->visible(fn (): bool => $this->getAuthenticatedUser())
-                ->label(config('rest-presenter.panel.brand_name'))
-                ->url(fn (): string => '/'.config('rest-presenter.panel.path'))
+                ->label($this->config('rest-presenter.panel.brand_name'))
+                ->url(fn (): string => '/'.$this->config('rest-presenter.panel.path'))
                 ->icon('heroicon-o-server-stack'),
         ]);
     }
 
     private function getAuthenticatedUser(): bool
     {
-        return auth()
-            ->user()
-            ->canAccessPanel(
-                Filament::getPanel(config('rest-presenter.panel.path'))
-            );
+        $user = type(auth()->user())->as(Authenticatable::class);
+
+        if (! method_exists($user, 'canAccessPanel')) {
+            return false;
+        }
+
+        /** @var \Filament\Models\Contracts\FilamentUser $user */
+        return $user->canAccessPanel(
+            Filament::getPanel($this->config('rest-presenter.panel.path')),
+        );
     }
 }

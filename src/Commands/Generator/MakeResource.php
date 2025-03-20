@@ -304,14 +304,19 @@ final class MakeResource extends GeneratorCommand
         $suggestFilters = $this->generateFilterSuggestions();
 
         if ($suggestFilters->isNotEmpty()) {
-            /** @var array<string> $selectedFilters */
+            /** @var Collection<int|string, string> $options */
+            $options = $suggestFilters;
+            /** @var Collection<int, int|string> $defaultOptions */
+            $defaultOptions = $suggestFilters->keys();
+
             $selectedFilters = multiselect(
                 label: __('Here are some suggested filters we found in your :model model to add to your generated resource:', ['model' => class_basename($this->model)]),
-                options: $suggestFilters, // @phpstan-ignore-line
-                default: $suggestFilters->keys(), // @phpstan-ignore-line
+                options: $options,
+                default: $defaultOptions,
                 hint: 'Press <comment>Space</> to select the filters then <comment>Enter</> to confirm.',
             );
 
+            /** @var \Illuminate\Support\Collection<string, string> $selectedFilters */
             $this->filters = $suggestFilters->only($selectedFilters);
         }
 

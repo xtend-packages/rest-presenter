@@ -6,17 +6,19 @@ namespace XtendPackages\RESTPresenter\Concerns;
 
 use Closure;
 use DateTime;
+use Illuminate\Database\Connection;
 use Illuminate\Database\Connectors\ConnectionFactory;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Str;
 use ReflectionClass;
 
+/** @phpstan-consistent-constructor */
 trait InteractsWithSushi
 {
-    protected static mixed $sushiConnection;
+    protected static Connection $sushiConnection;
 
-    public static function resolveConnection($connection = null): mixed
+    public static function resolveConnection($connection = null): Connection
     {
         return static::$sushiConnection;
     }
