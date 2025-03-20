@@ -12,6 +12,7 @@ use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use XtendPackages\RESTPresenter\Concerns\WithAutoDiscovery;
+use XtendPackages\RESTPresenter\Resources\RestHooks\WebhookResourceController;
 use XtendPackages\RESTPresenter\Resources\Users\UserResourceController;
 
 final class XtendRouter extends Router
@@ -57,6 +58,7 @@ final class XtendRouter extends Router
         })->name('resources');
 
         $this->resource('users', UserResourceController::class);
+        $this->resource('webhooks', WebhookResourceController::class);
 
         $this->autoDiscoverResources();
         $this->autoDiscoverStarterKits();

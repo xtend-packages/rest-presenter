@@ -22,6 +22,7 @@ use XtendPackages\RESTPresenter\Commands\XtendStarterKit;
 use XtendPackages\RESTPresenter\Facades\XtendRoute;
 use XtendPackages\RESTPresenter\Support\ApiCollection\Exporters;
 use XtendPackages\RESTPresenter\Support\ApiCollection\Exporters\ExporterContract;
+use XtendPackages\RESTPresenter\Support\WebhookDispatcher;
 use XtendPackages\RESTPresenter\Support\XtendRouter;
 
 final class RESTPresenterServiceProvider extends PackageServiceProvider
@@ -30,6 +31,8 @@ final class RESTPresenterServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('rest-presenter')
+            ->discoversMigrations()
+            ->runsMigrations()
             ->hasViews()
             ->hasConfigFile()
             ->hasTranslations()
@@ -53,6 +56,8 @@ final class RESTPresenterServiceProvider extends PackageServiceProvider
         $this->app->singleton('rest-presenter', fn (): RESTPresenter => new RESTPresenter);
 
         $this->app->bind('xtend-router', fn (Application $app): XtendRouter => new XtendRouter($app['events'], $app));
+
+        $this->app->singleton('webhook-dispatcher', fn (): WebhookDispatcher => new WebhookDispatcher());
 
         $this->app->bind(ExporterContract::class, function (): Exporters\BaseExporter {
             $provider = type(config('rest-presenter.exporters.provider'))->asString();
@@ -79,6 +84,7 @@ final class RESTPresenterServiceProvider extends PackageServiceProvider
         return [
             'rest-presenter',
             'xtend-router',
+            'webhook-dispatcher',
         ];
     }
 }
