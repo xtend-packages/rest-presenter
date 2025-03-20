@@ -40,6 +40,7 @@ final class FilamentPanelProvider extends PanelProvider
             ->maxContentWidth($this->config('rest-presenter.panel.max_width'))
             ->topNavigation($this->config('rest-presenter.panel.top_navigation'))
             ->globalSearch(false)
+            ->darkMode(isForced: true)
             ->spa()
             ->discoverResources(in: __DIR__.'/Resources', for: 'XtendPackages\\RESTPresenter\\StarterKits\\Filament\\Resources')
             ->discoverPages(in: __DIR__.'/Pages', for: 'XtendPackages\\RESTPresenter\\StarterKits\\Filament\\Pages')
